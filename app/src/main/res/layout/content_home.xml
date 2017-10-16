@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="cite.ansteph.beerly.view.beerlylover.Home"
+    android:background="@color/colorAccent"
+    tools:showIn="@layout/activity_home">
+
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.google.android.gms.maps.MapView>
+
+    <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
+        android:id="@+id/recyclerViewEst"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:clipToPadding="false"
+        app:rvp_triggerOffset="0.1"
+        app:rvp_singlePageFling="true"
+        android:layout_alignParentBottom="true"
+
+        />
+
+</RelativeLayout>

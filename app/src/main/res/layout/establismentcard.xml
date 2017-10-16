@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageButton
+        android:id="@+id/imgLogo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+
+        app:srcCompat="@drawable/ic_if_beer_mug" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="The Brazen Head" />
+
+        <TextView
+            android:id="@+id/txttype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pub" />
+
+        <TextView
+            android:id="@+id/txtaddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Somewhere in town" />
+    </LinearLayout>
+
+
+</LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/btnMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/btnProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Beerly</string>
+    <string name="account_balance">Beerly Beloved</string>
+    <string name="balance_currency">R</string>
+    <string name="balance_amount">HI Marcus!</string>
+    <string name="title_activity_home">Home</string>
+
+    <string-array name="ld_activityScreenTitles">
+        <item>Home</item>
+        <item>My Profile</item>
+        <item>Profile</item>
+        <item>Preferences</item>
+        <item />
+        <item>Log Out</item>
+    </string-array>
+
+    <array name="ld_activityScreenIcons">
+        <item>@drawable/ic_account_circle_24dp</item>
+        <item>@drawable/ic_account_circle_24dp</item>
+        <item>@drawable/ic_account_circle_24dp</item>
+        <item>@drawable/ic_account_circle_24dp</item>
+        <item>0</item>
+        <item>@drawable/ic_account_circle_24dp</item>
+    </array>
+
+
+    <string name="arclayout_description">After the formation of the Galactic Empire, the Rebel Alliance recruits Jyn Erso (Felicity Jones) to work with a team including Cassian Andor (Diego Luna) to steal the design schematics of the Empire\'s new superweapon, the Death Star.</string>
+    <string name="arclayout_development">In February 2013, The Walt Disney Company CEO Bob Iger confirmed the development of two stand-alone films, each individually written by Lawrence Kasdan and Simon Kinberg. On February 6, Entertainment Weekly reported that Lucasfilm is working on two films featuring Han Solo and Boba Fett. Disney CFO Jay Rasulo has described the stand-alone films as origin stories. Kathleen Kennedy explained that the stand-alone films will not crossover with the films of the sequel trilogy…</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_preferences">Preferences</string>
+    <string name="title_activity_lover_profile">LoverProfile</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_ets_menu">EtsMenu</string>
+
+</resources>
