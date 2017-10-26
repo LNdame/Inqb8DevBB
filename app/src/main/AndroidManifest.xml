@@ -9,6 +9,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -50,8 +51,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"
-            />
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".view.MapsActivity"
@@ -59,12 +59,19 @@
         <activity
             android:name=".view.beerlylover.EstMenu"
             android:label="@string/title_activity_ets_menu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="bd5e725a5ba4820e8068afcc3893bb8bf07a1ad0"
-            tools:replace="android:value"/>
+            tools:replace="android:value" />
+
+        <activity
+            android:name=".view.beerlylover.registration.Registration"
+            android:label="@string/title_activity_registration"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.beerlylover.registration.AuthUiActivity" />
+        <activity android:name=".view.beerlylover.registration.SignedInActivity"></activity>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

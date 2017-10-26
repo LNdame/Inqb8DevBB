@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "930812617473",
+    "firebase_url": "https://beerly-d1838.firebaseio.com",
+    "project_id": "beerly-d1838",
+    "storage_bucket": "beerly-d1838.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930812617473:android:bb23765664be707b",
+        "android_client_info": {
+          "package_name": "cite.ansteph.beerly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930812617473-q3mr3sf6q5br0pbfrpc8vrihb5lrvm5f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cite.ansteph.beerly",
+            "certificate_hash": "6780cfff4e26bf18488dc3f5be32409f44a8430e"
+          }
+        },
+        {
+          "client_id": "930812617473-ohr3406at1456opgka57rvddgtmghfvo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-mAlLmysxh6MT5sGyuLv_9pgE3kUgoag"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930812617473-ohr3406at1456opgka57rvddgtmghfvo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

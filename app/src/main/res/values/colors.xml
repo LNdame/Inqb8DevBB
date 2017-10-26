@@ -6,4 +6,35 @@
 
     <color name="textColorPrimary">#212121</color>
     <color name="textColorSecondary">#757575</color>
+
+
+    <color name="material_deep_purple_50">#EDE7F6</color>
+    <color name="material_deep_purple_500">#673AB7</color>
+    <color name="material_deep_purple_700">#512DA8</color>
+
+    <color name="material_green_50">#E8F5E9</color>
+    <color name="material_green_500">#4CAF50</color>
+    <color name="material_green_700">#388E3C</color>
+    <color name="material_green_300">#AED581</color>
+
+    <color name="material_gray_300">#E0E0E0</color>
+    <color name="material_gray_500">#9e9e9e</color>
+
+    <color name="material_lime_a700">#AEEA00</color>
+    <color name="material_purple_a700">#AA00FF</color>
+    <color name="material_red_a200">#FF5252</color>
+
+
+
+
+    <color name="fui_errorColor">#DD2C00</color>
+    <color name="fui_linkColor">#4285F4</color>
+    <color name="fui_transparent">#00000000</color>
+
+    <color name="fui_buttonShadow">#64BEBEBE</color>
+    <color name="fui_bgEmail">#D0021B</color>
+    <color name="fui_bgFacebook">#3B5998</color>
+    <color name="fui_bgGoogle">#ffffff</color>
+    <color name="fui_bgPhone">#43C5A5</color>
+    <color name="fui_bgTwitter">#FF5BAAF4</color>
 </resources>

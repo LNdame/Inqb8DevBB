@@ -1,0 +1,48 @@
+package cite.ansteph.beerly.view.beerlylover.registration.firebaseauth.util;
+
+import android.support.annotation.Nullable;
+
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.credentials.CredentialsApi;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthProvider;
+
+import cite.ansteph.beerly.view.beerlylover.registration.firebaseauth.ui.FlowParameters;
+import cite.ansteph.beerly.view.beerlylover.registration.firebaseauth.ui.HelperActivityBase;
+import cite.ansteph.beerly.view.beerlylover.registration.firebaseauth.util.signincontainer.SaveSmartLock;
+
+/**
+ * Factory for instances of authentication classes. Should eventually be replaced by dependency
+ * injection.
+ */
+public class AuthHelper {
+    private final FlowParameters mFlowParams;
+
+    public AuthHelper(FlowParameters params) {
+        mFlowParams = params;
+    }
+
+    public FirebaseAuth getFirebaseAuth() {
+        return FirebaseAuth.getInstance(FirebaseApp.getInstance(mFlowParams.appName));
+    }
+
+    public CredentialsApi getCredentialsApi() {
+        return Auth.CredentialsApi;
+    }
+
+    @Nullable
+    public FirebaseUser getCurrentUser() {
+        return getFirebaseAuth().getCurrentUser();
+    }
+
+    public SaveSmartLock getSaveSmartLockInstance(HelperActivityBase activity) {
+        return SaveSmartLock.getInstance(activity);
+    }
+
+    public PhoneAuthProvider getPhoneAuthProvider() {
+        return PhoneAuthProvider.getInstance(getFirebaseAuth());
+    }
+}
