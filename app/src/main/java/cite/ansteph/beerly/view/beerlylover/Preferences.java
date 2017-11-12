@@ -2,6 +2,8 @@ package cite.ansteph.beerly.view.beerlylover;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -10,21 +12,31 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import cite.ansteph.beerly.R;
+import cite.ansteph.beerly.adapter.BeerPrefRecyclerAdapter;
 import cite.ansteph.beerly.adapter.BeerRecyclerViewAdapter;
+import cite.ansteph.beerly.helper.RecyclerItemTouchHelper;
 import cite.ansteph.beerly.listener.RecyclerViewClickListener;
 import cite.ansteph.beerly.model.Beer;
+import cite.ansteph.beerly.model.Preference;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
@@ -32,16 +44,26 @@ import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
 import cite.ansteph.beerly.view.MapsActivity;
 
-public class Preferences extends AppCompatActivity implements RecyclerViewClickListener ,DrawerAdapter.OnItemSelectedListener {
-    RecyclerView recyclerView;
+public class Preferences extends AppCompatActivity implements RecyclerViewClickListener ,DrawerAdapter.OnItemSelectedListener,
+        RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+    RecyclerView recyclerView , prefRecyclerView;
 
     ArrayList<Beer> mBeersList ;
+    ArrayList<Beer> mBeersPrefList ;
     RecyclerView.Adapter mBeerAdapter;
+    BeerPrefRecyclerAdapter mPrefBeerAdapter;
 
     private String[] screenTitles;
     private Drawable[] screenIcons;
     private SlidingRootNav slidingRootNav;
 
+    int mPrefCount=0;
+
+    HashMap<Integer, Beer> LoversPreferences;
+
+    TextView txtPrefCount ;
+
+    RelativeLayout container;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +71,7 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        LoversPreferences = new HashMap<>();
         slidingRootNav = new SlidingRootNavBuilder(this)
                 .withToolbarMenuToggle(toolbar)
                 .withMenuOpened(false)
@@ -69,7 +92,7 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
                 createItemFor(MenuPosition.POS_LOGOUT)));
         adapter.setListener(this);
 
-
+        container  = (RelativeLayout) findViewById(R.id.containerlyt) ;
         RecyclerView list = (RecyclerView) findViewById(R.id.list);
 
         // RecyclerView list = findViewById(R.id.list);
@@ -88,14 +111,61 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
             }
         });
 
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+
+        txtPrefCount = (TextView) findViewById(R.id.txtpreferences);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+
+
+        mBeersPrefList = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         mBeersList = setupList();
 
-        mBeerAdapter = new BeerRecyclerViewAdapter(this, mBeersList);
+        mBeerAdapter = new BeerRecyclerViewAdapter(this, mBeersList, Preferences.this);
 
         recyclerView.setAdapter(mBeerAdapter);
+
+
+
+        prefRecyclerView = (RecyclerView) findViewById(R.id.prefrecyclerview);
+        prefRecyclerView.setLayoutManager(mLayoutManager);
+        prefRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        prefRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        mPrefBeerAdapter = new BeerPrefRecyclerAdapter(mBeersPrefList, this);
+
+        prefRecyclerView.setAdapter(mPrefBeerAdapter);
+
+        // adding item touch helper
+        // only ItemTouchHelper.LEFT added to detect Right to Left swipe
+        // if you want both Right -> Left and Left -> Right
+        // add pass ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT as param
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(prefRecyclerView);
+
+
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback1 = new  ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.UP){
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+        // attaching the touch helper to recycler view
+        new ItemTouchHelper(itemTouchHelperCallback1).attachToRecyclerView(prefRecyclerView);
+
 
     }
 
@@ -125,10 +195,6 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
     }
 
 
-    @Override
-    public void onRecyclerViewItemClicked(View v, int position) {
-
-    }
 
 
     private String[] loadScreenTitles() {
@@ -185,6 +251,56 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
             startActivity(intent);
         }
 
+    }
+
+    @Override
+    public void onRecyclerViewItemClicked(View v, int position) {
+        Toast.makeText(getApplicationContext(),"Clicked",Toast.LENGTH_LONG).show();
+
+
+        if(mPrefCount<4)
+        {
+            mPrefCount++;
+            LoversPreferences.put(position, mBeersList.get(position));
+
+            mBeersPrefList.add(mBeersList.get(position));
+            // refreshing recycler view
+            mPrefBeerAdapter.notifyDataSetChanged();
+            String ct = "(" +(3-mPrefCount)+"more)";
+            txtPrefCount.setText(ct);
+        }
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if(viewHolder instanceof  BeerPrefRecyclerAdapter.PrefViewHolder)
+        {
+            // get the removed item name to display it in snack bar
+            String name = mBeersList.get(viewHolder.getAdapterPosition()).getName();
+
+            // backup of removed item for undo purpose
+            final Beer deletedItem = mBeersList.get(viewHolder.getAdapterPosition());
+            final int deletedIndex = viewHolder.getAdapterPosition();
+
+
+            // remove the item from recycler view
+            mPrefBeerAdapter.removeItem(viewHolder.getAdapterPosition());
+
+            // showing snack bar with Undo option
+            Snackbar snackbar = Snackbar
+                    .make(container, name + " removed from cart!", Snackbar.LENGTH_LONG);
+            snackbar.setAction("UNDO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    // undo is selected, restore the deleted item
+                    mPrefBeerAdapter.restoreItem(deletedItem, deletedIndex);
+                }
+            });
+            snackbar.setActionTextColor(Color.YELLOW);
+            snackbar.show();
+
+        }
     }
 }
 

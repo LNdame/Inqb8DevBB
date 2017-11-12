@@ -1,6 +1,7 @@
 package cite.ansteph.beerly.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.model.Establishment;
+import cite.ansteph.beerly.view.beerlylover.EstMenu;
+import cite.ansteph.beerly.view.beerlylover.Profile;
 
 /**
  * Created by loicstephan on 2017/10/12.
@@ -71,6 +74,21 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
 
         holder.txtName.setText(establishments.get(position).getName());
         holder.txtAddress.setText(establishments.get(position).getAddress());
+
+        holder.btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(new Intent( mContext, EstMenu.class));
+            }
+        });
+
+
+        holder.btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(new Intent( mContext, Profile.class));
+            }
+        });
     }
 
     @Override

@@ -135,8 +135,6 @@
     <string name="title_activity_registration">Registration</string>
 
 
-
-
     <!-- Auth UI -->
     <string name="launch_title">FirebaseUI Auth Demo</string>
     <string name="sign_in">Start</string>
@@ -205,5 +203,24 @@
     <string name="idp_secret">IDP Secret</string>
 
 
+    <string name="facebook_application_id" translatable="false">CHANGE-ME</string>
+
+
+    <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>
+
+
+    <string name="twitter_consumer_key" translatable="false">CHANGE-ME</string>
+
+
+    <string name="twitter_consumer_secret" translatable="false">CHANGE-ME</string>
+    <string name="title_activity_login">Login</string>
+    <string name="delete">DELETE</string>
+    <string name="title_activity_discount">Discount</string>
+
+
+    <string-array name="gender">
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
 
 </resources>

@@ -7,6 +7,9 @@ import android.view.View;
 
 import cite.ansteph.beerly.view.beerlylover.Home;
 import com.crashlytics.android.Crashlytics;
+
+
+import cite.ansteph.beerly.view.beerlylover.registration.Login;
 import io.fabric.sdk.android.Fabric;
 
 public class Splash extends AppCompatActivity {
@@ -21,6 +24,7 @@ public class Splash extends AppCompatActivity {
     public void goHome(View v)
     {
 
+       // startActivity(new Intent(getApplicationContext(), Home.class));
         startActivity(new Intent(getApplicationContext(), Home.class));
     }
 }

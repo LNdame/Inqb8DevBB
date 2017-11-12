@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +26,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -41,6 +44,8 @@ import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
 import cite.ansteph.beerly.view.MapsActivity;
+import cite.ansteph.beerly.view.beerlylover.discount.Discount;
+import cite.ansteph.beerly.view.beerlylover.registration.Login;
 
 public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener , OnMapReadyCallback {
 
@@ -53,6 +58,13 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
     Marker [] mPubMarker ;
 
     protected RecyclerViewPager mRecyclerView;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    FirebaseUser mUser;
+
+    public static final  int RC_SIGN_IN =1;
 
 
     double locations[][] = new double[][]{{-33.955239, 25.611931},
@@ -116,6 +128,36 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
         adapter.setSelected(MenuPosition.POS_HOME);
 
         initViewPager(setupList());
+
+
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                // FirebaseUser user = firebaseAuth.getCurrentUser();
+                mUser = firebaseAuth.getCurrentUser();
+
+                if(mUser!=null)
+                {
+                    //User is signed in
+                    // Log.d(TAG, "onAuthStateChanged:signed_in" + user.getUid());
+                }else{
+                    // Log.d(TAG, "onAuthStateChanged:signed_out");
+
+                    startActivity(new Intent(getApplicationContext(), Login.class));
+                   /* startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setIsSmartLockEnabled(true)
+                                    .setProviders(AuthUI.EMAIL_PROVIDER,
+                                            AuthUI.GOOGLE_PROVIDER  )
+                                    .build(),
+                            RC_SIGN_IN);*/
+                }
+
+            }
+        };
     }
 
 
@@ -133,11 +175,17 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
     }
 
 
+    private void signOut() {
+        mAuth.signOut();
+        //updateUI(null);
+    }
+
     @Override
     public void onItemSelected(int position) {
 
         if (position == MenuPosition.POS_LOGOUT) {
-            finish();
+            signOut();
+          //  finish();
         }
         slidingRootNav.closeMenu();
 
@@ -295,9 +343,27 @@ protected  void initViewPager(ArrayList<Establishment> establishmentList){
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mAuthStateListener!=null)
+            mAuth.removeAuthStateListener(mAuthStateListener);
+
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         mMapView.onPause();
+        if(mAuthStateListener!=null)
+            mAuth.removeAuthStateListener(mAuthStateListener);
+
     }
 
     @Override
@@ -323,6 +389,8 @@ protected  void initViewPager(ArrayList<Establishment> establishmentList){
     public void onResume() {
         super.onResume();
         mMapView.onResume();
+        mAuth.addAuthStateListener(mAuthStateListener);
+
     }
 
     @Override

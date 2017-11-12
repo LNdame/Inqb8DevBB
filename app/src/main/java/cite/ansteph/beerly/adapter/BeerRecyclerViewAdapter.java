@@ -1,5 +1,6 @@
 package cite.ansteph.beerly.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +27,12 @@ public class BeerRecyclerViewAdapter extends RecyclerView.Adapter<BeerRecyclerVi
 
     private ArrayList<Beer> beers;
 
-    public BeerRecyclerViewAdapter(RecyclerViewClickListener recyclerViewClickListener, ArrayList<Beer> beers) {
+    Context mContext;
+
+    public BeerRecyclerViewAdapter(RecyclerViewClickListener recyclerViewClickListener, ArrayList<Beer> beers, Context context) {
         this.recyclerViewClickListener = recyclerViewClickListener;
         this.beers = beers;
+        this.mContext = context;
     }
 
     @Override
@@ -41,8 +45,26 @@ public class BeerRecyclerViewAdapter extends RecyclerView.Adapter<BeerRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder .txtbeeritem.setText(beers.get(position).getName());
+
+
+       final View itemView = holder.itemView;
+
+      /*  itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(holder.imgBeerSelect.getDrawable().getConstantState() ==
+                        mContext.getResources().getDrawable(R.mipmap.ic_beer_unselected).getConstantState()){
+
+                    holder.imgBeerSelect.setImageResource(R.mipmap.ic_beer_selected);
+                }else {
+                    holder.imgBeerSelect.setImageResource(R.mipmap.ic_beer_unselected);
+                }
+            }
+        });*/
+
+
     }
 
     @Override
@@ -53,14 +75,15 @@ public class BeerRecyclerViewAdapter extends RecyclerView.Adapter<BeerRecyclerVi
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public final View mView;
         public final TextView txtbeeritem;
+        public final ImageView imgBeerSelect;
 
-       // public final RadioButton imgLogo;
+       // public final RadioButton imgLogo;imgBeerSelect
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.mView = itemView;
             this.txtbeeritem =(TextView) itemView.findViewById(R.id.txtbeeritem);
-
+            this.imgBeerSelect = (ImageView)itemView.findViewById(R.id.imgBeerSelect) ;
             mView.setOnClickListener(this);
         }
 

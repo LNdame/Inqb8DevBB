@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,4 +8,64 @@
     tools:context="cite.ansteph.beerly.view.beerlylover.registration.Registration"
     tools:showIn="@layout/activity_registration">
 
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Spinner
+            style="@style/spinner_style"
+            android:id="@+id/spnSource"
+            android:layout_width="match_parent"
+            android:layout_height="?listPreferredItemHeight"></Spinner>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/dateofbirth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Conducted on YYYY/MM/DD"
+
+                android:inputType="text"
+                android:maxLines="1"
+                android:clickable="true"
+                android:enabled="true"
+                android:focusable="false"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <CheckBox
+            android:layout_marginTop="16dp"
+            android:text="I accept the Terms and Conditions"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chkterms"/>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnUpdate"
+        style="?android:textAppearanceSmall"
+        android:background="@color/colorAccent"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/textColorPrimary"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:text="Complete Registration"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+
+</RelativeLayout>

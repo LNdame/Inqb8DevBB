@@ -18,9 +18,13 @@ import android.view.View;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import cite.ansteph.beerly.R;
+import cite.ansteph.beerly.adapter.BeerMenuRecycleAdapter;
+import cite.ansteph.beerly.adapter.BeerRecyclerViewAdapter;
+import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
@@ -34,6 +38,11 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
     private Drawable[] screenIcons;
     private SlidingRootNav slidingRootNav;
 
+    RecyclerView recyclerView;
+
+    ArrayList<Beer> mBeersList ;
+
+    RecyclerView.Adapter mBeerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +94,40 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
         });
 
 
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        mBeersList = setupList();
+
+
+        mBeerAdapter = new BeerMenuRecycleAdapter( mBeersList, this);
+
+        recyclerView.setAdapter(mBeerAdapter);
 
 
     }
 
+
+    ArrayList<Beer> setupList()
+    {
+        ArrayList<Beer>  beers = new ArrayList<>();
+
+        beers.add(new Beer (1,"Carling Black Label"));
+        beers.add(new Beer (2,"Carling Blue Label Beer"));
+        beers.add(new Beer (3,"Castle Lager"));
+        beers.add(new Beer (4,"Castle Lite"));
+        beers.add(new Beer (5,"Castle Milk Stout"));
+        beers.add(new Beer (6,"Hansa Pilsner"));
+        beers.add(new Beer (7,"Pilsner Urquell"));
+        beers.add(new Beer (8,"Peroni Nastro Azzurro"));
+        beers.add(new Beer (9,"Grolsch"));
+        beers.add(new Beer (10,"Redd's"));
+        beers.add(new Beer (11,"Brutal Fruit"));
+        beers.add(new Beer (12,"Flying Fish"));
+
+
+        // String duration, String task_date, String start, String end, String project, String description, String realduration, String task_break) {
+        return  beers;
+    }
 
 
 

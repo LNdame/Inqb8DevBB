@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#448AFF</color>
 
+    <color name="colorAccentSecondary">#512da8</color>
+
+    <color name="colorWhite">#ffffff</color>
+
     <color name="textColorPrimary">#212121</color>
     <color name="textColorSecondary">#757575</color>
 
@@ -37,4 +41,8 @@
     <color name="fui_bgGoogle">#ffffff</color>
     <color name="fui_bgPhone">#43C5A5</color>
     <color name="fui_bgTwitter">#FF5BAAF4</color>
+
+    <color name="bg_row_background">#fa315b</color>
+    <color name="item_name">#535353</color>
+    <color name="description">#a9a9a9</color>
 </resources>
