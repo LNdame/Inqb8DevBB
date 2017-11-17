@@ -18,10 +18,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -36,13 +37,11 @@ import cite.ansteph.beerly.adapter.BeerRecyclerViewAdapter;
 import cite.ansteph.beerly.helper.RecyclerItemTouchHelper;
 import cite.ansteph.beerly.listener.RecyclerViewClickListener;
 import cite.ansteph.beerly.model.Beer;
-import cite.ansteph.beerly.model.Preference;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
-import cite.ansteph.beerly.view.MapsActivity;
 
 public class Preferences extends AppCompatActivity implements RecyclerViewClickListener ,DrawerAdapter.OnItemSelectedListener,
         RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
@@ -86,7 +85,7 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(MenuPosition.POS_HOME).setChecked(true),
                 createItemFor(MenuPosition.POS_MYPROFILE),
-                createItemFor(MenuPosition.POS_PROFILE),
+                createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
                 new SpaceItem(48),
                 createItemFor(MenuPosition.POS_LOGOUT)));
@@ -240,7 +239,7 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
         {
             case MenuPosition.POS_HOME:intent = new Intent(getApplicationContext(), Home.class); break;
             case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), EstMenu.class);break;
-            case MenuPosition.POS_PROFILE:intent = new Intent(getApplicationContext(), Profile.class);break;
+            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Profile.class);break;
             case MenuPosition.POS_PREFERENCE: break;
             default:
                 intent = new Intent(getApplicationContext(), Home.class);
@@ -253,21 +252,73 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.preferences_menu, menu);
+
+       /* MenuItem loggedUser = menu.findItem(R.id.action_loggedUser);
+        if(mGlobalRetainer.get_grClient().getName()!=null)
+        {
+            loggedUser.setTitle(mGlobalRetainer.get_grClient().getName());
+        }*/
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+       /* //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            //  return true;
+            Intent i = new Intent(getApplicationContext(), ActionList.class);
+            startActivity(i);
+        }
+
+
+        if (id == R.id.action_logout) {
+            sessionManager.logoutUser();
+        }
+        if (id == R.id.action_profile) {
+            Intent i = new Intent(getApplicationContext(), EditProfile.class);
+            startActivity(i);
+        }*/
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     @Override
     public void onRecyclerViewItemClicked(View v, int position) {
-        Toast.makeText(getApplicationContext(),"Clicked",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),"Clicked",Toast.LENGTH_LONG).show();
 
 
-        if(mPrefCount<4)
+        if(mPrefCount<3)
         {
-            mPrefCount++;
-            LoversPreferences.put(position, mBeersList.get(position));
+            boolean shouldAdd  = true;
 
-            mBeersPrefList.add(mBeersList.get(position));
-            // refreshing recycler view
-            mPrefBeerAdapter.notifyDataSetChanged();
-            String ct = "(" +(3-mPrefCount)+"more)";
-            txtPrefCount.setText(ct);
+            for(Beer beer: mBeersPrefList) {
+                if (beer.getName().equals(mBeersList.get(position).getName()))
+                    shouldAdd =false;
+            }
+            if(shouldAdd) {
+
+                mPrefCount++;
+                LoversPreferences.put(position, mBeersList.get(position));
+
+
+                mBeersPrefList.add(mBeersList.get(position));
+                // refreshing recycler view
+                mPrefBeerAdapter.notifyDataSetChanged();
+                String ct = "(" + (3 - mPrefCount) + " more)";
+                txtPrefCount.setText(ct);
+            }
+
         }
     }
 
@@ -286,6 +337,10 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
             // remove the item from recycler view
             mPrefBeerAdapter.removeItem(viewHolder.getAdapterPosition());
 
+            mPrefCount--;
+            String ct = "(" +(3-mPrefCount)+" more)";
+            txtPrefCount.setText(ct);
+
             // showing snack bar with Undo option
             Snackbar snackbar = Snackbar
                     .make(container, name + " removed from cart!", Snackbar.LENGTH_LONG);
@@ -295,6 +350,10 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
 
                     // undo is selected, restore the deleted item
                     mPrefBeerAdapter.restoreItem(deletedItem, deletedIndex);
+
+                    mPrefCount++;
+                    String ct = "(" +(3-mPrefCount)+" more)";
+                    txtPrefCount.setText(ct);
                 }
             });
             snackbar.setActionTextColor(Color.YELLOW);

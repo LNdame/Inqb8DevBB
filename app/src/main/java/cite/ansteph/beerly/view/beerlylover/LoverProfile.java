@@ -18,20 +18,28 @@ import android.view.View;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import cite.ansteph.beerly.R;
+import cite.ansteph.beerly.adapter.BeerPrefRecyclerAdapter;
+import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
-import cite.ansteph.beerly.view.MapsActivity;
 
 public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
     private String[] screenTitles;
     private Drawable[] screenIcons;
     private SlidingRootNav slidingRootNav;
+
+    RecyclerView recyclerView , prefRecyclerView;
+
+    ArrayList<Beer> mBeersList ;
+    ArrayList<Beer> mBeersPrefList ;
+    BeerPrefRecyclerAdapter mPrefBeerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +63,7 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(MenuPosition.POS_HOME).setChecked(true),
                 createItemFor(MenuPosition.POS_MYPROFILE),
-                createItemFor(MenuPosition.POS_PROFILE),
+                createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
                 new SpaceItem(48),
                 createItemFor(MenuPosition.POS_LOGOUT)));
@@ -79,11 +87,33 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
                         .setAction("Action", null).show();
             }
         });
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        prefRecyclerView = (RecyclerView) findViewById(R.id.prefrecyclerview);
+        mBeersPrefList = new ArrayList<>();
+        mBeersPrefList= setupList();
+        prefRecyclerView.setLayoutManager(mLayoutManager);
+
+        mPrefBeerAdapter = new BeerPrefRecyclerAdapter(mBeersPrefList, this);
+
+        prefRecyclerView.setAdapter(mPrefBeerAdapter);
     }
 
 
 
+    ArrayList<Beer> setupList()
+    {
+        ArrayList<Beer>  beers = new ArrayList<>();
 
+        beers.add(new Beer (1,"Carling Black Label"));
+        beers.add(new Beer (2,"Carling Blue Label Beer"));
+        beers.add(new Beer (3,"Castle Lager"));
+
+
+
+        // String duration, String task_date, String start, String end, String project, String description, String realduration, String task_break) {
+        return  beers;
+    }
 
 
 
@@ -132,8 +162,8 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
         switch (position)
         {
             case MenuPosition.POS_HOME:intent = new Intent(getApplicationContext(), Home.class); break;
-            case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), MapsActivity.class);break;
-            case MenuPosition.POS_PROFILE:intent = new Intent(getApplicationContext(), Profile.class);break;
+            case MenuPosition.POS_MYPROFILE: ;break;
+            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Profile.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;
             default:
                 intent = new Intent(getApplicationContext(), Home.class);

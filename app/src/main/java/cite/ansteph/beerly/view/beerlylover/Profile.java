@@ -26,7 +26,6 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
-import cite.ansteph.beerly.view.MapsActivity;
 
 public class Profile extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener  {
 
@@ -55,7 +54,7 @@ public class Profile extends AppCompatActivity implements DrawerAdapter.OnItemSe
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(MenuPosition.POS_HOME).setChecked(true),
                 createItemFor(MenuPosition.POS_MYPROFILE),
-                createItemFor(MenuPosition.POS_PROFILE),
+                createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
                 new SpaceItem(48),
                 createItemFor(MenuPosition.POS_LOGOUT)));
@@ -69,7 +68,7 @@ public class Profile extends AppCompatActivity implements DrawerAdapter.OnItemSe
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(adapter);
 
-        adapter.setSelected(MenuPosition.POS_PROFILE);
+        adapter.setSelected(MenuPosition.POS_DISCOUNT);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +128,7 @@ public class Profile extends AppCompatActivity implements DrawerAdapter.OnItemSe
         {
             case MenuPosition.POS_HOME: intent = new Intent(getApplicationContext(), Home.class);break;
             case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), EstMenu.class);break;
-            case MenuPosition.POS_PROFILE:break;
+            case MenuPosition.POS_DISCOUNT:break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;
             default:
                 intent = new Intent(getApplicationContext(), Home.class);

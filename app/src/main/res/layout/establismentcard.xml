@@ -27,18 +27,21 @@
 
         <TextView
             android:id="@+id/txtname"
+            android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="The Brazen Head" />
 
         <TextView
             android:id="@+id/txttype"
+            android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pub" />
 
         <TextView
             android:id="@+id/txtaddress"
+            android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Somewhere in town" />
@@ -55,15 +58,19 @@
 
         <Button
             android:id="@+id/btnMenu"
+            style="@style/button_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:text="Menu" />
 
         <Button
             android:id="@+id/btnProfile"
+            style="@style/button_style"
+            android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:text="Profile" />
     </LinearLayout>

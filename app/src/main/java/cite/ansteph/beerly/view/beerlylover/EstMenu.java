@@ -23,14 +23,12 @@ import java.util.Arrays;
 
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.adapter.BeerMenuRecycleAdapter;
-import cite.ansteph.beerly.adapter.BeerRecyclerViewAdapter;
 import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
-import cite.ansteph.beerly.view.MapsActivity;
 
 public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
@@ -65,7 +63,7 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(MenuPosition.POS_HOME).setChecked(true),
                 createItemFor(MenuPosition.POS_MYPROFILE),
-                createItemFor(MenuPosition.POS_PROFILE),
+                createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
                 new SpaceItem(48),
                 createItemFor(MenuPosition.POS_LOGOUT)));
@@ -174,7 +172,7 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
         {
             case MenuPosition.POS_HOME:intent = new Intent(getApplicationContext(), Home.class); break;
             case MenuPosition.POS_MYPROFILE:break;
-            case MenuPosition.POS_PROFILE:intent = new Intent(getApplicationContext(), Profile.class);break;
+            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Profile.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;
             default:
                 intent = new Intent(getApplicationContext(), Home.class);

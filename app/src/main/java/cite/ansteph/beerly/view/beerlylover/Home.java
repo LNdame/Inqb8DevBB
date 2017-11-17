@@ -43,9 +43,9 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
-import cite.ansteph.beerly.view.MapsActivity;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
 import cite.ansteph.beerly.view.beerlylover.registration.Login;
+import cite.ansteph.beerly.view.beerlylover.registration.Registration;
 
 public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener , OnMapReadyCallback {
 
@@ -111,8 +111,9 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(MenuPosition.POS_HOME).setChecked(true),
                 createItemFor(MenuPosition.POS_MYPROFILE),
-                createItemFor(MenuPosition.POS_PROFILE),
+                createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
+                createItemFor(MenuPosition.POS_AFFILIATE),
                 new SpaceItem(48),
                 createItemFor(MenuPosition.POS_LOGOUT)));
         adapter.setListener(this);
@@ -194,9 +195,11 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
         switch (position)
         {
             case MenuPosition.POS_HOME: break;
-            case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), EstMenu.class);break;
-            case MenuPosition.POS_PROFILE:intent = new Intent(getApplicationContext(), Profile.class);break;
+            case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), LoverProfile.class);break;
+            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;
+            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Registration.class);break;
+
             default:
                 intent = new Intent(getApplicationContext(), Home.class);
         }

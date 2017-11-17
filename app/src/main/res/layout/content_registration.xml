@@ -8,11 +8,41 @@
     tools:context="cite.ansteph.beerly.view.beerlylover.registration.Registration"
     tools:showIn="@layout/activity_registration">
 
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="60dp">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/txtusername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+
+                android:inputType="text"
+                android:maxLines="1"
+                android:clickable="true"
+                android:enabled="true"
+                android:focusable="false"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gender" />
         <Spinner
             style="@style/spinner_style"
             android:id="@+id/spnSource"
@@ -29,7 +59,43 @@
                 android:id="@+id/dateofbirth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Conducted on YYYY/MM/DD"
+                android:hint="Birthdate"
+
+                android:inputType="text"
+                android:maxLines="1"
+                android:clickable="true"
+                android:enabled="true"
+                android:focusable="false"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Home City" />
+
+
+
+        <Spinner
+            style="@style/spinner_style"
+            android:id="@+id/spnCity"
+            android:layout_width="match_parent"
+            android:layout_height="?listPreferredItemHeight"></Spinner>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/txtrefcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Referral Code (optional)"
 
                 android:inputType="text"
                 android:maxLines="1"
@@ -40,6 +106,38 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="We are all about beer but we will like to know a little bit more about you" />
+
+        <CheckBox
+            android:id="@+id/chkCocktail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="toggleCocktailSpinner"
+            android:text="Do you drink cocktails?" />
+        <Spinner
+            android:visibility="gone"
+            style="@style/spinner_style"
+            android:id="@+id/spnCocktails"
+            android:layout_width="match_parent"
+            android:layout_height="?listPreferredItemHeight"></Spinner>
+
+
+        <CheckBox
+            android:id="@+id/chkShot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="toggleShotSpinner"
+            android:text="Do you drink shots in between beers?" />
+        <Spinner
+            android:visibility="gone"
+            style="@style/spinner_style"
+            android:id="@+id/spnShot"
+            android:layout_width="match_parent"
+            android:layout_height="?listPreferredItemHeight"></Spinner>
 
         <CheckBox
             android:layout_marginTop="16dp"
@@ -51,7 +149,7 @@
 
     </LinearLayout>
 
-
+</ScrollView>
     <Button
         android:id="@+id/btnUpdate"
         style="?android:textAppearanceSmall"
@@ -64,6 +162,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:text="Complete Registration"
+        android:onClick="OnCompleteRegClicked"
         android:textSize="16sp"
         android:textStyle="bold"/>
 

@@ -7,20 +7,22 @@
 
     <string-array name="ld_activityScreenTitles">
         <item>Home</item>
-        <item>My Profile</item>
         <item>Profile</item>
+        <item>Discount</item>
         <item>Preferences</item>
+        <item>Affiliate Program</item>
         <item />
         <item>Log Out</item>
     </string-array>
 
     <array name="ld_activityScreenIcons">
+        <item>@drawable/ic_home</item>
         <item>@drawable/ic_account_circle_24dp</item>
-        <item>@drawable/ic_account_circle_24dp</item>
-        <item>@drawable/ic_account_circle_24dp</item>
-        <item>@drawable/ic_account_circle_24dp</item>
+        <item>@drawable/ic_star</item>
+        <item>@drawable/ic_if_beer_mug</item>
+        <item>@drawable/ic_affiliate</item>
         <item>0</item>
-        <item>@drawable/ic_account_circle_24dp</item>
+        <item>@drawable/ic_backspace</item>
     </array>
 
 
@@ -222,5 +224,93 @@
         <item>Female</item>
         <item>Male</item>
     </string-array>
+
+    <string name="error_field_required">This field is required</string>
+
+    <string-array name="typeCocktail">
+        <item>Creamy</item>
+        <item>Hard</item>
+        <item>Sweet</item>
+    </string-array>
+
+    <string-array name="cities">
+        <item> Alice</item>
+        <item> Bellville</item>
+        <item>  Benoni</item>
+        <item>  Bethlehem</item>
+        <item>  Bloemfontein</item>
+        <item>   Boksburg</item>
+        <item>   Brakpan</item>
+        <item>   Butterworth</item>
+        <item>  Cape Town</item>
+        <item>   Carletonville</item>
+        <item>   Constantia</item>
+        <item>   Durban</item>
+        <item>  East London</item>
+        <item>  Emalahleni</item>
+        <item>   Empangeni</item>
+        <item> George</item>
+        <item>  Germiston</item>
+        <item>  Giyani</item>
+        <item> Graaff-Reinet</item>
+        <item>  Grahamstown</item>
+        <item>  Hopefield</item>
+        <item>  Jagersfontein</item>
+        <item>   Johannesburg</item>
+        <item>   Kimberley</item>
+        <item>    King William’s Town</item>
+        <item>    Klerksdorp</item>
+        <item>    Kroonstad</item>
+        <item>    Krugersdorp</item>
+        <item>    Kuruman</item>
+        <item>   Ladysmith</item>
+        <item>   Lebowakgomo</item>
+        <item>   Mahikeng</item>
+        <item>   Mmabatho</item>
+        <item>  Mthatha</item>
+        <item>   Musina</item>
+        <item>   Nelspruit</item>
+        <item>   Newcastle</item>
+        <item>   Odendaalsrus</item>
+        <item>   Oudtshoorn</item>
+        <item>   Paarl</item>
+        <item>   Parys</item>
+        <item>   Phalaborwa</item>
+        <item>   Phuthaditjhaba</item>
+        <item>   Pietermaritzburg</item>
+        <item>  Pinetown</item>
+        <item>  Polokwane</item>
+        <item>  Port Elizabeth</item>
+        <item>   Port Nolloth</item>
+        <item>   Potchefstroom</item>
+        <item>   Pretoria</item>
+        <item>   Queenstown</item>
+        <item>    Randburg</item>
+        <item>    Randfontein</item>
+        <item>    Roodepoort</item>
+        <item>   Rustenburg</item>
+        <item>   Sasolburg</item>
+        <item>   Secunda</item>
+        <item>   Seshego</item>
+        <item>   Sibasa</item>
+        <item>   Simon’s Town</item>
+        <item>   Soweto</item>
+        <item>  Springs</item>
+        <item>   Stellenbosch</item>
+        <item>   Swellendam</item>
+        <item>   Thabazimbi</item>
+        <item>   Uitenhage</item>
+        <item>   Ulundi</item>
+        <item>   Umlazi</item>
+        <item>   Vanderbijlpark</item>
+        <item>   Vereeniging</item>
+        <item>   Virginia</item>
+        <item>   Welkom</item>
+        <item>   Worcester</item>
+        <item>   Zwelitsha</item>
+
+    </string-array>
+
+
 
 </resources>

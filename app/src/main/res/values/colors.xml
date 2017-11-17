@@ -12,6 +12,11 @@
     <color name="textColorSecondary">#757575</color>
 
 
+    <!--candidate -->
+
+    <color name="candidate_brown">#b5562a</color>
+    <color name="candidate_brown_dark">#802900</color>
+
     <color name="material_deep_purple_50">#EDE7F6</color>
     <color name="material_deep_purple_500">#673AB7</color>
     <color name="material_deep_purple_700">#512DA8</color>
