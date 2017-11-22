@@ -60,4 +60,12 @@ public class GlobalRetainer extends Application {
         }
     }
 
+    public static Context getAppContext() {
+        return mAppContext;
+    }
+
+    public static void setAppContext(Context mAppContext) {
+        GlobalRetainer.mAppContext = mAppContext;
+    }
+
 }

@@ -38,6 +38,9 @@ public class SessionManager {
     // All Shared Preferences Keys
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
 
+    private static final String KEY_HAS_REGISTERED= "hasRegistered";
+
+
     public static final String KEY_FIREBASEUUID = "firebaseuuid";
     public static final String KEY_GENDER = "gender";
     public static final String KEY_DOB = "DOB";
@@ -85,6 +88,11 @@ public class SessionManager {
         editor.commit();
     }
 
+    public void recordRegistration()
+    {
+        editor.putBoolean(KEY_HAS_REGISTERED, true);
+    }
+
     /**
      * Clear session details
      *
@@ -121,7 +129,7 @@ public class SessionManager {
         return beerPreferences.getString(KEY_ENROL,null);
     }
 
-    public void checkRegPart2(){
+  /*  public void checkRegPart2(){
 
         if(!this.isLoggedIn())
         {
@@ -148,7 +156,39 @@ public class SessionManager {
             _context.startActivity(i);
         }
 
+    }*/
+
+
+
+    public void checkRegPart2(){
+
+        if(!this.hasRegistered())
+        {
+           /* Intent i= new Intent(_context, Registration.class);
+
+            // Closing all the Activities
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            //Add new Flag to start new Activity
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            //Starting Login Activity
+            _context.startActivity(i);*/
+        }else
+        {
+            Intent i = new Intent(_context, Home.class);
+            // Closing all the Activities
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            //Add new Flag to start new Activity
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            //Starting Login Activity
+            _context.startActivity(i);
+        }
+
     }
+
 
 
 
@@ -183,6 +223,11 @@ public class SessionManager {
         return preferences.getBoolean(KEY_IS_LOGGED_IN,false);
     }
 
+
+    // Get Login State
+    public boolean hasRegistered() {
+        return preferences.getBoolean(KEY_HAS_REGISTERED,false);
+    }
 
 
 }

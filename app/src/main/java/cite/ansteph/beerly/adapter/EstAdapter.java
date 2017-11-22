@@ -68,7 +68,7 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
     }
 
     @Override
-    public void onBindViewHolder(EstablishmentViewHolder holder, int position) {
+    public void onBindViewHolder(EstablishmentViewHolder holder, final int position) {
 
        final View itemView = holder.itemView ;
 
@@ -86,7 +86,10 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
         holder.btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent( mContext, Profile.class));
+                Intent i = new Intent( mContext, Profile.class);
+                i.putExtra("profile", establishments.get(position) );
+
+                mContext.startActivity(i);
             }
         });
     }

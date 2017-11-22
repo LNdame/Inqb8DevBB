@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="180dp">
+
+    <cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="42dp"
+        android:elevation="10dp"
+        app:diagonal_angle="3"
+        android:layout_alignParentLeft="true"
+        app:diagonal_direction="left"
+        app:diagonal_position="bottom">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@color/colorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+
+            android:fontFamily="sans-serif-light"
+           android:id="@+id/txtbrprtitle"
+            android:text="Happy Hours"
+            android:textColor="@android:color/white" />
+
+    </cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:elevation="8dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/material_gray_500"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
+
+
+
+
+        <TextView
+            android:layout_marginTop="48dp"
+            android:id="@+id/txtbrprbeeritem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="20dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColor="@color/colorWhite"
+            android:text="TextView" />
+        <TextView
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:id="@+id/txtbrprStartdate"
+            android:textSize="16dp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="sans-serif-light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:id="@+id/txtbrprEnddate"
+            android:textSize="16dp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="sans-serif-light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+    </LinearLayout>
+
+    <cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="10dp"
+        android:elevation="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        app:diagonal_angle="15"
+        app:diagonal_direction="right"
+        app:diagonal_position="top">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@color/colorPrimaryDark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/txtbrPrice"
+            android:textSize="24dp"
+            android:fontFamily="sans-serif"
+            android:text="R0. 00"
+            android:textColor="@android:color/white" />
+
+    </cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout>
+</RelativeLayout>

@@ -17,6 +17,11 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -32,11 +37,17 @@ import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.adapter.EstAdapter;
+import cite.ansteph.beerly.api.Routes;
+import cite.ansteph.beerly.app.GlobalRetainer;
 import cite.ansteph.beerly.model.Establishment;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
@@ -78,6 +89,8 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
 
 
     private GoogleMap mGoogleMap;
+    ArrayList<Establishment> mEstablishments ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +121,11 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
         }
 
 
+
+        mEstablishments = new ArrayList<>();
+
+
+
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(MenuPosition.POS_HOME).setChecked(true),
                 createItemFor(MenuPosition.POS_MYPROFILE),
@@ -128,7 +146,7 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
 
         adapter.setSelected(MenuPosition.POS_HOME);
 
-        initViewPager(setupList());
+       // initViewPager(setupList());
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -159,6 +177,79 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
 
             }
         };
+
+
+        try {
+            getEstablismentData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    private void getEstablismentData() throws JSONException
+    {
+        String url = String.format(Routes.URL_RETRIEVE_EST);
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                loadEstablishment(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        requestQueue.add(jsonArrayRequest);
+    }
+
+
+
+    private void loadEstablishment(JSONArray estjsonArray)
+    {
+        ArrayList<Establishment> establishments = new ArrayList<>();
+
+        for(int i = 0; i<estjsonArray.length(); i++)
+        {
+          try{
+              JSONObject estjson = estjsonArray.getJSONObject(i);
+
+              Establishment est  = new Establishment();
+              est.setId(estjson.getInt("id"));
+              est.setName(estjson.getString("name"));
+              est.setAddress(estjson.getString("address"));
+              est.setLiqour_license(estjson.getString("liqour_license"));
+              est.setContact_person(estjson.getString("contact_person"));
+              est.setContact_number(estjson.getString("contact_number"));
+              est.setEstablishment_url(estjson.getString("establishment_url"));
+              est.setLatitude(estjson.getString("latitude"));
+              est.setLongitude(estjson.getString("longitude"));
+
+              est.setMain_picture_url(estjson.getString("main_picture_url"));
+              est.setPicture_2_url(estjson.getString("picture_2"));
+             // est.set(estjson.getString("hs_license"));
+             // est.setName(estjson.getString(""));
+
+            establishments.add(est);
+
+
+          }
+          catch (JSONException e)
+          {
+             e.printStackTrace();
+          }
+        }
+
+        initViewPager(establishments);
+        initMarker(establishments);
     }
 
 
@@ -399,19 +490,19 @@ protected  void initViewPager(ArrayList<Establishment> establishmentList){
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(false);
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
 
         LatLng pe = new LatLng(-33.9736, 25.5983);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pe,12.5f));
 
-        mPubMarker = new Marker[5];
+       /* mPubMarker = new Marker[5];
 
         for(int i = 0; i<5;i++)
         {
             mPubMarker[i] = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(locations[i][0],locations[i][1])).title("Jagen Head")
                     .snippet("Go have fun").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_pin_reg)));
-        }
+        }*/
 
 
 
@@ -419,6 +510,19 @@ protected  void initViewPager(ArrayList<Establishment> establishmentList){
         //.snippet("Go have fun").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_pin)));
     }
 
+
+    private void initMarker(ArrayList<Establishment> establishments)
+    {
+        mPubMarker = new Marker[establishments.size()];
+
+        for(int i = 0; i<establishments.size();i++)
+        {
+            Establishment est = establishments.get(i);
+            mPubMarker[i] = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(est.getLatitude()),Double.parseDouble(est.getLongitude())))
+                    .title(est.getName())
+                    .snippet("Go have fun").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_pin_reg)));
+        }
+    }
 
 
     private void setMarkerIcon(int pos)

@@ -14,9 +14,34 @@
     android:paddingBottom="60dp">
     <LinearLayout
         android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
+        <TextView
+            android:id="@+id/txtfirst_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#3e3e3e"
+            android:textSize="25sp"
+            android:text="@string/account_reg_welcome"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/txtlast_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/txtemail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_marginBottom="5dp"
@@ -29,7 +54,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
-
+                android:fontFamily="sans-serif-light"
+                android:textColor="#3e3e3e"
+                android:textSize="18sp"
                 android:inputType="text"
                 android:maxLines="1"
                 android:clickable="true"
@@ -42,6 +69,9 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#3e3e3e"
+            android:textSize="18sp"
             android:text="Gender" />
         <Spinner
             style="@style/spinner_style"
@@ -60,7 +90,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Birthdate"
-
+                android:fontFamily="sans-serif-light"
+                android:textColor="#3e3e3e"
+                android:textSize="18sp"
                 android:inputType="text"
                 android:maxLines="1"
                 android:clickable="true"
@@ -73,7 +105,10 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Home City" />
+            android:fontFamily="sans-serif-light"
+            android:textColor="#3e3e3e"
+            android:textSize="18sp"
+            android:text="Home City" />
 
 
 
@@ -96,7 +131,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Referral Code (optional)"
-
+                android:fontFamily="sans-serif-light"
+                android:textColor="#3e3e3e"
+                android:textSize="18sp"
                 android:inputType="text"
                 android:maxLines="1"
                 android:clickable="true"
@@ -110,13 +147,19 @@
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="We are all about beer but we will like to know a little bit more about you" />
+            android:fontFamily="sans-serif-light"
+            android:textColor="#3e3e3e"
+            android:textSize="18sp"
+            android:text="We are all about beer, but we will like to know a little bit more about you" />
 
         <CheckBox
             android:id="@+id/chkCocktail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="toggleCocktailSpinner"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#3e3e3e"
+            android:textSize="18sp"
             android:text="Do you drink cocktails?" />
         <Spinner
             android:visibility="gone"
@@ -131,6 +174,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="toggleShotSpinner"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#3e3e3e"
+            android:textSize="18sp"
             android:text="Do you drink shots in between beers?" />
         <Spinner
             android:visibility="gone"
@@ -142,7 +188,9 @@
         <CheckBox
             android:layout_marginTop="16dp"
             android:text="I accept the Terms and Conditions"
-
+            android:fontFamily="sans-serif-light"
+            android:textColor="#3e3e3e"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/chkterms"/>
@@ -153,12 +201,12 @@
     <Button
         android:id="@+id/btnUpdate"
         style="?android:textAppearanceSmall"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:paddingRight="10dp"
-        android:textColor="@color/textColorPrimary"
+        android:textColor="@color/colorWhite"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:text="Complete Registration"

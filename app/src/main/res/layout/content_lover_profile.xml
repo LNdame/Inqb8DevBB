@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:text="Loic Stephane"
             android:textColor="#3E3E3E"
+            android:id="@+id/txtDisplayname"
 
             android:layout_gravity="top|left"
             android:fontFamily="sans-serif-light"
@@ -66,6 +67,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/txtDateCreated"
                 android:text="Oct 10, 1027"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
@@ -114,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Last updated  oct 10, 2017"
-
+            android:id="@+id/txtPrefUpdate"
             android:textColor="@color/colorWhite"
             android:layout_gravity="end"
             android:fontFamily="sans-serif-condensed"

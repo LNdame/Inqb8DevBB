@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#ffb300</color>
+    <color name="colorPrimaryDark">#c68400</color>
+    <color name="colorAccent">#dd2c00</color>
+    <color name="colorPrimaryLight">#ffe54c</color>
+  <!--  <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#448AFF</color>
+     <color name="candidate_brown">#b5562a</color> e0e0e0
+    <color name="candidate_brown_dark">#802900</color>
+    -->
 
     <color name="colorAccentSecondary">#512da8</color>
 
@@ -14,8 +21,8 @@
 
     <!--candidate -->
 
-    <color name="candidate_brown">#b5562a</color>
-    <color name="candidate_brown_dark">#802900</color>
+    <color name="candidate_brown">#ffb300</color>
+    <color name="candidate_brown_dark">#c68400</color>
 
     <color name="material_deep_purple_50">#EDE7F6</color>
     <color name="material_deep_purple_500">#673AB7</color>

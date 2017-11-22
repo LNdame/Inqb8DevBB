@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.model.Beer;
+import cite.ansteph.beerly.model.Promotion;
 
 /**
  * Created by loicstephan on 2017/11/11.
@@ -21,19 +22,19 @@ import cite.ansteph.beerly.model.Beer;
 public class BeerMenuRecycleAdapter extends RecyclerView.Adapter<BeerMenuRecycleAdapter.PrefViewHolder> {
 
 
-    private ArrayList<Beer> beers;
+    private ArrayList<Promotion> promotions;
 
     Context mContext;
 
 
-    public BeerMenuRecycleAdapter(ArrayList<Beer> beers, Context mContext) {
-        this.beers = beers;
+    public BeerMenuRecycleAdapter(ArrayList<Promotion> promos, Context mContext) {
+        this.promotions = promos;
         this.mContext = mContext;
     }
 
     @Override
     public BeerMenuRecycleAdapter.PrefViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.beerlymenu_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.promo_item, parent, false);
 
         return new  BeerMenuRecycleAdapter.PrefViewHolder(view);
 
@@ -42,27 +43,31 @@ public class BeerMenuRecycleAdapter extends RecyclerView.Adapter<BeerMenuRecycle
 
     @Override
     public void onBindViewHolder(BeerMenuRecycleAdapter.PrefViewHolder holder, int position) {
-        holder .txtbeeritem.setText(beers.get(position).getName());
+        holder .txtbeeritem.setText(promotions.get(position).getBeer().getName());
+        holder.txtPromoTitle.setText(promotions.get(position).getTitle());
 
+        holder.txtbeerPrice.setText("R "+String.valueOf(promotions.get(position).getPrice()) );
+        holder.txtPromoStart.setText(promotions.get(position).getStart_date());
+        holder.txtPromoEnd.setText(promotions.get(position).getEnd_date());
 
         final View itemView = holder.itemView;
     }
 
     @Override
     public int getItemCount() {
-        return beers.size();
+        return promotions.size();
     }
 
     public void removeItem(int position) {
-        beers.remove(position);
+        promotions.remove(position);
         // notify the item removed by position
         // to perform recycler view delete animations
         // NOTE: don't call notifyDataSetChanged()
         notifyItemRemoved(position);
     }
 
-    public void restoreItem(Beer item, int position) {
-        beers.add(position, item);
+    public void restoreItem(Promotion item, int position) {
+        promotions.add(position, item);
         // notify item added by position
         notifyItemInserted(position);
     }
@@ -74,13 +79,18 @@ public class BeerMenuRecycleAdapter extends RecyclerView.Adapter<BeerMenuRecycle
 
         public final TextView txtbeeritem;
         public final TextView txtbeerPrice;
-
+        public final TextView txtPromoTitle;
+        public final TextView txtPromoStart;
+        public final TextView txtPromoEnd;
         public PrefViewHolder(View view) {
             super(view);
             this.mView = view;
-            this.txtbeeritem =(TextView) itemView.findViewById(R.id.txtbeeritem);
-            this.txtbeerPrice = (TextView)itemView.findViewById(R.id.txtPrice) ;
+            this.txtbeeritem =(TextView) itemView.findViewById(R.id.txtbrprbeeritem);
+            this.txtbeerPrice = (TextView)itemView.findViewById(R.id.txtbrPrice) ;
 
+            this.txtPromoTitle = (TextView)itemView.findViewById(R.id.txtbrprtitle) ;
+            this.txtPromoStart = (TextView)itemView.findViewById(R.id.txtbrprStartdate) ;
+            this.txtPromoEnd = (TextView)itemView.findViewById(R.id.txtbrprEnddate) ;
 
         }
     }

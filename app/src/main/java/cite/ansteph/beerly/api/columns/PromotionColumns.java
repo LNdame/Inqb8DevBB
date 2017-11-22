@@ -6,18 +6,24 @@ package cite.ansteph.beerly.api.columns;
 
 public interface PromotionColumns {
 
-  String  LOGID ="logid";
+  String  ID ="id";
     String          TITLE="title";
-    String  DATEON="dateOn";
-    String          DATEOFF="dateOff";
+    String  START_DATE="start_date";
+    String          END_DATE="end_date";
+
     String  TIMEON="timeOn";
     String          TIMEOFF="timeOff";
+
     String   STATUS="status";
-    String           LASTUPDATED="lastUpdated";
+    String           UPDATED_AT="updated_at";
     String   DATECREATED="dateCreated";
+
     String           PRICE="price";
-    String   ESTABLISMENT_EST_ID="Establisment_est_Id";
-    String           BEER_BEERID="Beer_beerID";
+    String   ESTABLISMENT_EST_ID="establishment_id";
+    String           BEER_BEERID="beer_id";
+
+
+
 
 
 

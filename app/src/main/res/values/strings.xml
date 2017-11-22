@@ -34,6 +34,9 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_ets_menu">EtsMenu</string>
 
+    <string name ="account_reg_welcome">Hi %1$s! We are super exited you are joining us. One last thing and you in (Promise). </string>
+
+
 
     <!-- Common -->
     <string name="fui_default_toolbar_title" translatable="false">@string/app_name</string>
@@ -135,6 +138,7 @@
     <string name="fui_continue_phone_login" translation_description="Button text to submit phone number and send sms">Continue</string>
     <string name="fui_sms_terms_of_service" translation_description="Fine print warning displayed below Verify Phone Number button">By tapping “%1$s”, an SMS may be sent. Message &amp; data rates may apply.</string>
     <string name="title_activity_registration">Registration</string>
+
 
 
     <!-- Auth UI -->
