@@ -22,6 +22,13 @@ public interface Routes {
     String URL_RETRIEVE_LOVER_PROFILE=DOMAIN+API_VERSION+ "get_beer_lover/%s"    ;
 
 
+    String URL_RETRIEVE_PROMO_EST=DOMAIN+API_VERSION+ "get_promotion/%s"    ;
+
+    String URL_RETRIEVE_PROMOTIONS=DOMAIN+API_VERSION+ "get_promotions"    ;
+
+    String URL_RETRIEVE_BEERS=DOMAIN+API_VERSION+ "get_beers"    ;
+    String URL_RETRIEVE_A_BEER=DOMAIN+API_VERSION+ "get_beer/%s"    ;
+
     /****************************************************---COMMON MESSAGE---*************************************************************/
 
     public static final String ERROR_RESPONSE= "error";

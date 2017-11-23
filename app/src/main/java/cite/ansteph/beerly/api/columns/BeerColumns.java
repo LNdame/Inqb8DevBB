@@ -6,15 +6,15 @@ package cite.ansteph.beerly.api.columns;
 
 public interface BeerColumns extends DataColumns {
 
-  String  BEERID = "beerID";
+  String  BEERID = "id";
     String NAME ="name";
-    String DESC ="desc";
+    String DESCRIPTION ="description";
     String VENDOR ="vendor";
     String PERCENTAGE ="percentage";
 
-    String DATECREATED ="dateCreated";
+    String CREATED_AT ="created_at";
     String STATUS ="status";
-    String LASTUPDATED ="lastUpdated";
+    String LASTUPDATED ="updated_at";
 
 
 

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    android:weightSum="3"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="cite.ansteph.beerly.view.beerlylover.Affiliate"
+    tools:showIn="@layout/activity_affiliate">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_padding_horizontal"
+        android:paddingRight="@dimen/activity_padding_horizontal"
+        android:paddingTop="@dimen/activity_padding_horizontal">
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="24dp"
+           android:fontFamily="sans-serif-light"
+            android:text="Have a free beer on us!" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Get a free or cash reward when you refer a friend to join  Beerly Beloved.
+" />
+        <TextView
+            android:id="@+id/txtHowdowork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:textSize="16dp"
+            android:fontFamily="sans-serif-light"
+            android:text="How Affiliate Program Work" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
+            android:background="@color/colorAccent"
+
+            app:diagonal_angle="6"
+            app:diagonal_direction="left"
+            app:diagonal_position="bottom">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_aff2" />
+
+
+
+        </cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout>
+
+        <cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
+            android:layout_alignParentBottom="true"
+            app:diagonal_angle="6"
+            app:diagonal_direction="right"
+            app:diagonal_position="top">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:scaleType="centerCrop"
+                android:src="@color/candidate_brown" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_aff1" />
+
+
+
+        </cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:padding="@dimen/activity_padding_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Your Invite Code" />
+
+        <RelativeLayout
+            android:background="@drawable/just_border"
+            android:layout_width="match_parent"
+           android:layout_marginTop="8dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="@color/textColorPrimary"
+                android:layout_marginTop="10dp"
+                android:textSize="20dp"
+                android:layout_marginStart="@dimen/activity_padding_horizontal"
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/txtinvitecode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="loicbeerlyaa123" />
+
+            <Button
+                android:id="@+id/btnCopyInvite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textColor="@color/colorAccent"
+                android:layout_alignParentRight="true"
+                android:text="Copy" />
+        </RelativeLayout>
+        <Button
+            android:id="@+id/btnSendInvite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/buttonbg"
+            android:elevation="15dp"
+            android:layout_marginTop="@dimen/activity_padding_horizontal"
+
+            android:text="Invite Friend" />
+    </LinearLayout>
+
+</LinearLayout>

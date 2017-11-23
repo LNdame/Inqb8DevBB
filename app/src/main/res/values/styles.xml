@@ -55,7 +55,6 @@
     </style>
 
 
-
     <!-- Common styles -->
     <style name="FirebaseUI.Button" parent="@style/Widget.AppCompat.Button.Colored">
         <item name="android:layout_width">wrap_content</item>

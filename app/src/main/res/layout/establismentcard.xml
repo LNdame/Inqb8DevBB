@@ -37,6 +37,7 @@
             android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="9sp"
             android:text="Pub" />
 
         <TextView
@@ -44,6 +45,7 @@
             android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="8sp"
             android:text="Somewhere in town" />
     </LinearLayout>
 

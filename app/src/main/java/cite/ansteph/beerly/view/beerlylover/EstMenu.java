@@ -16,10 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -69,7 +71,7 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
         Bundle bundle = getIntent().getExtras();
 
             if(bundle!=null){
-                mCurrentEstabliment = (Establishment)bundle.getSerializable("profile");
+                mCurrentEstabliment = (Establishment)bundle.getSerializable("Establishment");
                 setTitle(mCurrentEstabliment.getName() +"'s Promotions");
                 //setupUI(mCurrentEstabliment);
             }else{
@@ -124,13 +126,18 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        mPromotionsList = setupList();
+        mPromotionsList = new ArrayList<>();
 
 
         mPromoAdapter = new BeerMenuRecycleAdapter( mPromotionsList, this);
 
         recyclerView.setAdapter(mPromoAdapter);
 
+        try {
+            getPromoData(mCurrentEstabliment.getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -151,9 +158,9 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
 
 
 
-    private void getLoverProfileData(int id) throws JSONException
+    private void getPromoData(int est_id) throws JSONException
     {
-        String url = String.format(Routes.URL_RETRIEVE_LOVER_PROFILE,String.valueOf(id));
+        String url = String.format(Routes.URL_RETRIEVE_PROMOTIONS,String.valueOf(est_id));
 
        // Log.e(TAG , mUser.getUid());
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
@@ -181,6 +188,7 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
      //   txtDateCreated= (TextView) findViewById(R.id.txtDateCreated);
       //  txtPrefUpdate = (TextView) findViewById(R.id.txtPrefUpdate);
 
+        mPromotionsList.clear();
 
         for(int i = 0; i<profilejsonArray.length(); i++)
         {
@@ -197,9 +205,13 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
                 promo.setPrice (profjson.getDouble("price"));
                 promo.setStatus(profjson.getString("status"));
 
-                JSONObject beerJson = profjson.getJSONObject("beer");
+               // JSONObject beerJson = profjson.getJSONObject("beer");
 
                 Beer be = new Beer();
+                be.setId(promo.getBeer_id());
+                promo.setBeer(be);
+
+                mPromotionsList.add(promo);
 
             //    txtDisplayname .setText(lovers.getFirst_name() +" "+lovers.getLast_name());
             //    txtDateCreated.setText(lovers.getCreated_at());
@@ -213,57 +225,115 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
 
         mPromoAdapter.notifyDataSetChanged();
 
-
+        try {
+            getbeer(mPromotionsList.get(0).getBeer_id());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
 
 
 
+  private  void getbeer(int id)throws JSONException
+  {
+      String url = ""+String.format(Routes.URL_RETRIEVE_A_BEER,String.valueOf(id));
 
-    private Beer getBeer(int id) throws JSONException
+      StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+              new Response.Listener<String>() {
+                  @Override
+                  public void onResponse(String response) {
+                      try{
+                          JSONObject beerjson = new JSONObject(response);
+
+                          Beer beer = new Beer(beerjson.getInt("id"),
+                                  beerjson.getString("name"),
+                                  beerjson.getString("description"),
+                                  beerjson.getString("vendor"),
+                                  beerjson.getDouble("percentage")
+                          );
+
+                          mPromotionsList.get(0).setBeer(beer);
+                          mPromoAdapter.notifyDataSetChanged();
+
+                      }catch (JSONException e)
+                      {
+                          e.printStackTrace();
+                      }
+                  }
+              }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+
+          }
+      }){};
+      RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+      requestQueue.add(stringRequest);
+
+  }
+
+
+
+
+
+    private void getBeers(final ArrayList<Promotion> promotions) throws JSONException
     {
-        String url = String.format(Routes.URL_RETRIEVE_LOVER_PROFILE,String.valueOf(id));
-
-        final Beer[] beer = {null};
-        // Log.e(TAG , mUser.getUid());
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-
-                try{
-                    JSONObject beerjson = response.getJSONObject(0);
-
-                     beer[0] = new Beer(beerjson.getInt("id"),
-                            beerjson.getString("name"),
-                            beerjson.getString("description"),
-                            beerjson.getString("vendor"),
-                            beerjson.getDouble("percentage")
-
-
-                    );
-
-
-                }catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-        requestQueue.add(jsonArrayRequest);
+        if(promotions!= null && promotions.size()>0)
+        {
 
-        return beer[0];
+            for(int i  =0; i<promotions.size(); i++)
+            {
+
+                String url = String.format(Routes.URL_RETRIEVE_A_BEER,String.valueOf(promotions.get(i).getBeer_id()));
+                final int finalI = i;
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        try{
+                            JSONObject beerjson = response.getJSONObject(0);
+
+                           Beer beer = new Beer(beerjson.getInt("id"),
+                                    beerjson.getString("name"),
+                                    beerjson.getString("description"),
+                                    beerjson.getString("vendor"),
+                                    beerjson.getDouble("percentage")
+                            );
+
+                            promotions.get(finalI).setBeer(beer);
+
+                        }catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                requestQueue.add(jsonArrayRequest);
+            }
+
+
+            mPromotionsList.clear();
+            mPromotionsList = promotions;
+            mPromoAdapter.notifyDataSetChanged();
+
+
+        }
+
+
+
+
+
     }
 
 

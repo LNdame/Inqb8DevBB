@@ -24,8 +24,17 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,9 +43,12 @@ import java.util.HashMap;
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.adapter.BeerPrefRecyclerAdapter;
 import cite.ansteph.beerly.adapter.BeerRecyclerViewAdapter;
+import cite.ansteph.beerly.api.Routes;
+import cite.ansteph.beerly.api.columns.BeerColumns;
 import cite.ansteph.beerly.helper.RecyclerItemTouchHelper;
 import cite.ansteph.beerly.listener.RecyclerViewClickListener;
 import cite.ansteph.beerly.model.Beer;
+import cite.ansteph.beerly.model.Establishment;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
@@ -140,6 +152,12 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
 
         prefRecyclerView.setAdapter(mPrefBeerAdapter);
 
+        try {
+            getBeerData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         // adding item touch helper
         // only ItemTouchHelper.LEFT added to detect Right to Left swipe
         // if you want both Right -> Left and Left -> Right
@@ -195,6 +213,70 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
         // String duration, String task_date, String start, String end, String project, String description, String realduration, String task_break) {
         return  beers;
     }
+
+
+    private void getBeerData() throws JSONException
+    {
+        String url = String.format(Routes.URL_RETRIEVE_BEERS);
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                loadBeer(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        requestQueue.add(jsonArrayRequest);
+    }
+
+
+
+    private void loadBeer(JSONArray beerjsonArray)
+    {
+        ArrayList<Beer> beers = new ArrayList<>();
+      mBeersList.clear();
+        for(int i = 0; i<beerjsonArray.length(); i++)
+        {
+            try{
+                JSONObject itemjson = beerjsonArray.getJSONObject(i);
+
+                Beer br = new Beer();
+                br.setId(itemjson.getInt(BeerColumns.BEERID));
+                br.setName(itemjson.getString(BeerColumns.NAME));
+                br.setVendor(itemjson.getString(BeerColumns.VENDOR));
+                br.setDescription(itemjson.getString(BeerColumns.DESCRIPTION));
+                br.setPercentage(itemjson.getDouble(BeerColumns.PERCENTAGE));
+
+                // est.set(estjson.getString("hs_license"));
+                // est.setName(estjson.getString(""));
+
+                mBeersList.add(br);
+
+
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+
+       // mBeersList =beers;
+        mBeerAdapter.notifyDataSetChanged();
+
+        //initViewPager(establishments);
+        //initMarker(establishments);
+    }
+
+
 
 
 

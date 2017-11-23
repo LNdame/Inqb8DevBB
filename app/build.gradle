@@ -49,6 +49,9 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
         transitive = true;
     }
+
+    
+
     compile 'com.android.support:customtabs:26.+'
     compile 'com.android.support:recyclerview-v7:26.+'
     compile 'com.android.support:appcompat-v7:26.+'
@@ -66,9 +69,7 @@ dependencies {
     compile 'me.dm7.barcodescanner:zxing:1.9.8'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.android.gms:play-services-vision:11.4.2'
-// vision barcode scanner
     compile 'info.androidhive:barcode-reader:1.1.2'
-
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 }

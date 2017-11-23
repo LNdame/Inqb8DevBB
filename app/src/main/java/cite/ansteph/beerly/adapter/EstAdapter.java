@@ -78,7 +78,9 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
         holder.btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent( mContext, EstMenu.class));
+                Intent i = new Intent( mContext, EstMenu.class);
+                i.putExtra("Establishment", establishments.get(position) );
+                mContext.startActivity(i);
             }
         });
 

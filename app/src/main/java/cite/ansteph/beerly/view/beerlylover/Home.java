@@ -289,7 +289,7 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
             case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), LoverProfile.class);break;
             case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;
-            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Registration.class);break;
+            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Affiliate.class);break;
 
             default:
                 intent = new Intent(getApplicationContext(), Home.class);
@@ -359,8 +359,8 @@ protected  void initViewPager(ArrayList<Establishment> establishmentList){
     mRecyclerView.addOnPageChangedListener(new RecyclerViewPager.OnPageChangedListener() {
         @Override
         public void OnPageChanged(int oldPosition, int newPosition) {
-            Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition);
-            Toast.makeText(getApplicationContext(), " Position:" + mRecyclerView.getCurrentPosition(), Toast.LENGTH_LONG).show();
+           // Log.d("test", "oldPosition:" + oldPosition + " newPosition:" + newPosition);
+          //  Toast.makeText(getApplicationContext(), " Position:" + mRecyclerView.getCurrentPosition(), Toast.LENGTH_LONG).show();
 
             setMarkerIcon(mRecyclerView.getCurrentPosition());
         }

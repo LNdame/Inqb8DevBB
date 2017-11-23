@@ -88,7 +88,13 @@
                 android:value="cite.ansteph.beerly.view.beerlylover.Home" />
         </activity>
         <activity android:name=".view.beerlylover.discount.ScanActivity" />
-        <activity android:name=".view.beerlylover.discount.DiscountResult"></activity>
+        <activity android:name=".view.beerlylover.discount.DiscountResult" />
+        <activity
+            android:name=".view.beerlylover.Affiliate"
+            android:label="@string/title_activity_affiliate"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>
