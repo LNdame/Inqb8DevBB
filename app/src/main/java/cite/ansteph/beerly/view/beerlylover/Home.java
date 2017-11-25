@@ -1,6 +1,7 @@
 package cite.ansteph.beerly.view.beerlylover;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +49,7 @@ import java.util.Arrays;
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.adapter.EstAdapter;
 import cite.ansteph.beerly.api.Routes;
+import cite.ansteph.beerly.api.columns.EstablishmentColumns;
 import cite.ansteph.beerly.app.GlobalRetainer;
 import cite.ansteph.beerly.model.Establishment;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
@@ -60,6 +63,7 @@ import cite.ansteph.beerly.view.beerlylover.registration.Registration;
 
 public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener , OnMapReadyCallback {
 
+private  static String TAG = Home.class.getSimpleName();
 
     private String[] screenTitles;
     private Drawable[] screenIcons;
@@ -205,7 +209,6 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
             }
         });
 
-
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         requestQueue.add(jsonArrayRequest);
@@ -223,17 +226,17 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
               JSONObject estjson = estjsonArray.getJSONObject(i);
 
               Establishment est  = new Establishment();
-              est.setId(estjson.getInt("id"));
-              est.setName(estjson.getString("name"));
-              est.setAddress(estjson.getString("address"));
-              est.setLiqour_license(estjson.getString("liqour_license"));
-              est.setContact_person(estjson.getString("contact_person"));
-              est.setContact_number(estjson.getString("contact_number"));
-              est.setEstablishment_url(estjson.getString("establishment_url"));
-              est.setLatitude(estjson.getString("latitude"));
-              est.setLongitude(estjson.getString("longitude"));
+              est.setId(estjson.getInt(EstablishmentColumns.EST_ID));
+              est.setName(estjson.getString(EstablishmentColumns.NAME));
+              est.setAddress(estjson.getString(EstablishmentColumns.ADDRESS));
+              est.setLiqour_license(estjson.getString(EstablishmentColumns.LIQUORLICENCE));
+              est.setContact_person(estjson.getString(EstablishmentColumns.CONTACTPERSON));
+              est.setContact_number(estjson.getString(EstablishmentColumns.CONTACTNUMBER));
+              est.setEstablishment_url(estjson.getString(EstablishmentColumns.URL));
+              est.setLatitude(estjson.getString(EstablishmentColumns.LATITUDE));
+              est.setLongitude(estjson.getString(EstablishmentColumns.LONGITUDE));
 
-              est.setMain_picture_url(estjson.getString("main_picture_url"));
+              est.setMain_picture_url(estjson.getString(EstablishmentColumns.URLMAINPIC));
               est.setPicture_2_url(estjson.getString("picture_2"));
              // est.set(estjson.getString("hs_license"));
              // est.setName(estjson.getString(""));
@@ -250,7 +253,52 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
 
         initViewPager(establishments);
         initMarker(establishments);
+
+        try {
+            getPromoNumberData(establishments);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
+
+
+    private void getPromoNumberData(final ArrayList<Establishment> establishments) throws JSONException
+    {
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        for(int i =0; i<establishments.size(); i++){
+
+            String url = String.format(Routes.URL_RETRIEVE_PROMO_EST, establishments.get(i).getId());
+            final int finI = i;
+
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    //loadEstablishment(response);
+
+                    establishments.get(finI).setPromoNumber(response.length());
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+
+
+            requestQueue.add(jsonArrayRequest);
+        }
+
+
+        initViewPager(establishments);
+
+    }
+
+
+
+
+
 
 
     ArrayList<Establishment> setupList()
@@ -493,8 +541,19 @@ protected  void initViewPager(ArrayList<Establishment> establishmentList){
         mGoogleMap.getUiSettings().setZoomControlsEnabled(false);
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
 
+        try{
+            boolean success = mGoogleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(getApplicationContext(), R.raw.map_style)
+            );
+            if(!success){
+                Log.e(TAG,"Style parsing failed");
+            }
+        }catch (Resources.NotFoundException e){
+            Log.e(TAG,  "Can't find style. Error: ", e);
+        }
+
         LatLng pe = new LatLng(-33.9736, 25.5983);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pe,12.5f));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pe,10.9f));
 
        /* mPubMarker = new Marker[5];
 

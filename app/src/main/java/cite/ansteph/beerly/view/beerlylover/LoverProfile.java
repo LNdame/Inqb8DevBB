@@ -14,6 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ import java.util.Arrays;
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.adapter.BeerPrefRecyclerAdapter;
 import cite.ansteph.beerly.api.Routes;
+import cite.ansteph.beerly.api.columns.BeerLoversColumns;
 import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.model.BeerLovers;
 import cite.ansteph.beerly.model.Establishment;
@@ -64,6 +67,8 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
     TextView txtDisplayname, txtDateCreated, txtPrefUpdate ;
 
     FirebaseUser mUser;
+
+    BeerLovers mBeerLovers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,21 +254,29 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
                 JSONObject profjson = profilejsonArray.getJSONObject(i);
 
                 BeerLovers lovers= new BeerLovers();
-                lovers.setId(profjson.getInt("id"));
-                lovers.setFirst_name(profjson.getString("first_name"));
-                lovers.setLast_name(profjson.getString("last_name"));
-                lovers.setCreated_at(profjson.getString("created_at"));
-                lovers.setHome_city (profjson.getString("home_city"));
-                lovers.setGender(profjson.getString("gender"));
-                lovers.setFirebase_id(profjson.getString("firebase_id"));
-                lovers.setUsername(profjson.getString("username"));
-                lovers.setEmail(profjson.getString("email"));
+                lovers.setId(profjson.getInt(BeerLoversColumns.ID));
+                lovers.setFirst_name(profjson.getString(BeerLoversColumns.FIRST_NAME));
+                lovers.setLast_name(profjson.getString(BeerLoversColumns.LAST_NAME));
+                lovers.setDate_of_birth(profjson.getString(BeerLoversColumns.DATE_OF_BIRTH));
+                lovers.setCreated_at(profjson.getString(BeerLoversColumns.CREATED_AT));
+                lovers.setHome_city (profjson.getString(BeerLoversColumns.HOME_CITY));
+                lovers.setGender(profjson.getString(BeerLoversColumns.GENDER));
+                lovers.setFirebase_id(profjson.getString(BeerLoversColumns.FIREBASE_ID));
+                lovers.setUsername(profjson.getString(BeerLoversColumns.USERNAME));
+                lovers.setReferralCode(profjson.getString(BeerLoversColumns.REFERRAL_CODE));
+                lovers.setShot(profjson.getInt(BeerLoversColumns.SHOT));
+                lovers.setShotType(profjson.getString(BeerLoversColumns.SHOT_TYPE));
+                lovers.setCocktail(profjson.getInt(BeerLoversColumns.COCKTAIL));
+                lovers.setCocktailType(profjson.getString(BeerLoversColumns.COCKTAIL_TYPE));
+               // lovers.setEmail(profjson.getString(BeerLoversColumns.EMAIL));
                 // est.set(estjson.getString("hs_license"));
                 // est.setName(estjson.getString(""));
 
 
                 txtDisplayname .setText(lovers.getFirst_name() +" "+lovers.getLast_name());
                 txtDateCreated.setText(lovers.getCreated_at());
+
+                mBeerLovers = lovers;
 
             }
             catch (JSONException e)
@@ -277,5 +290,48 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
 
     }
 
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.lover_profile_menu, menu);
+
+        return true;
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==R.id.action_edit_profile){
+            Intent i = new Intent( getApplicationContext(), EditLoverProfile.class);
+            i.putExtra("lover", mBeerLovers );
+            startActivity(i);
+        }
+
+       /* //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            //  return true;
+            Intent i = new Intent(getApplicationContext(), ActionList.class);
+            startActivity(i);
+        }
+
+
+        if (id == R.id.action_logout) {
+            sessionManager.logoutUser();
+        }
+        if (id == R.id.action_profile) {
+            Intent i = new Intent(getApplicationContext(), EditProfile.class);
+            startActivity(i);
+        }*/
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }

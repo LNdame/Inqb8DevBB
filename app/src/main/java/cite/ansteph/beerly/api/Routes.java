@@ -19,7 +19,9 @@ public interface Routes {
     String URL_REGISTER_BEERLOVERS = DOMAIN+API_VERSION+"store_beer_lover";
     String URL_RETRIEVE_EST=DOMAIN+API_VERSION+ "get_establishments"    ;//     DOMAIN+CA_VERSION+"register_candidate";
 
-    String URL_RETRIEVE_LOVER_PROFILE=DOMAIN+API_VERSION+ "get_beer_lover/%s"    ;
+    String URL_RETRIEVE_LOVER_PROFILE=DOMAIN+API_VERSION+ "get_beer_lover/%s" ;
+
+    String URL_UPDATE_LOVER_PROFILE=DOMAIN+API_VERSION+ "edit_beer_lover/%s" ;
 
 
     String URL_RETRIEVE_PROMO_EST=DOMAIN+API_VERSION+ "get_promotion/%s"    ;

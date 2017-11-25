@@ -92,8 +92,15 @@
         <activity
             android:name=".view.beerlylover.Affiliate"
             android:label="@string/title_activity_affiliate"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".view.beerlylover.EditLoverProfile"
+            android:label="@string/title_activity_edit_lover_profile"
+            android:parentActivityName=".view.beerlylover.LoverProfile"
             android:theme="@style/AppTheme.NoActionBar">
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cite.ansteph.beerly.view.beerlylover.LoverProfile" />
         </activity>
     </application>
 

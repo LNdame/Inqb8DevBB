@@ -22,8 +22,12 @@ public class Establishment implements Serializable {
     String main_picture_url, picture_2_url, picture_3_url;
 
 
+    ///extra criteria
+    int promoNumber ;
+
 
     public Establishment() {
+        promoNumber =0;
     }
 
 
@@ -33,6 +37,7 @@ public class Establishment implements Serializable {
         this.address = address;
         this.logo = logo;
         this.establType = establType;
+       promoNumber =0;
     }
 
 
@@ -40,11 +45,13 @@ public class Establishment implements Serializable {
         this.id = id;
         this.name = name;
         this.address = address;
+        promoNumber =0;
     }
 
     public Establishment(String name, String address) {
         this.name = name;
         this.address = address;
+       promoNumber =0;
     }
 
 
@@ -175,5 +182,13 @@ public class Establishment implements Serializable {
 
     public void setPicture_3_url(String picture_3_url) {
         this.picture_3_url = picture_3_url;
+    }
+
+    public int getPromoNumber() {
+        return promoNumber;
+    }
+
+    public void setPromoNumber(int promoNumber) {
+        this.promoNumber = promoNumber;
     }
 }

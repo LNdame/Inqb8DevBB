@@ -75,7 +75,8 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
         holder.txtName.setText(establishments.get(position).getName());
         holder.txtAddress.setText(establishments.get(position).getAddress());
 
-        holder.btnMenu.setOnClickListener(new View.OnClickListener() {
+        holder.btnPromotion.setText("PROMOTION (" + establishments.get(position).getPromoNumber()+ ")");
+        holder.btnPromotion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent( mContext, EstMenu.class);
@@ -111,7 +112,7 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
     public final ImageView estLogo;
 
     public final Button btnProfile;
-    public final Button btnMenu;
+    public final Button btnPromotion;
 
 
     public EstablishmentViewHolder(View itemView) {
@@ -123,7 +124,7 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
 
         this.estLogo = (ImageView) itemView.findViewById(R.id.imgLogo);
         this.btnProfile = (Button) itemView.findViewById(R.id.btnProfile);
-        this.btnMenu = (Button) itemView.findViewById(R.id.btnMenu);
+        this.btnPromotion = (Button) itemView.findViewById(R.id.btnMenu);
 
 
     }

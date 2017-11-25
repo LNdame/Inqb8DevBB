@@ -47,6 +47,7 @@ public class Profile extends AppCompatActivity implements DrawerAdapter.OnItemSe
 
     Establishment mCurrentEstabliment;
 
+    Menu mMenu;
 
     KenBurnsView mProfilePic;
     @Override
@@ -215,11 +216,24 @@ public class Profile extends AppCompatActivity implements DrawerAdapter.OnItemSe
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.profile_menu, menu);
 
-
+        this.mMenu = menu;
         return true;
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+       //
+        MenuItem promoItem = menu.findItem(R.id.action_promotion);
+        promoItem.setTitle("PROMO (" +mCurrentEstabliment.getPromoNumber()+")");
+        return true;// super.onPrepareOptionsMenu(menu);
+    }
 
+    private void updatePromoMenuItem()
+    {
+        MenuItem promoItem = mMenu.findItem(R.id.action_promotion);
+        promoItem.setTitle("PROMO (" +mCurrentEstabliment.getPromoNumber()+")");
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -227,6 +241,12 @@ public class Profile extends AppCompatActivity implements DrawerAdapter.OnItemSe
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        if(id==R.id.action_promotion){
+            Intent i = new Intent( getApplicationContext(), EstMenu.class);
+            i.putExtra("Establishment", mCurrentEstabliment );
+         startActivity(i);
+        }
 
        /* //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {

@@ -36,6 +36,7 @@ import java.util.Arrays;
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.adapter.BeerMenuRecycleAdapter;
 import cite.ansteph.beerly.api.Routes;
+import cite.ansteph.beerly.api.columns.PromotionColumns;
 import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.model.Establishment;
 import cite.ansteph.beerly.model.Promotion;
@@ -160,7 +161,7 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
 
     private void getPromoData(int est_id) throws JSONException
     {
-        String url = String.format(Routes.URL_RETRIEVE_PROMOTIONS,String.valueOf(est_id));
+        String url = String.format(Routes.URL_RETRIEVE_PROMO_EST,String.valueOf(est_id));
 
        // Log.e(TAG , mUser.getUid());
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
@@ -196,19 +197,20 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
                 JSONObject profjson = profilejsonArray.getJSONObject(i);
 
                 Promotion promo= new Promotion();
-                promo.setId(profjson.getInt("id"));
-                promo.setEstablishment_id(profjson.getInt("establishment_id"));
-                promo.setBeer_id(profjson.getInt("beer_id"));
-                promo.setTitle(profjson.getString("title"));
-                promo.setStart_date(profjson.getString("start_date"));
-                promo.setEnd_date(profjson.getString("end_date"));
-                promo.setPrice (profjson.getDouble("price"));
-                promo.setStatus(profjson.getString("status"));
+                promo.setId(profjson.getInt(PromotionColumns.ID));
+                promo.setEstablishment_id(profjson.getInt(PromotionColumns.ESTABLISMENT_EST_ID));
+                promo.setBeer_id(profjson.getInt(PromotionColumns.BEER_BEERID));
+                promo.setTitle(profjson.getString(PromotionColumns.TITLE));
+                promo.setStart_date(profjson.getString(PromotionColumns.START_DATE));
+                promo.setEnd_date(profjson.getString(PromotionColumns.END_DATE));
+                promo.setPrice (profjson.getDouble(PromotionColumns.PRICE));
+                promo.setStatus(profjson.getString(PromotionColumns.STATUS));
 
                // JSONObject beerJson = profjson.getJSONObject("beer");
 
                 Beer be = new Beer();
                 be.setId(promo.getBeer_id());
+                be.setName(profjson.getString(PromotionColumns.BEER_NAME));
                 promo.setBeer(be);
 
                 mPromotionsList.add(promo);
@@ -225,11 +227,11 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
 
         mPromoAdapter.notifyDataSetChanged();
 
-        try {
-            getbeer(mPromotionsList.get(0).getBeer_id());
+       /* try {
+            getBeers(mPromotionsList);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 
@@ -304,7 +306,7 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
                                     beerjson.getDouble("percentage")
                             );
 
-                            promotions.get(finalI).setBeer(beer);
+                            mPromotionsList.get(finalI).setBeer(beer);
 
                         }catch (JSONException e)
                         {
@@ -323,8 +325,8 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
             }
 
 
-            mPromotionsList.clear();
-            mPromotionsList = promotions;
+           // mPromotionsList.clear();
+           // mPromotionsList = promotions;
             mPromoAdapter.notifyDataSetChanged();
 
 

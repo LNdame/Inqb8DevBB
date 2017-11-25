@@ -313,6 +313,7 @@
 
     </string-array>
     <string name="title_activity_affiliate">Affiliate</string>
+    <string name="title_activity_edit_lover_profile">Edit Profile</string>
 
 
 </resources>

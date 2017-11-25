@@ -18,6 +18,10 @@ public interface PromotionColumns {
     String           UPDATED_AT="updated_at";
     String   DATECREATED="dateCreated";
 
+  String   BEER_NAME="beer_name";
+
+  String   ESTABLISHMENT_NAME="establishment_name";
+
     String           PRICE="price";
     String   ESTABLISMENT_EST_ID="establishment_id";
     String           BEER_BEERID="beer_id";

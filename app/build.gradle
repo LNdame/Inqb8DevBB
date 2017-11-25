@@ -50,7 +50,7 @@ dependencies {
         transitive = true;
     }
 
-    
+
 
     compile 'com.android.support:customtabs:26.+'
     compile 'com.android.support:recyclerview-v7:26.+'

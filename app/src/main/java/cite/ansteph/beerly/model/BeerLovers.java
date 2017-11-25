@@ -1,10 +1,12 @@
 package cite.ansteph.beerly.model;
 
+import java.io.Serializable;
+
 /**
  * Created by loicstephan on 2017/10/19.
  */
 
-public class BeerLovers {
+public class BeerLovers implements Serializable {
 
 
 
@@ -13,6 +15,15 @@ public class BeerLovers {
     String status, date_of_birth,gender,home_city,firebase_id, first_name,last_name,username,email;
 
     String created_at;
+
+    /**
+     * research criteria*/
+
+    int shot, cocktail ;
+    String shotType, cocktailType, referralCode;
+
+
+
 
     public BeerLovers() {
     }
@@ -153,5 +164,46 @@ public class BeerLovers {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+
+    public int getShot() {
+        return shot;
+    }
+
+    public void setShot(int shot) {
+        this.shot = shot;
+    }
+
+    public int getCocktail() {
+        return cocktail;
+    }
+
+    public void setCocktail(int cocktail) {
+        this.cocktail = cocktail;
+    }
+
+    public String getShotType() {
+        return shotType;
+    }
+
+    public void setShotType(String shotType) {
+        this.shotType = shotType;
+    }
+
+    public String getCocktailType() {
+        return cocktailType;
+    }
+
+    public void setCocktailType(String cocktailType) {
+        this.cocktailType = cocktailType;
+    }
+
+    public String getReferralCode() {
+        return referralCode;
+    }
+
+    public void setReferralCode(String referralCode) {
+        this.referralCode = referralCode;
     }
 }
