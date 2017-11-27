@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="130dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:elevation="8dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimaryLight"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
+
+
+
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/txtdisEstablishment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="20dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColor="@color/textColorPrimary"
+            android:text="TextView" />
+        <TextView
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:id="@+id/txtbrprStartdate"
+            android:textSize="16dp"
+            android:elevation="16dp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="sans-serif-light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Time until" />
+
+
+    </LinearLayout>
+
+    <cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="10dp"
+        android:elevation="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        app:diagonal_angle="13"
+        app:diagonal_direction="right"
+        app:diagonal_position="top">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:id="@+id/txtdiscTime"
+            android:layout_marginEnd="16dp"
+            android:textSize="18dp"
+            android:fontFamily="sans-serif"
+            android:text="12:00:00"
+            android:textColor="@android:color/white" />
+
+    </cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout>
+
+</RelativeLayout>

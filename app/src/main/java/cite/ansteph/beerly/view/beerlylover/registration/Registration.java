@@ -65,10 +65,19 @@ public class Registration extends AppCompatActivity {
 
         sessionManager = new SessionManager(getApplicationContext());
 
-        if(sessionManager.hasRegistered())
+
+        //
+
+        String recordedFbId = sessionManager.getFirebaseID();
+
+        if(recordedFbId!=null)
         {
-            //make
+            if(recordedFbId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+               sessionManager.checkRegPart2();
+            }
         }
+
+
 
         setContentView(R.layout.activity_registration);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -196,6 +205,7 @@ public class Registration extends AppCompatActivity {
                 try{
                     //creating the Json object from the response
                     JSONObject jsonResponse = new JSONObject(response);
+                    sessionManager.recordRegistration(mFirebaseUID);
 
                     startActivity(new Intent(getApplicationContext(), Home.class));
                   /*  boolean error = jsonResponse.getBoolean(Routes.ERROR_RESPONSE);

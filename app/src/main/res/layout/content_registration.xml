@@ -97,7 +97,7 @@
                 android:maxLines="1"
                 android:clickable="true"
                 android:enabled="true"
-                android:focusable="false"
+
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
@@ -138,7 +138,7 @@
                 android:maxLines="1"
                 android:clickable="true"
                 android:enabled="true"
-                android:focusable="false"
+
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>

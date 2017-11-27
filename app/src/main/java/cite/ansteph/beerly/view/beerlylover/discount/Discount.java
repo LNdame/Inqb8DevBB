@@ -10,6 +10,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
@@ -17,7 +19,12 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 
+import java.util.ArrayList;
+
 import cite.ansteph.beerly.R;
+import cite.ansteph.beerly.adapter.DiscountRecyclerAdapter;
+import cite.ansteph.beerly.model.DiscountM;
+import cite.ansteph.beerly.model.Promotion;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class Discount extends AppCompatActivity implements ZXingScannerView.ResultHandler {
@@ -28,6 +35,14 @@ public class Discount extends AppCompatActivity implements ZXingScannerView.Resu
 
     private ZXingScannerView mScannerView;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
+
+    RecyclerView recyclerView;
+
+    ArrayList<DiscountM> mDiscountsList ;
+
+    DiscountRecyclerAdapter mDiscountAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +74,35 @@ public class Discount extends AppCompatActivity implements ZXingScannerView.Resu
             }
         });
 
+        findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Discount.this, ScanActivity.class));
+            }
+        });
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        mDiscountsList = new ArrayList<>();
+
+
+        mDiscountAdapter = new DiscountRecyclerAdapter( mDiscountsList, this);
+
+        recyclerView.setAdapter(mDiscountAdapter);
+
+        setupList();
     }
 
 
 
 
+    void setupList()
+    {
+        mDiscountsList.add(new DiscountM("BeerShack", "12:00:00"));
+        mDiscountsList.add(new DiscountM("WhiteTiger", "12:00:00"));
+
+        mDiscountAdapter.notifyDataSetChanged();
+    }
 
 
 

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -24,6 +25,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
@@ -48,8 +51,11 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
+import cite.ansteph.beerly.utils.DateTimeUtils;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
+import cite.ansteph.beerly.view.beerlylover.registration.Login;
 import cite.ansteph.beerly.view.beerlylover.registration.Registration;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
     private String[] screenTitles;
@@ -65,10 +71,12 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
     BeerPrefRecyclerAdapter mPrefBeerAdapter;
 
     TextView txtDisplayname, txtDateCreated, txtPrefUpdate ;
-
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
     FirebaseUser mUser;
 
     BeerLovers mBeerLovers;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +86,7 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
         setSupportActionBar(toolbar);
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-
+        mAuth = FirebaseAuth.getInstance();
         slidingRootNav = new SlidingRootNavBuilder(this)
                 .withToolbarMenuToggle(toolbar)
                 .withMenuOpened(false)
@@ -130,11 +138,43 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
         prefRecyclerView.setAdapter(mPrefBeerAdapter);
 
 
+
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                // FirebaseUser user = firebaseAuth.getCurrentUser();
+                mUser = firebaseAuth.getCurrentUser();
+
+                if(mUser!=null)
+                {
+                    //User is signed in
+                    // Log.d(TAG, "onAuthStateChanged:signed_in" + user.getUid());
+                }else{
+                    // Log.d(TAG, "onAuthStateChanged:signed_out");
+
+                    startActivity(new Intent(getApplicationContext(), Login.class));
+                   /* startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setIsSmartLockEnabled(true)
+                                    .setProviders(AuthUI.EMAIL_PROVIDER,
+                                            AuthUI.GOOGLE_PROVIDER  )
+                                    .build(),
+                            RC_SIGN_IN);*/
+                }
+
+            }
+        };
+
+
+
         try {
             getLoverProfileData();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        populateProfilePic();
     }
 
 
@@ -173,6 +213,11 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
         return icons;
     }
 
+    private void signOut() {
+        mAuth.signOut();
+        //updateUI(null);
+    }
+
     @ColorInt
     private int color(@ColorRes int res) {
         return ContextCompat.getColor(this, res);
@@ -191,7 +236,8 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
     @Override
     public void onItemSelected(int position) {
         if (position == MenuPosition.POS_LOGOUT) {
-            finish();
+            signOut();
+            //finish();
         }
         slidingRootNav.closeMenu();
 
@@ -274,7 +320,10 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
 
 
                 txtDisplayname .setText(lovers.getFirst_name() +" "+lovers.getLast_name());
-                txtDateCreated.setText(lovers.getCreated_at());
+
+                String joined = DateTimeUtils.datetoStringShort(lovers.getCreated_at());
+
+                txtDateCreated.setText(joined);
 
                 mBeerLovers = lovers;
 
@@ -333,5 +382,60 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
 
         return super.onOptionsItemSelected(item);
     }
+
+
+     void populateProfilePic()
+     {
+         CircleImageView img = (CircleImageView) findViewById(R.id.avatar);
+
+         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+         if (user.getPhotoUrl() != null) {
+             //GlideApp.with(this).load(user.getPhotoUrl()).fitCenter().into(mUserProfilePicture);
+
+             Glide.with(getApplicationContext()).load(user.getPhotoUrl()).fitCenter()
+                     .into(img);
+         }
+     }
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mAuthStateListener!=null)
+            mAuth.removeAuthStateListener(mAuthStateListener);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if(mAuthStateListener!=null)
+            mAuth.removeAuthStateListener(mAuthStateListener);
+
+    }
+
+
+
+
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mAuth.addAuthStateListener(mAuthStateListener);
+
+    }
+
 
 }

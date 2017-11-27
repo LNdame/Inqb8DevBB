@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
+
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="40dp"
@@ -48,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="150dp"
         android:background="@android:color/transparent"
         android:foreground="?attr/selectableItemBackground"
         android:paddingLeft="20dp"
@@ -57,6 +58,15 @@
         android:text="Scan QR Code"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/selectionlyt"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+    </android.support.v7.widget.RecyclerView>
 
 
 

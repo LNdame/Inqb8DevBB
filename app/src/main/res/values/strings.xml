@@ -1,8 +1,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">Beerly</string>
+    <string name="app_name">Beerly Beloved</string>
     <string name="account_balance">Beerly Beloved</string>
-    <string name="balance_currency">R</string>
-    <string name="balance_amount">HI Marcus!</string>
+    <string name="balance_currency">BL</string>
+    <string name="balance_amount">Hi Beerly Lover!</string>
     <string name="title_activity_home">Home</string>
 
     <string-array name="ld_activityScreenTitles">
@@ -220,6 +220,8 @@
     <string name="title_activity_login">Login</string>
     <string name="delete">DELETE</string>
     <string name="title_activity_discount">Discount</string>
+
+    <string name="discount_on" translatable="false">You now have a 12 hours discount activated at %1$s</string>
 
 
     <string-array name="gender">

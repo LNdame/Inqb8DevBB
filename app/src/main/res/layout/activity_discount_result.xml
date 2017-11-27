@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@drawable/bg_gradient"
+    android:padding="@dimen/activity_padding_horizontal"
+    android:background="@color/colorPrimaryLightLight"
     tools:context="cite.ansteph.beerly.view.beerlylover.discount.DiscountResult">
 
     <ImageView
@@ -14,16 +15,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        app:srcCompat="@drawable/beercling" />
+        app:srcCompat="@drawable/icon" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/txtdiscountmsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#3e3e3e"
+        android:textSize="25sp"
 
-        android:text="May your glass be forever full" />
+        android:text="@string/discount_on" />
 
     <TextView
         android:id="@+id/textView4"
@@ -31,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
 
         android:text="Discount activated" />
 
@@ -41,6 +47,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-
+        android:layout_marginTop="10dp"
         android:text="Discount activated" />
 </LinearLayout>

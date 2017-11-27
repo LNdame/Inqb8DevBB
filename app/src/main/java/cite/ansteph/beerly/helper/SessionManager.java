@@ -41,6 +41,7 @@ public class SessionManager {
     private static final String KEY_HAS_REGISTERED= "hasRegistered";
 
 
+
     public static final String KEY_FIREBASEUUID = "firebaseuuid";
     public static final String KEY_GENDER = "gender";
     public static final String KEY_DOB = "DOB";
@@ -56,7 +57,7 @@ public class SessionManager {
     public static  final String KEY_BEER_PREF1 ="beer_pref1";
     public static  final String KEY_BEER_PREF2 ="beer_pref2";
     public static  final String KEY_BEER_PREF3 ="beer_pref3";
-
+    private static final String KEY_HAS_SAVED_PREF= "hasSavedPref";
 
     //contructor
 
@@ -88,11 +89,24 @@ public class SessionManager {
         editor.commit();
     }
 
-    public void recordRegistration()
+    public void recordRegistration(String id)
     {
         editor.putBoolean(KEY_HAS_REGISTERED, true);
+        editor.putString(KEY_FIREBASEUUID, id);
+
+        editor.commit();
     }
 
+
+    public void recordPreference(int beerid1, int beerid2,int beerid3)
+    {
+        editor.putBoolean(KEY_HAS_SAVED_PREF, true);
+        editor.putInt(KEY_BEER_PREF1, beerid1);
+        editor.putInt(KEY_BEER_PREF2, beerid2);
+        editor.putInt(KEY_BEER_PREF3, beerid3);
+
+        editor.commit();
+    }
     /**
      * Clear session details
      *
@@ -223,6 +237,10 @@ public class SessionManager {
         return preferences.getBoolean(KEY_IS_LOGGED_IN,false);
     }
 
+    public String getFirebaseID()
+    {
+        return preferences.getString(KEY_FIREBASEUUID,null);
+    }
 
     // Get Login State
     public boolean hasRegistered() {

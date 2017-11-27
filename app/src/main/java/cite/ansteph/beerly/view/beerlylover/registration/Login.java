@@ -210,7 +210,7 @@ public class Login extends AppCompatActivity {
         startActivityForResult(
                 AuthUI.getInstance().createSignInIntentBuilder()
                         .setTheme( R.style.LoginTheme)
-                        .setLogo(R.drawable.ic_googleg_color_144dp)
+                        .setLogo(R.drawable.beerly)
                         .setAvailableProviders(selectedProviders)
                         .setTosUrl(FIREBASE_TOS_URL)
                         .setPrivacyPolicyUrl(FIREBASE_PRIVACY_POLICY_URL)
@@ -229,8 +229,8 @@ public class Login extends AppCompatActivity {
     public void signIn(View view) {
         startActivityForResult(
                 AuthUI.getInstance().createSignInIntentBuilder()
-                        .setTheme( R.style.PurpleTheme)
-                        .setLogo(R.drawable.ic_googleg_color_144dp)
+                        .setTheme( R.style.LoginTheme)
+                        .setLogo(R.drawable.beerly)
                         .setAvailableProviders(getSelectedProviders())
                         .setTosUrl(FIREBASE_TOS_URL)
                         .setPrivacyPolicyUrl(getSelectedPrivacyPolicyUrl())

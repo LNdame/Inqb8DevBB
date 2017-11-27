@@ -1,9 +1,13 @@
 package cite.ansteph.beerly.view.beerlylover;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.design.widget.FloatingActionButton;
@@ -14,10 +18,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
+import java.io.File;
 import java.util.Arrays;
 
 import cite.ansteph.beerly.R;
@@ -26,6 +32,7 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
+import cite.ansteph.beerly.utils.RandomStringUtils;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
 import cite.ansteph.beerly.view.beerlylover.registration.Registration;
 
@@ -33,6 +40,9 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
     private String[] screenTitles;
     private Drawable[] screenIcons;
     private SlidingRootNav slidingRootNav;
+
+    TextView txtAffiliateCode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +94,65 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        txtAffiliateCode = (TextView) findViewById(R.id.txtinvitecode);
+
+        createCode();
+
+
 
     }
 
 
 
+    void createCode()
+    {
+        RandomStringUtils randomStringUtils = new RandomStringUtils(5);
+
+        String code = "Loic-beerly-"+randomStringUtils.nextString();
+        txtAffiliateCode.setText(code.toLowerCase());
+    }
+
+
+
+  public   void onCopyClicked(View view)
+    {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("code",txtAffiliateCode.getText().toString());
+        clipboard.setPrimaryClip(clip);
+
+        Snackbar.make(view, "Invitation code copied", Snackbar.LENGTH_LONG)
+                .setAction(txtAffiliateCode.getText().toString(), null).show();
+    }
+
+
+    public void SendInvite (){
+
+
+        try{
+            String email =" ";
+            String subject = "Beerly Beloved Invite";
+            String msg ="You have been invited to Beerly Beloved when registering please use the referral code: "
+                    +txtAffiliateCode.getText().toString();
+
+
+
+
+
+            final Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("plain/text");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+
+
+            emailIntent.putExtra(Intent.EXTRA_TEXT, msg);
+            startActivity(Intent.createChooser(emailIntent, "Sending Invite..."));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+    }
 
 
 

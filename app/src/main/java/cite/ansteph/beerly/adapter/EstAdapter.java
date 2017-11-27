@@ -75,7 +75,9 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
         holder.txtName.setText(establishments.get(position).getName());
         holder.txtAddress.setText(establishments.get(position).getAddress());
 
-        holder.btnPromotion.setText("PROMOTION (" + establishments.get(position).getPromoNumber()+ ")");
+       // holder.btnPromotion.setText("PROMOTION (" + establishments.get(position).getPromoNumber()+ ")");
+
+        holder.btnPromotion.setText("PROMOTION");
         holder.btnPromotion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
