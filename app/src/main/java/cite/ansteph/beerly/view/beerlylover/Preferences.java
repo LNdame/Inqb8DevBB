@@ -18,17 +18,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
@@ -39,12 +45,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.adapter.BeerPrefRecyclerAdapter;
 import cite.ansteph.beerly.adapter.BeerRecyclerViewAdapter;
 import cite.ansteph.beerly.api.Routes;
 import cite.ansteph.beerly.api.columns.BeerColumns;
+import cite.ansteph.beerly.api.columns.BeerLoversColumns;
+import cite.ansteph.beerly.api.columns.PreferenceColumns;
+import cite.ansteph.beerly.api.columns.UserColumns;
 import cite.ansteph.beerly.helper.RecyclerItemTouchHelper;
 import cite.ansteph.beerly.listener.RecyclerViewClickListener;
 import cite.ansteph.beerly.model.Beer;
@@ -154,6 +164,13 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
 
         try {
             getBeerData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            getBeerPreferenceData();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -360,6 +377,26 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id==R.id.action_savepref)
+        {
+
+            if(mPrefCount>=3){
+
+                try {
+                    storePreferences();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }else{
+                String msg = "You still have less than 3 preferences. Please select "+(3- mPrefCount)+" more";
+
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+            }
+
+
+        }
+
        /* //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             //  return true;
@@ -448,6 +485,140 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
 
         }
     }
+
+
+    public void storePreferences() throws JSONException {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        if(mBeersPrefList!=null && mBeersPrefList.size()>0)
+        {
+            for(int i =0; i<mBeersPrefList.size();i++)
+            {
+
+                final String fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                final String beerID = String.valueOf(mBeersPrefList.get(i).getId()) ;
+                final String preference_number  = String.valueOf(i+1);
+
+                String url = String.format(Routes.URL_STORE_PREFERENCES);
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //  loading.dismiss();
+
+                        try{
+                            //creating the Json object from the response
+                            JSONObject jsonResponse = new JSONObject(response);
+                          //  sessionManager.recordRegistration(mFirebaseUID);
+
+                            startActivity(new Intent(getApplicationContext(), Home.class));
+
+
+                        }catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //   loading.dismiss();
+                        Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                ){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+
+                        params.put(PreferenceColumns.PREFERENCE_NUMBER, preference_number);
+                        params.put(PreferenceColumns.BEER_ID, beerID);
+                        params.put(PreferenceColumns.FIREBASE_ID, fireID);
+
+
+                        return params;
+                    }
+                };
+
+
+                //  GlobalRetainer.getInstance().addToRequestQueue();
+
+                requestQueue.add(stringRequest);
+
+
+            }
+
+        }
+
+
+
+
+
+    }
+
+
+    private void getBeerPreferenceData() throws JSONException
+    {
+
+        final String fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String url = String.format(Routes.URL_RETRIEVE_BEER_PREFERENCES,fireID);
+
+       // Log.e(TAG , mUser.getUid());
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                loadPreferences(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        requestQueue.add(jsonArrayRequest);
+    }
+
+
+    private void loadPreferences(JSONArray prefjsonArray)
+    {
+        for(int i = 0; i<prefjsonArray.length(); i++)
+        {
+            try{
+                JSONObject prefjson = prefjsonArray.getJSONObject(i);
+
+                Beer beer = new Beer();
+                beer.setId(prefjson.getInt(PreferenceColumns.BEER_ID));
+                beer.setName(prefjson.getString(PreferenceColumns.BEER_NAME));
+                beer.setVendor(prefjson.getString(PreferenceColumns.BEER_VENDOR));
+
+                mBeersPrefList.add(beer);
+                mPrefCount++;
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        String ct = "(" +(3-mPrefCount)+" more)";
+        txtPrefCount.setText(ct);
+
+        mPrefBeerAdapter.notifyDataSetChanged();
+
+    }
+
+
+
+
+
 }
 
 

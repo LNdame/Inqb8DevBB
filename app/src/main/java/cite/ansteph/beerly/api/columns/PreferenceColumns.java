@@ -6,10 +6,15 @@ package cite.ansteph.beerly.api.columns;
 
 public interface PreferenceColumns {
 
-      String      LOGID ="Logid";
-              String PREFERENCENUMBER ="preferenceNumber";
-    String         STATUS ="status";
+      String      ID ="id";
+    String FIREBASE_ID = "firebase_id";
+    String BEER_NAME = "name";
+    String BEER_VENDOR = "vendor";
+
+    String PREFERENCE_NUMBER ="preference_number";
+    String STATUS ="status";
     String LASTUPDATED ="lastUpdated";
-    String        BEERLOVERS_UUID ="BeerLovers_uuid";
+    String BEER_ID = "beer_id";
+    String        BEERLOVERS_UUID ="beer_lover_id";
 
 }

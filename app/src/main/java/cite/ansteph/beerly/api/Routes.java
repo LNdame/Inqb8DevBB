@@ -31,6 +31,13 @@ public interface Routes {
     String URL_RETRIEVE_BEERS=DOMAIN+API_VERSION+ "get_beers"    ;
     String URL_RETRIEVE_A_BEER=DOMAIN+API_VERSION+ "get_beer/%s"    ;
 
+    ///Preferences
+
+    String URL_STORE_PREFERENCES = DOMAIN+API_VERSION+"store_preference";
+
+    String URL_RETRIEVE_BEER_PREFERENCES=DOMAIN+API_VERSION+ "get_preferences/%s" ;
+
+
     /****************************************************---COMMON MESSAGE---*************************************************************/
 
     public static final String ERROR_RESPONSE= "error";

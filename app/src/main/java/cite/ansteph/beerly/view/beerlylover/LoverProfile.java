@@ -43,6 +43,7 @@ import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.adapter.BeerPrefRecyclerAdapter;
 import cite.ansteph.beerly.api.Routes;
 import cite.ansteph.beerly.api.columns.BeerLoversColumns;
+import cite.ansteph.beerly.api.columns.PreferenceColumns;
 import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.model.BeerLovers;
 import cite.ansteph.beerly.model.Establishment;
@@ -130,7 +131,7 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
 
         prefRecyclerView = (RecyclerView) findViewById(R.id.prefrecyclerview);
         mBeersPrefList = new ArrayList<>();
-        mBeersPrefList= setupList();
+      //  mBeersPrefList= setupList();
         prefRecyclerView.setLayoutManager(mLayoutManager);
 
         mPrefBeerAdapter = new BeerPrefRecyclerAdapter(mBeersPrefList, this);
@@ -175,6 +176,12 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
         }
 
         populateProfilePic();
+
+        try {
+            getBeerPreferenceData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -338,6 +345,60 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
 
 
     }
+
+
+
+    private void getBeerPreferenceData() throws JSONException
+    {
+        String url = String.format(Routes.URL_RETRIEVE_BEER_PREFERENCES,mUser.getUid());
+
+        Log.e(TAG , mUser.getUid());
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                loadPreferences(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        requestQueue.add(jsonArrayRequest);
+    }
+
+
+    private void loadPreferences(JSONArray prefjsonArray)
+    {
+        for(int i = 0; i<prefjsonArray.length(); i++)
+        {
+            try{
+                JSONObject prefjson = prefjsonArray.getJSONObject(i);
+
+                Beer beer = new Beer();
+                beer.setId(prefjson.getInt(PreferenceColumns.BEER_ID));
+                beer.setName(prefjson.getString(PreferenceColumns.BEER_NAME));
+                beer.setVendor(prefjson.getString(PreferenceColumns.BEER_VENDOR));
+
+                mBeersPrefList.add(beer);
+
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+        mPrefBeerAdapter.notifyDataSetChanged();
+
+    }
+
+
+
 
 
 
