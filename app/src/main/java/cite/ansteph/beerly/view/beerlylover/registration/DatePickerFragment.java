@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 
 
 import java.util.Calendar;
+import java.util.Date;
 
 import cite.ansteph.beerly.R;
 
@@ -50,7 +51,31 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
             day="0"+ String.valueOf(dayOfMonth);
         }else{day= String.valueOf(dayOfMonth);}
 
-        mDOB.setText(String.valueOf(year) +"/"+ monthSt +"/"+  day);
+        if(isOlderthan18(year)){
+            mDOB.setText(String.valueOf(year) +"/"+ monthSt +"/"+  day);
+        }else{
+            mDOB.setText("Must be 18 years old or older");
+        }
+
+
+
+
+    }
+
+
+
+    boolean isOlderthan18(int year)
+    {
+        Calendar calendar = Calendar.getInstance();
+
+       int currentyear = calendar.get(Calendar.YEAR);
+
+        int age = currentyear - year;
+
+        if (age>=18)
+            return true;
+        else
+            return false;
 
 
     }

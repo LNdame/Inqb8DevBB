@@ -35,6 +35,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -57,6 +59,7 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
+import cite.ansteph.beerly.view.MapsActivity;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
 import cite.ansteph.beerly.view.beerlylover.registration.Login;
 import cite.ansteph.beerly.view.beerlylover.registration.Registration;
@@ -190,6 +193,38 @@ private  static String TAG = Home.class.getSimpleName();
         }
 
 
+
+
+
+
+
+        // If a notification message is tapped, any data accompanying the notification
+        // message is available in the intent extras. In this project the launcher
+        // intent is fired when the notification is tapped, so any accompanying data would
+        // be handled here. If you want a different intent fired, set the click_action
+        // field of the notification message to the desired intent. The launcher intent
+        // is used when no click_action is specified.
+        //
+        // Handle possible data accompanying notification message.
+        if (getIntent().getExtras() != null) {
+
+            for (String key : getIntent().getExtras().keySet()) {
+                String value = getIntent().getExtras().getString(key);
+
+                if (key.equals("AnotherActivity") && value.equals("True")) {
+                    Intent intent = new Intent(this, Discount.class);
+                    intent.putExtra("value", value);
+                    startActivity(intent);
+                    finish();
+                }
+
+            }
+        }
+
+        subscribeToPushService();
+
+
+
     }
 
 
@@ -296,6 +331,18 @@ private  static String TAG = Home.class.getSimpleName();
     }
 
 
+    private void subscribeToPushService() {
+        FirebaseMessaging.getInstance().subscribeToTopic("BeerlyBeloved");
+
+        Log.d("BeerlyBeloved", "Subscribed");
+      //  Toast.makeText(Home.this, "Subscribed", Toast.LENGTH_SHORT).show();
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+
+        // Log and toast
+        Log.d("BeerlyBeloved", token);
+       // Toast.makeText(Home.this, token, Toast.LENGTH_SHORT).show();
+    }
 
 
 

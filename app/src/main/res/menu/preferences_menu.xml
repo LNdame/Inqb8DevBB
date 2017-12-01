@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_savepref"
-        android:icon="@drawable/ic_action_edit"
+        android:orderInCategory="100"
         android:enabled="true"
         app:showAsAction="always"
         android:title="DONE" />

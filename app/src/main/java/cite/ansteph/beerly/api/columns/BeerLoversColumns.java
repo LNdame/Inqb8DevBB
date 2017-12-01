@@ -17,8 +17,8 @@ String STATUS ="status";
     String FIRST_NAME = "first_name";
     String MIDDLE_NAME = "middle_name";
     String LAST_NAME = "last_name";
-    String EMAIL = "last_name";
-    String USERNAME = "last_name";
+    String EMAIL = "email";
+    String USERNAME = "username";
 
     String  DATE_OF_BIRTH ="date_of_birth";
     String  TERMS_CONDITIONS_ACCEPT="terms_conditions_accept";
@@ -33,6 +33,7 @@ String STATUS ="status";
     String        COCKTAIL_TYPE="cocktail_type";
     String SHOT="shot";
     String         SHOT_TYPE="shot_type";
+    String         INVITATION_CODE="invitation_code";
 
 
 

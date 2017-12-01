@@ -56,9 +56,11 @@ import cite.ansteph.beerly.api.columns.BeerLoversColumns;
 import cite.ansteph.beerly.api.columns.PreferenceColumns;
 import cite.ansteph.beerly.api.columns.UserColumns;
 import cite.ansteph.beerly.helper.RecyclerItemTouchHelper;
+import cite.ansteph.beerly.helper.SessionManager;
 import cite.ansteph.beerly.listener.RecyclerViewClickListener;
 import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.model.Establishment;
+import cite.ansteph.beerly.model.Preference;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
@@ -76,6 +78,8 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
     RecyclerView.Adapter mBeerAdapter;
     BeerPrefRecyclerAdapter mPrefBeerAdapter;
 
+    ArrayList<Preference> mTempPreferenceList ;
+
     private String[] screenTitles;
     private Drawable[] screenIcons;
     private SlidingRootNav slidingRootNav;
@@ -85,7 +89,7 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
     HashMap<Integer, Beer> LoversPreferences;
 
     TextView txtPrefCount ;
-
+SessionManager sessionManager;
     RelativeLayout container;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +98,7 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+         sessionManager = new SessionManager(getApplicationContext());
         LoversPreferences = new HashMap<>();
         slidingRootNav = new SlidingRootNavBuilder(this)
                 .withToolbarMenuToggle(toolbar)
@@ -141,6 +146,7 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
         txtPrefCount = (TextView) findViewById(R.id.txtpreferences);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+
 
 
         mBeersPrefList = new ArrayList<>();
@@ -383,7 +389,19 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
             if(mPrefCount>=3){
 
                 try {
-                    storePreferences();
+
+                    if(mTempPreferenceList!=null && mTempPreferenceList.size()>=3){
+
+                        //make sure that the temp array has been actualized
+                        modifyPreferenceTemp();
+
+                        updatePreferences();
+                    }else{
+                        storePreferences();
+                    }
+
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -446,6 +464,12 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
         }
     }
 
+
+
+
+
+
+
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if(viewHolder instanceof  BeerPrefRecyclerAdapter.PrefViewHolder)
@@ -493,12 +517,17 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
 
         if(mBeersPrefList!=null && mBeersPrefList.size()>0)
         {
+            sessionManager.recordPreference(mBeersPrefList.get(0).getId(),mBeersPrefList.get(1).getId(),mBeersPrefList.get(2).getId());
+
             for(int i =0; i<mBeersPrefList.size();i++)
             {
 
                 final String fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 final String beerID = String.valueOf(mBeersPrefList.get(i).getId()) ;
                 final String preference_number  = String.valueOf(i+1);
+
+
+               // if(mTempPreferenceList!=null && )
 
                 String url = String.format(Routes.URL_STORE_PREFERENCES);
 
@@ -511,6 +540,7 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
                             //creating the Json object from the response
                             JSONObject jsonResponse = new JSONObject(response);
                           //  sessionManager.recordRegistration(mFirebaseUID);
+
 
                             startActivity(new Intent(getApplicationContext(), Home.class));
 
@@ -559,6 +589,70 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
     }
 
 
+
+
+    public void updatePreferences() throws JSONException {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+
+                // if(mTempPreferenceList!=null && )
+
+                String url = String.format(Routes.URL_UPDATE_PREFERENCES, FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //  loading.dismiss();
+
+                        try{
+                            //creating the Json object from the response
+                            JSONArray jsonResponse = new JSONArray(response);
+                            //  sessionManager.recordRegistration(mFirebaseUID);
+
+
+                            startActivity(new Intent(getApplicationContext(), Home.class));
+
+
+                        }catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //   loading.dismiss();
+                        Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                ){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+
+                        params.put(PreferenceColumns.PREFERENCE1, String.valueOf(mTempPreferenceList.get(0).getBeer_id()) );
+                        params.put(PreferenceColumns.PREFERENCE2, String.valueOf(mTempPreferenceList.get(1).getBeer_id()));
+                        params.put(PreferenceColumns.PREFERENCE3, String.valueOf(mTempPreferenceList.get(2).getBeer_id()));
+
+
+                        return params;
+                    }
+                };
+
+
+                //  GlobalRetainer.getInstance().addToRequestQueue();
+
+                requestQueue.add(stringRequest);
+
+
+    }
+
+
+
+
+
     private void getBeerPreferenceData() throws JSONException
     {
 
@@ -587,16 +681,34 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
 
     private void loadPreferences(JSONArray prefjsonArray)
     {
+        mTempPreferenceList= new ArrayList<>();
         for(int i = 0; i<prefjsonArray.length(); i++)
         {
             try{
+
                 JSONObject prefjson = prefjsonArray.getJSONObject(i);
 
+                //Preference object to be hold in a temp in case the user doesn't change anything
+                Preference pref = new Preference();
+
+                pref.setId(prefjson.getInt(PreferenceColumns.ID));
+                pref.setBeer_id(prefjson.getInt(PreferenceColumns.BEER_ID));
+                pref.setBeer_lover_id(prefjson.getInt(PreferenceColumns.BEERLOVERS_UUID));
+                pref.setPreference_number(prefjson.getInt(PreferenceColumns.PREFERENCE_NUMBER));
+
+                pref.setName(prefjson.getString(PreferenceColumns.BEER_NAME));
+                pref.setVendor(prefjson.getString(PreferenceColumns.BEER_VENDOR));
+
+
+                //the object actually loaded in ui
                 Beer beer = new Beer();
                 beer.setId(prefjson.getInt(PreferenceColumns.BEER_ID));
                 beer.setName(prefjson.getString(PreferenceColumns.BEER_NAME));
                 beer.setVendor(prefjson.getString(PreferenceColumns.BEER_VENDOR));
 
+
+
+                mTempPreferenceList.add(pref);
                 mBeersPrefList.add(beer);
                 mPrefCount++;
             }
@@ -616,6 +728,25 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
     }
 
 
+
+    void modifyPreferenceTemp()
+    {
+
+        if(mTempPreferenceList!=null && mTempPreferenceList.size()>0)
+        {
+            for(int i =0 ; i<mTempPreferenceList.size(); i++)
+            {
+                mTempPreferenceList.get(i).setBeer_id(mBeersPrefList.get(i).getId());
+                mTempPreferenceList.get(i).setName(mBeersPrefList.get(i).getName());
+                mTempPreferenceList.get(i).setVendor(mBeersPrefList.get(i).getVendor());
+
+            }
+        }
+
+
+
+
+    }
 
 
 

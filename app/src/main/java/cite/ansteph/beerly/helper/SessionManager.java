@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 
 import java.util.HashMap;
 
+import cite.ansteph.beerly.model.Preference;
 import cite.ansteph.beerly.view.beerlylover.Home;
+import cite.ansteph.beerly.view.beerlylover.Preferences;
 import cite.ansteph.beerly.view.beerlylover.registration.Registration;
 
 /**
@@ -48,6 +50,8 @@ public class SessionManager {
     public static final String KEY_LASTNAME = "lastname";
     // public static final String KEY_EMPLOYEE_TYPE = "employee_type";
     public static final String KEY_EMAIL = "email";
+
+    public static  final String KEY_INVITE ="invitation_code";
 
     public static  final String KEY_BASIC_ENROL ="basic_enrol";
     public static  final String KEY_ADVANCED_ENROL ="advanced_enrol";
@@ -93,6 +97,14 @@ public class SessionManager {
     {
         editor.putBoolean(KEY_HAS_REGISTERED, true);
         editor.putString(KEY_FIREBASEUUID, id);
+
+        editor.commit();
+    }
+
+
+    public void recordInvite(String invite)
+    {
+        editor.putString(KEY_INVITE, invite);
 
         editor.commit();
     }
@@ -190,15 +202,32 @@ public class SessionManager {
             _context.startActivity(i);*/
         }else
         {
-            Intent i = new Intent(_context, Home.class);
-            // Closing all the Activities
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            if(!this.hasSavePref())
+            {
+                Intent i = new Intent(_context, Preferences.class);
+                // Closing all the Activities
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            //Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                //Add new Flag to start new Activity
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            //Starting Login Activity
-            _context.startActivity(i);
+                //Starting Login Activity
+                _context.startActivity(i);
+
+            }else {
+                Intent i = new Intent(_context, Home.class);
+                // Closing all the Activities
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                //Add new Flag to start new Activity
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                //Starting Login Activity
+                _context.startActivity(i);
+            }
+
+
+
         }
 
     }
@@ -241,11 +270,21 @@ public class SessionManager {
     {
         return preferences.getString(KEY_FIREBASEUUID,null);
     }
+    public String getInviteCode()
+    {
+        return preferences.getString(KEY_INVITE,null);
+    }
 
     // Get Login State
     public boolean hasRegistered() {
         return preferences.getBoolean(KEY_HAS_REGISTERED,false);
     }
+
+    // Get Pref State
+    public boolean hasSavePref() {
+        return preferences.getBoolean(KEY_HAS_SAVED_PREF,false);
+    }
+
 
 
 }

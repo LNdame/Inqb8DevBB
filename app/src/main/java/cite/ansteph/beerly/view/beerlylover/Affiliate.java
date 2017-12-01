@@ -27,6 +27,7 @@ import java.io.File;
 import java.util.Arrays;
 
 import cite.ansteph.beerly.R;
+import cite.ansteph.beerly.helper.SessionManager;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
@@ -43,6 +44,7 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
 
     TextView txtAffiliateCode;
 
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        sessionManager = new SessionManager(getApplicationContext());
 
         slidingRootNav = new SlidingRootNavBuilder(this)
                 .withToolbarMenuToggle(toolbar)
@@ -106,9 +109,11 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
 
     void createCode()
     {
-        RandomStringUtils randomStringUtils = new RandomStringUtils(5);
+        //RandomStringUtils randomStringUtils = new RandomStringUtils(5);
 
-        String code = "Loic-beerly-"+randomStringUtils.nextString();
+        String code = sessionManager.getInviteCode() ;
+
+
         txtAffiliateCode.setText(code.toLowerCase());
     }
 

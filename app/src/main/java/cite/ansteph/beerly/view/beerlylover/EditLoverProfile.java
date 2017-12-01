@@ -36,6 +36,7 @@ import cite.ansteph.beerly.api.columns.BeerLoversColumns;
 import cite.ansteph.beerly.api.columns.UserColumns;
 import cite.ansteph.beerly.helper.SessionManager;
 import cite.ansteph.beerly.model.BeerLovers;
+import cite.ansteph.beerly.utils.DateTimeUtils;
 
 public class EditLoverProfile extends AppCompatActivity {
 
@@ -102,19 +103,19 @@ public class EditLoverProfile extends AppCompatActivity {
         spnCity=(Spinner)findViewById(R.id.spnCity);
 
 
-        originAdapter = ArrayAdapter.createFromResource(getApplicationContext(),R.array.gender, android.R.layout.simple_spinner_item);
+        originAdapter = ArrayAdapter.createFromResource(this,R.array.gender, android.R.layout.simple_spinner_item);
         originAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
-        cocktailAdapter = ArrayAdapter.createFromResource(getApplicationContext(),R.array.typeCocktail, android.R.layout.simple_spinner_item);
+        cocktailAdapter = ArrayAdapter.createFromResource(this,R.array.typeCocktail, android.R.layout.simple_spinner_dropdown_item);
         originAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
-        shotAdapter = ArrayAdapter.createFromResource(getApplicationContext(),R.array.typeCocktail, android.R.layout.simple_spinner_item);
+        shotAdapter = ArrayAdapter.createFromResource(this,R.array.typeCocktail, android.R.layout.simple_spinner_dropdown_item);
         originAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
-        cityAdapter = ArrayAdapter.createFromResource(getApplicationContext(),R.array.cities, android.R.layout.simple_spinner_item);
+        cityAdapter = ArrayAdapter.createFromResource(this,R.array.cities, android.R.layout.simple_spinner_dropdown_item);
         originAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
@@ -138,7 +139,11 @@ public class EditLoverProfile extends AppCompatActivity {
 
     void setupUI (BeerLovers beerLovers)
     {
-        txtBirthdate.setText(beerLovers.getDate_of_birth());
+
+        String bod = DateTimeUtils.datetoStringShort(beerLovers.getDate_of_birth());
+
+
+        txtBirthdate.setText(bod);
         txtName.setText(beerLovers.getFirst_name()+" "+beerLovers.getLast_name());
         txtUserName.setText(beerLovers.getUsername());
 

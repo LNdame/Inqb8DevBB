@@ -23,11 +23,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="38dp"
-            android:textStyle="bold"
-            android:textSize="20dp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="18sp"
             android:layout_marginTop="16dp"
-            android:text="Select Preferences:" />
+            android:text="To help us look for the best deals for you please, select 3 of your preferred drinks" />
 
         <TextView
             android:id="@+id/txtpreferences"
@@ -35,11 +37,22 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="38dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="18sp"
             android:text="(3 more)" />
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="italic|normal"
+            android:textSize="9sp"
+            android:text="Swipe left to remove a selected preference." />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/prefrecyclerview"
             android:layout_below="@+id/selectionlyt"

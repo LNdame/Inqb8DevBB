@@ -10,6 +10,7 @@ import com.crashlytics.android.Crashlytics;
 
 
 import cite.ansteph.beerly.view.beerlylover.registration.Login;
+import cite.ansteph.beerly.view.beerlylover.registration.Registration;
 import io.fabric.sdk.android.Fabric;
 
 public class Splash extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class Splash extends AppCompatActivity {
                      * logged in
                      * */
                     //sessionManager.checkLogin();
-                    Intent intent = new Intent(getApplicationContext(), Home.class);
+                    Intent intent = new Intent(getApplicationContext(), Registration.class);
                     startActivity(intent);
 
 

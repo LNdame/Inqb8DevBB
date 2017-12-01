@@ -34,9 +34,11 @@ public interface Routes {
     ///Preferences
 
     String URL_STORE_PREFERENCES = DOMAIN+API_VERSION+"store_preference";
+    String URL_UPDATE_PREFERENCES = DOMAIN+API_VERSION+"edit_preferences/%s";
 
     String URL_RETRIEVE_BEER_PREFERENCES=DOMAIN+API_VERSION+ "get_preferences/%s" ;
 
+    ///Discount
 
     /****************************************************---COMMON MESSAGE---*************************************************************/
 
