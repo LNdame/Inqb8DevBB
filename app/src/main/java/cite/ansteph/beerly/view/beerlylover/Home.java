@@ -13,8 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -51,14 +53,18 @@ import java.util.Arrays;
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.adapter.EstAdapter;
 import cite.ansteph.beerly.api.Routes;
+import cite.ansteph.beerly.api.columns.BeerLoversColumns;
 import cite.ansteph.beerly.api.columns.EstablishmentColumns;
 import cite.ansteph.beerly.app.GlobalRetainer;
+import cite.ansteph.beerly.helper.SessionManager;
+import cite.ansteph.beerly.model.BeerLovers;
 import cite.ansteph.beerly.model.Establishment;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
+import cite.ansteph.beerly.utils.DateTimeUtils;
 import cite.ansteph.beerly.view.MapsActivity;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
 import cite.ansteph.beerly.view.beerlylover.registration.Login;
@@ -77,6 +83,7 @@ private  static String TAG = Home.class.getSimpleName();
 
     protected RecyclerViewPager mRecyclerView;
 
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -94,6 +101,8 @@ private  static String TAG = Home.class.getSimpleName();
 
     };
 
+    SessionManager sessionManager;
+
 
     private GoogleMap mGoogleMap;
     ArrayList<Establishment> mEstablishments ;
@@ -105,6 +114,7 @@ private  static String TAG = Home.class.getSimpleName();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        sessionManager = new SessionManager(getApplicationContext());
 
         slidingRootNav = new SlidingRootNavBuilder(this)
                 .withToolbarMenuToggle(toolbar)
@@ -223,6 +233,7 @@ private  static String TAG = Home.class.getSimpleName();
 
         subscribeToPushService();
 
+        
 
 
     }
@@ -643,4 +654,96 @@ protected  void initViewPager(ArrayList<Establishment> establishmentList){
         }
 
     }
+
+
+
+    public void checkInvitation ()
+    {
+        if(sessionManager.getInviteCode()== null || TextUtils.isEmpty(sessionManager.getInviteCode())){
+            try {
+                getLoverProfileData();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+
+
+
+    private void getLoverProfileData() throws JSONException
+    {
+        String url = String.format(Routes.URL_RETRIEVE_LOVER_PROFILE,mUser.getUid());
+
+        Log.e(TAG , mUser.getUid());
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                loadProfileUI(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        requestQueue.add(jsonArrayRequest);
+    }
+
+
+
+    void loadProfileUI(JSONArray profilejsonArray){
+
+        
+        for(int i = 0; i<profilejsonArray.length(); i++)
+        {
+            try{
+                JSONObject profjson = profilejsonArray.getJSONObject(i);
+
+                BeerLovers lovers= new BeerLovers();
+                lovers.setId(profjson.getInt(BeerLoversColumns.ID));
+                lovers.setFirst_name(profjson.getString(BeerLoversColumns.FIRST_NAME));
+                lovers.setLast_name(profjson.getString(BeerLoversColumns.LAST_NAME));
+                lovers.setDate_of_birth(profjson.getString(BeerLoversColumns.DATE_OF_BIRTH));
+                lovers.setCreated_at(profjson.getString(BeerLoversColumns.CREATED_AT));
+                lovers.setHome_city (profjson.getString(BeerLoversColumns.HOME_CITY));
+                lovers.setGender(profjson.getString(BeerLoversColumns.GENDER));
+                lovers.setFirebase_id(profjson.getString(BeerLoversColumns.FIREBASE_ID));
+                lovers.setUsername(profjson.getString(BeerLoversColumns.USERNAME));
+                lovers.setReferralCode(profjson.getString(BeerLoversColumns.REFERRAL_CODE));
+                lovers.setShot(profjson.getInt(BeerLoversColumns.SHOT));
+                lovers.setShotType(profjson.getString(BeerLoversColumns.SHOT_TYPE));
+                lovers.setCocktail(profjson.getInt(BeerLoversColumns.COCKTAIL));
+                lovers.setCocktailType(profjson.getString(BeerLoversColumns.COCKTAIL_TYPE));
+
+                lovers.setInvitation_code(profjson.getString(BeerLoversColumns.INVITATION_CODE));
+                // lovers.setEmail(profjson.getString(BeerLoversColumns.EMAIL));
+               
+                
+                //record the invitation code
+                sessionManager.recordInvite(lovers.getInvitation_code());
+
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
+    }
+
+
+
+
 }

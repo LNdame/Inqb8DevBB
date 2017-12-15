@@ -13,12 +13,15 @@
     android:layout_height="wrap_content">
 
 
-    <ImageButton
+    <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:background="@null"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="6dp"
 
-        app:srcCompat="@drawable/ic_if_beer_mug" />
+        app:srcCompat="@drawable/ic_beer_tap_square" />
 
     <LinearLayout
         android:orientation="vertical"

@@ -36,7 +36,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Loic Stephane"
+            android:text="Beerly Lover"
             android:textColor="#3E3E3E"
             android:id="@+id/txtDisplayname"
 
@@ -92,7 +92,7 @@
         android:layout_marginTop="190dp"
         android:elevation="15dp"
         android:background="@drawable/diagonallayout_circle"
-        android:src="@drawable/mrhappy"/>
+        android:src="@drawable/profile_1"/>
 
 
 
@@ -158,6 +158,7 @@
                 android:layout_below="@+id/linearLayout"
                 android:textColor="@color/colorWhite"
                 android:background="@drawable/buttonbg"
+                android:onClick="onChangePrefClicked"
                 android:elevation="15dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"

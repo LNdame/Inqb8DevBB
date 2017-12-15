@@ -35,13 +35,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cite.ansteph.beerly.R;
+import cite.ansteph.beerly.api.Routes;
 
 public class Login extends AppCompatActivity {
 
-    private static final String UNCHANGED_CONFIG_VALUE = "CHANGE-ME";
-    private static final String GOOGLE_TOS_URL = "https://www.google.com/policies/terms/";
-    private static final String FIREBASE_TOS_URL = "https://firebase.google.com/terms/";
-    private static final String GOOGLE_PRIVACY_POLICY_URL = "https://www.google.com/policies/privacy/";
+    private static final String UNCHANGED_CONFIG_VALUE = "BEERLY BELOVED";
+    private static final String GOOGLE_TOS_URL =Routes.URL_TERM_CONDITIONS;  //"https://www.google.com/policies/terms/";
+    private static final String FIREBASE_TOS_URL = Routes.URL_TERM_CONDITIONS;//"https://firebase.google.com/terms/";
+    private static final String GOOGLE_PRIVACY_POLICY_URL = Routes.URL_PRIVACY_POLICY; //"https://www.google.com/policies/privacy/";
     private static final String FIREBASE_PRIVACY_POLICY_URL = "https://firebase.google.com/terms/analytics/#7_privacy";
 
     private static final int RC_SIGN_IN = 100;

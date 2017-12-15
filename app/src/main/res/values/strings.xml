@@ -30,7 +30,7 @@
     <string name="arclayout_development">In February 2013, The Walt Disney Company CEO Bob Iger confirmed the development of two stand-alone films, each individually written by Lawrence Kasdan and Simon Kinberg. On February 6, Entertainment Weekly reported that Lucasfilm is working on two films featuring Han Solo and Boba Fett. Disney CFO Jay Rasulo has described the stand-alone films as origin stories. Kathleen Kennedy explained that the stand-alone films will not crossover with the films of the sequel trilogy…</string>
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_preferences">Preferences</string>
-    <string name="title_activity_lover_profile">LoverProfile</string>
+    <string name="title_activity_lover_profile">Lover Profile</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_ets_menu">EtsMenu</string>
 
@@ -230,6 +230,8 @@
     </string-array>
 
     <string name="error_field_required">This field is required</string>
+
+    <string name="affiliate"><a href="http://ec2-13-58-20-88.us-east-2.compute.amazonaws.com/privacy_policy/">How Affiliate Program Work</a> </string>
 
     <string-array name="typeCocktail">
         <item>Creamy</item>

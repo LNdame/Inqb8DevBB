@@ -48,8 +48,10 @@
             android:layout_weight="1"
             android:textColor="@color/colorAccent"
             android:textSize="16dp"
+            android:clickable="true"
             android:fontFamily="sans-serif-light"
-            android:text="How Affiliate Program Work" />
+
+            android:text="@string/affiliate" />
     </LinearLayout>
 
     <RelativeLayout
@@ -62,30 +64,31 @@
         <cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout
             android:layout_width="match_parent"
 
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:layout_margin="20dp"
-            android:background="@color/colorAccent"
+            android:background="@color/colorWhite"
 
             app:diagonal_angle="6"
             app:diagonal_direction="left"
             app:diagonal_position="bottom">
 
             <ImageView
-                android:layout_width="40dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_aff2" />
+                android:src="@drawable/buble" />
 
 
 
         </cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout>
 
         <cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout
+          android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_margin="20dp"
             android:layout_alignParentBottom="true"
-            app:diagonal_angle="6"
+            app:diagonal_angle="12"
             app:diagonal_direction="right"
             app:diagonal_position="top">
 
@@ -157,6 +160,7 @@
             android:layout_alignParentRight="true"
             android:textColor="@color/colorWhite"
             android:background="@drawable/buttonbg"
+            android:onClick="SendInvite"
             android:elevation="15dp"
             android:layout_marginTop="@dimen/activity_padding_horizontal"
 

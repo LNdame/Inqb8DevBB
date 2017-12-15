@@ -40,9 +40,19 @@ public interface Routes {
 
     ///Discount
 
+    String URL_STORE_DISCOUNT= DOMAIN+API_VERSION+ "store_discount";
+    String URL_RETRIEVE_DISCOUNT= DOMAIN+API_VERSION+ "get_discount/%s";
+
     /****************************************************---COMMON MESSAGE---*************************************************************/
 
     public static final String ERROR_RESPONSE= "error";
     public static final String MSG_RESPONSE= "message";
     public static final String KEY_OTP = "otp";
+
+
+    /****************************************************---TCs---*************************************************************/
+
+    String URL_PRIVACY_POLICY ="http://ec2-13-58-20-88.us-east-2.compute.amazonaws.com/privacy_policy";
+    String URL_TERM_CONDITIONS ="http://ec2-13-58-20-88.us-east-2.compute.amazonaws.com/terms_and_conditions";
+
 }

@@ -38,6 +38,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.adapter.BeerPrefRecyclerAdapter;
@@ -201,6 +202,10 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
     }
 
 
+    public void onChangePrefClicked(View view)
+    {
+        startActivity(new Intent(LoverProfile.this, Preferences.class));
+    }
 
 
     private String[] loadScreenTitles() {
@@ -256,7 +261,7 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
             case MenuPosition.POS_MYPROFILE:;break;
             case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;
-            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Registration.class);break;
+            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Affiliate.class);break;
 
             default:
                 intent = new Intent(getApplicationContext(), Home.class);
@@ -321,6 +326,8 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
                 lovers.setShotType(profjson.getString(BeerLoversColumns.SHOT_TYPE));
                 lovers.setCocktail(profjson.getInt(BeerLoversColumns.COCKTAIL));
                 lovers.setCocktailType(profjson.getString(BeerLoversColumns.COCKTAIL_TYPE));
+
+                lovers.setInvitation_code(profjson.getString(BeerLoversColumns.INVITATION_CODE));
                // lovers.setEmail(profjson.getString(BeerLoversColumns.EMAIL));
                 // est.set(estjson.getString("hs_license"));
                 // est.setName(estjson.getString(""));
@@ -333,6 +340,8 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
                 txtDateCreated.setText(joined);
 
                 mBeerLovers = lovers;
+
+                setTitle(lovers.getUsername());
 
             }
             catch (JSONException e)
@@ -455,6 +464,20 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
 
              Glide.with(getApplicationContext()).load(user.getPhotoUrl()).fitCenter()
                      .into(img);
+         }else{
+             Random ran = new Random();
+
+             int choice  = ran.nextInt(3);
+
+             switch (choice){
+                 case 0: img.setImageDrawable(ContextCompat.getDrawable(LoverProfile.this, R.drawable.profile_1)); break;
+                 case 1: img.setImageDrawable(ContextCompat.getDrawable(LoverProfile.this, R.drawable.profile_2));break;
+                 case 2: img.setImageDrawable(ContextCompat.getDrawable(LoverProfile.this, R.drawable.profile_3));break;
+                 default:img.setImageDrawable(ContextCompat.getDrawable(LoverProfile.this, R.drawable.profile_1));break;
+             }
+
+
+
          }
      }
 

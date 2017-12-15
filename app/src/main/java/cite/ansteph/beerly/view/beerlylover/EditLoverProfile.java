@@ -286,21 +286,15 @@ public class EditLoverProfile extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-                params.put(UserColumns.FIRST_NAME, mFirst_name);
-                params.put(UserColumns.LAST_NAME, mSurname);
-                params.put(UserColumns.EMAIL, mEmail);
-                params.put(UserColumns.USERNAME, username);
-                params.put(BeerLoversColumns.STATUS, "active");
-                params.put(BeerLoversColumns.TERMS_CONDITIONS_ACCEPT, "1");
+
                 params.put(BeerLoversColumns.GENDER, gender);
                 params.put(BeerLoversColumns.HOME_CITY, home_city);
-                params.put(BeerLoversColumns.REFERRAL_CODE, referral_code);
-                params.put(BeerLoversColumns.FIREBASE_ID, mFirebaseUID);
+
                 params.put(BeerLoversColumns.COCKTAIL, cocktail);
                 params.put(BeerLoversColumns.COCKTAIL_TYPE, cocktailtype);
                 params.put(BeerLoversColumns.SHOT, shot);
                 params.put(BeerLoversColumns.SHOT_TYPE, shottype);
-                params.put(BeerLoversColumns.DATE_OF_BIRTH, dob);
+
 
                 return params;
             }

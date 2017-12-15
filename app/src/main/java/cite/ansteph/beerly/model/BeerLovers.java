@@ -14,7 +14,7 @@ public class BeerLovers implements Serializable {
 
     String status, date_of_birth,gender,home_city,firebase_id, first_name,last_name,username,email;
 
-    String created_at;
+    String created_at, invitation_code;
 
     /**
      * research criteria*/
@@ -205,5 +205,13 @@ public class BeerLovers implements Serializable {
 
     public void setReferralCode(String referralCode) {
         this.referralCode = referralCode;
+    }
+
+    public String getInvitation_code() {
+        return invitation_code;
+    }
+
+    public void setInvitation_code(String invitation_code) {
+        this.invitation_code = invitation_code;
     }
 }

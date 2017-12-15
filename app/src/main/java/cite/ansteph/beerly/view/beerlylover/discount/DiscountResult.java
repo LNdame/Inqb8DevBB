@@ -1,5 +1,6 @@
 package cite.ansteph.beerly.view.beerlylover.discount;
 
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,23 +8,32 @@ import android.text.TextUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.api.Routes;
+import cite.ansteph.beerly.api.columns.DiscountColumns;
+import cite.ansteph.beerly.api.columns.PreferenceColumns;
 import cite.ansteph.beerly.api.columns.PromotionColumns;
 import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.model.Promotion;
+import cite.ansteph.beerly.view.beerlylover.Home;
 
 public class DiscountResult extends AppCompatActivity {
 
@@ -73,6 +83,8 @@ public class DiscountResult extends AppCompatActivity {
 
 
 
+
+
     private void getPromoData(int est_id) throws JSONException
     {
         String url = String.format(Routes.URL_RETRIEVE_PROMO_EST,String.valueOf(est_id));
@@ -106,6 +118,8 @@ public class DiscountResult extends AppCompatActivity {
 
        // mPromotionsList.clear();
 
+        String estid ="";
+
         for(int i = 0; i<profilejsonArray.length(); i++)
         {
             try{
@@ -133,6 +147,8 @@ public class DiscountResult extends AppCompatActivity {
                 //    txtDisplayname .setText(lovers.getFirst_name() +" "+lovers.getLast_name());
                 //    txtDateCreated.setText(lovers.getCreated_at());
 
+                estid = String.valueOf(promo.getEstablishment_id()) ;
+
             }
             catch (JSONException e)
             {
@@ -140,7 +156,13 @@ public class DiscountResult extends AppCompatActivity {
             }
         }
 
-       // mPromoAdapter.notifyDataSetChanged();
+
+        try {
+            storeDiscount(estid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // mPromoAdapter.notifyDataSetChanged();
 
        /* try {
             getBeers(mPromotionsList);
@@ -168,6 +190,77 @@ public class DiscountResult extends AppCompatActivity {
             }
         }.start();
     }
+
+
+
+
+
+    public void storeDiscount(final String estId) throws JSONException {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        // if(mTempPreferenceList!=null && )
+
+        final String fireID  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        String url = String.format(Routes.URL_STORE_DISCOUNT);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //  loading.dismiss();
+
+                try{
+                    //creating the Json object from the response
+                    JSONArray jsonResponse = new JSONArray(response);
+                    //  sessionManager.recordRegistration(mFirebaseUID);
+
+
+                   // startActivity(new Intent(getApplicationContext(), Home.class));
+
+
+                }catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   loading.dismiss();
+                Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        }
+
+        ){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put(DiscountColumns.FIREBASE_ID, fireID );
+                params.put(DiscountColumns.ESTABLISMENT_EST_ID,estId);
+              //  params.put(PreferenceColumns.PREFERENCE3, String.valueOf(mTempPreferenceList.get(2).getBeer_id()));
+
+
+                return params;
+            }
+        };
+
+
+        //  GlobalRetainer.getInstance().addToRequestQueue();
+
+        requestQueue.add(stringRequest);
+
+
+    }
+
+
+
+
+
+
+
+
 
 }
 /*int seconds = (int) (milliseconds / 1000) % 60 ;

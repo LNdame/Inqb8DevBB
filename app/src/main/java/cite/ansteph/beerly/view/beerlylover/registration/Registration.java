@@ -80,7 +80,7 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAuth = FirebaseAuth.getInstance();
+      /*    mAuth = FirebaseAuth.getInstance();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -106,23 +106,32 @@ public class Registration extends AppCompatActivity {
 
 
 
-        sessionManager = new SessionManager(getApplicationContext());
+
 
 
         //
 
-        String recordedFbId = sessionManager.getFirebaseID();
+      String recordedFbId = sessionManager.getFirebaseID();
 
         if(recordedFbId!=null && !TextUtils.isEmpty(recordedFbId))
         {
             if(recordedFbId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                sessionManager.checkRegPart2();
             }
-        }
+        }*/
+
+        sessionManager = new SessionManager(getApplicationContext());
+
+       if(sessionManager.getFirebaseID()!=null && !TextUtils.isEmpty(sessionManager.getFirebaseID())){
+           String recordedFbId = sessionManager.getFirebaseID();
+
+           sessionManager.checkRegPart2();
+       }
 
 
 
         setContentView(R.layout.activity_registration);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -369,6 +378,8 @@ public class Registration extends AppCompatActivity {
             mEmail = user.getEmail();
             mFirebaseUID = user.getUid();
 
+            //to be removed
+            Toast.makeText(Registration.this, mFirebaseUID, Toast.LENGTH_SHORT).show();
 
             txtEmail.setText(TextUtils.isEmpty(user.getEmail()) ? "No email" : user.getEmail());
             txtFirstName.setText (getString(R.string.account_reg_welcome ,nameSplit[0]));
@@ -454,15 +465,15 @@ public class Registration extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthStateListener);
+      //  mAuth.addAuthStateListener(mAuthStateListener);
 
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if(mAuthStateListener!=null)
-            mAuth.removeAuthStateListener(mAuthStateListener);
+        /*if(mAuthStateListener!=null)
+            mAuth.removeAuthStateListener(mAuthStateListener);*/
 
     }
 
@@ -470,8 +481,8 @@ public class Registration extends AppCompatActivity {
     public void onPause() {
         super.onPause();
 
-        if(mAuthStateListener!=null)
-            mAuth.removeAuthStateListener(mAuthStateListener);
+       /* if(mAuthStateListener!=null)
+            mAuth.removeAuthStateListener(mAuthStateListener);*/
 
     }
 
@@ -479,7 +490,7 @@ public class Registration extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        mAuth.addAuthStateListener(mAuthStateListener);
+       /* mAuth.addAuthStateListener(mAuthStateListener);*/
 
     }
 }

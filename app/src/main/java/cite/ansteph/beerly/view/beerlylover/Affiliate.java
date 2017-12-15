@@ -17,17 +17,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.Arrays;
 
 import cite.ansteph.beerly.R;
+import cite.ansteph.beerly.api.Routes;
+import cite.ansteph.beerly.api.columns.BeerLoversColumns;
 import cite.ansteph.beerly.helper.SessionManager;
+import cite.ansteph.beerly.model.BeerLovers;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
@@ -38,11 +54,16 @@ import cite.ansteph.beerly.view.beerlylover.discount.Discount;
 import cite.ansteph.beerly.view.beerlylover.registration.Registration;
 
 public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
+
+    private  static String TAG = Affiliate.class.getSimpleName();
+
     private String[] screenTitles;
     private Drawable[] screenIcons;
     private SlidingRootNav slidingRootNav;
 
     TextView txtAffiliateCode;
+
+    TextView txtAffiliate;
 
     SessionManager sessionManager;
 
@@ -99,23 +120,23 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
 
         txtAffiliateCode = (TextView) findViewById(R.id.txtinvitecode);
 
-        createCode();
 
 
+        txtAffiliate = (TextView) findViewById(R.id.txtHowdowork);
+
+        if(txtAffiliate!=null)
+        {
+            txtAffiliate.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+
+
+        //Checkif there is invitation <code>
+        checkInvitation ();
 
     }
 
 
 
-    void createCode()
-    {
-        //RandomStringUtils randomStringUtils = new RandomStringUtils(5);
-
-        String code = sessionManager.getInviteCode() ;
-
-
-        txtAffiliateCode.setText(code.toLowerCase());
-    }
 
 
 
@@ -130,14 +151,14 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
     }
 
 
-    public void SendInvite (){
+    public void SendInvite (View view){
 
 
         try{
             String email =" ";
-            String subject = "Beerly Beloved Invite";
+            String subject = "Beerly Beloved Invitation";
             String msg ="You have been invited to Beerly Beloved when registering please use the referral code: "
-                    +txtAffiliateCode.getText().toString();
+                    +txtAffiliateCode.getText().toString() +"\n Find it at https://play.google.com/store/apps/details?id=cite.ansteph.beerly"  ;
 
 
 
@@ -219,6 +240,94 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
         {
             startActivity(intent);
         }
+
+    }
+
+    public void checkInvitation ()
+    {
+        if(sessionManager.getInviteCode()== null || TextUtils.isEmpty(sessionManager.getInviteCode())){
+            try {
+                getLoverProfileData(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }else{
+            String code = sessionManager.getInviteCode() ;
+
+            txtAffiliateCode.setText(code.toLowerCase());
+        }
+    }
+
+
+    private void getLoverProfileData(String uid) throws JSONException
+    {
+        String url = String.format(Routes.URL_RETRIEVE_LOVER_PROFILE,uid);
+
+        Log.e(TAG , uid);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                loadProfileUI(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        requestQueue.add(jsonArrayRequest);
+    }
+
+
+
+    void loadProfileUI(JSONArray profilejsonArray){
+
+
+        for(int i = 0; i<profilejsonArray.length(); i++)
+        {
+            try{
+                JSONObject profjson = profilejsonArray.getJSONObject(i);
+
+                BeerLovers lovers= new BeerLovers();
+                lovers.setId(profjson.getInt(BeerLoversColumns.ID));
+                lovers.setFirst_name(profjson.getString(BeerLoversColumns.FIRST_NAME));
+                lovers.setLast_name(profjson.getString(BeerLoversColumns.LAST_NAME));
+                lovers.setDate_of_birth(profjson.getString(BeerLoversColumns.DATE_OF_BIRTH));
+                lovers.setCreated_at(profjson.getString(BeerLoversColumns.CREATED_AT));
+                lovers.setHome_city (profjson.getString(BeerLoversColumns.HOME_CITY));
+                lovers.setGender(profjson.getString(BeerLoversColumns.GENDER));
+                lovers.setFirebase_id(profjson.getString(BeerLoversColumns.FIREBASE_ID));
+                lovers.setUsername(profjson.getString(BeerLoversColumns.USERNAME));
+                lovers.setReferralCode(profjson.getString(BeerLoversColumns.REFERRAL_CODE));
+                lovers.setShot(profjson.getInt(BeerLoversColumns.SHOT));
+                lovers.setShotType(profjson.getString(BeerLoversColumns.SHOT_TYPE));
+                lovers.setCocktail(profjson.getInt(BeerLoversColumns.COCKTAIL));
+                lovers.setCocktailType(profjson.getString(BeerLoversColumns.COCKTAIL_TYPE));
+
+                lovers.setInvitation_code(profjson.getString(BeerLoversColumns.INVITATION_CODE));
+                // lovers.setEmail(profjson.getString(BeerLoversColumns.EMAIL));
+
+
+                //record the invitation code
+                sessionManager.recordInvite(lovers.getInvitation_code().toLowerCase());
+                txtAffiliateCode.setText(lovers.getInvitation_code().toLowerCase());
+
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+
+
 
     }
 
