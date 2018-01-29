@@ -216,7 +216,7 @@
     </style>
 
     <style name="button_style">
-        <item name="android:background">@color/candidate_brown_dark</item>
+        <item name="android:background">@color/colorDarkGrey</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:elevation">15dp</item>
     </style>

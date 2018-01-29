@@ -9,7 +9,33 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="cite.ansteph.beerly.view.beerlylover.discount.Discount"
     tools:showIn="@layout/activity_discount">
+<LinearLayout
+    android:layout_marginTop="16dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:layout_weight="1"
+        android:text="Accumulated" />
+
+    <TextView
+        android:id="@+id/txttotalcl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/white"
+        android:layout_weight="1"
+        android:text="00 cl" />
+</LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -48,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="170dp"
         android:background="@android:color/transparent"
         android:foreground="?attr/selectableItemBackground"
         android:paddingLeft="20dp"
@@ -57,7 +83,16 @@
         android:text="Scan QR Code"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
-
+    <TextView
+        android:id="@+id/textView"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/recyclerview"
+        android:gravity="center"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/white"
+        android:text="Active Discount(s)" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_alignParentBottom="true"
@@ -66,11 +101,6 @@
         android:layout_height="150dp">
 
     </android.support.v7.widget.RecyclerView>
-
-
-
-
-
 
 
 

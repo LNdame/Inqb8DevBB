@@ -27,8 +27,8 @@ android {
         applicationId "cite.ansteph.beerly"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 6
-        versionName "1.5"
+        versionCode 7
+        versionName "1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -44,8 +44,8 @@ android {
             applicationId 'cite.ansteph.beerly'
             targetSdkVersion 26
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-            versionCode 6
-            versionName '1.5'
+            versionCode 7
+            versionName '1.6'
         }
     }
 }
