@@ -26,7 +26,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
@@ -47,16 +46,16 @@ import cite.ansteph.beerly.api.columns.BeerLoversColumns;
 import cite.ansteph.beerly.api.columns.PreferenceColumns;
 import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.model.BeerLovers;
-import cite.ansteph.beerly.model.Establishment;
 import cite.ansteph.beerly.slidingmenu.DrawerAdapter;
 import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
 import cite.ansteph.beerly.utils.DateTimeUtils;
+import cite.ansteph.beerly.view.beerlylover.affiliate.Affiliate;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
+import cite.ansteph.beerly.view.beerlylover.event.EventPage;
 import cite.ansteph.beerly.view.beerlylover.registration.Login;
-import cite.ansteph.beerly.view.beerlylover.registration.Registration;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
@@ -102,6 +101,7 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
 
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(MenuPosition.POS_HOME),
+                createItemFor(MenuPosition.POS_EVENT),
                 createItemFor(MenuPosition.POS_MYPROFILE).setChecked(true),
                 createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
@@ -258,6 +258,7 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
         switch (position)
         {
             case MenuPosition.POS_HOME: intent = new Intent(getApplicationContext(), Home.class);break;
+            case MenuPosition.POS_EVENT:intent = new Intent(getApplicationContext(), EventPage.class);break;
             case MenuPosition.POS_MYPROFILE:;break;
             case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;

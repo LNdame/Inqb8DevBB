@@ -16,8 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.android.volley.RequestQueue;
@@ -55,7 +53,6 @@ import cite.ansteph.beerly.adapter.EstAdapter;
 import cite.ansteph.beerly.api.Routes;
 import cite.ansteph.beerly.api.columns.BeerLoversColumns;
 import cite.ansteph.beerly.api.columns.EstablishmentColumns;
-import cite.ansteph.beerly.app.GlobalRetainer;
 import cite.ansteph.beerly.helper.SessionManager;
 import cite.ansteph.beerly.model.BeerLovers;
 import cite.ansteph.beerly.model.Establishment;
@@ -64,15 +61,14 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
-import cite.ansteph.beerly.utils.DateTimeUtils;
-import cite.ansteph.beerly.view.MapsActivity;
+import cite.ansteph.beerly.view.beerlylover.affiliate.Affiliate;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
+import cite.ansteph.beerly.view.beerlylover.event.EventPage;
 import cite.ansteph.beerly.view.beerlylover.registration.Login;
-import cite.ansteph.beerly.view.beerlylover.registration.Registration;
 
 public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener , OnMapReadyCallback {
 
-private  static String TAG = Home.class.getSimpleName();
+    private  static String TAG = Home.class.getSimpleName();
 
     private String[] screenTitles;
     private Drawable[] screenIcons;
@@ -145,6 +141,7 @@ private  static String TAG = Home.class.getSimpleName();
 
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(MenuPosition.POS_HOME).setChecked(true),
+                createItemFor(MenuPosition.POS_EVENT),
                 createItemFor(MenuPosition.POS_MYPROFILE),
                 createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
@@ -392,6 +389,7 @@ private  static String TAG = Home.class.getSimpleName();
         switch (position)
         {
             case MenuPosition.POS_HOME: break;
+            case MenuPosition.POS_EVENT:intent = new Intent(getApplicationContext(), EventPage.class);break;
             case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), LoverProfile.class);break;
             case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;
@@ -411,7 +409,7 @@ private  static String TAG = Home.class.getSimpleName();
     }
 
 
-protected  void initViewPager(ArrayList<Establishment> establishmentList){
+    protected  void initViewPager(ArrayList<Establishment> establishmentList){
     mRecyclerView =(RecyclerViewPager) findViewById(R.id.recyclerViewEst);
 
     LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);

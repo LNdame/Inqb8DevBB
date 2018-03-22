@@ -66,7 +66,9 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
+import cite.ansteph.beerly.view.beerlylover.affiliate.Affiliate;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
+import cite.ansteph.beerly.view.beerlylover.event.EventPage;
 import cite.ansteph.beerly.view.beerlylover.registration.Registration;
 
 public class Preferences extends AppCompatActivity implements RecyclerViewClickListener ,DrawerAdapter.OnItemSelectedListener,
@@ -113,6 +115,7 @@ SessionManager sessionManager;
 
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(MenuPosition.POS_HOME),
+                createItemFor(MenuPosition.POS_EVENT),
                 createItemFor(MenuPosition.POS_MYPROFILE),
                 createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE).setChecked(true),
@@ -346,10 +349,11 @@ SessionManager sessionManager;
         switch (position)
         {
             case MenuPosition.POS_HOME: intent = new Intent(getApplicationContext(), Home.class);break;
+            case MenuPosition.POS_EVENT:intent = new Intent(getApplicationContext(), EventPage.class);break;
             case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), LoverProfile.class);break;
             case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
             case MenuPosition.POS_PREFERENCE:;break;
-            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Registration.class);break;
+            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Affiliate.class);break;
 
             default:
                 intent = new Intent(getApplicationContext(), Home.class);

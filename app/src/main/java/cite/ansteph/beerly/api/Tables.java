@@ -17,7 +17,7 @@ public interface Tables {
 
     String   ESTABLISMENT_Table = "Establisment";
 
-
+  String  EVENT_Table = "Event";
 
 
 }

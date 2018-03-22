@@ -22,13 +22,13 @@ repositories {
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "cite.ansteph.beerly"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 7
-        versionName "1.6"
+        versionCode 8
+        versionName "1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,14 +38,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "tier"
+
     productFlavors {
         loverfree {
+            dimension "tier"
             minSdkVersion 21
             applicationId 'cite.ansteph.beerly'
             targetSdkVersion 26
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-            versionCode 7
-            versionName '1.6'
+            versionCode 8
+            versionName '1.7'
         }
     }
 }

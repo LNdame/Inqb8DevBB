@@ -94,6 +94,7 @@
         android:textColor="@android:color/white"
         android:text="Active Discount(s)" />
     <android.support.v7.widget.RecyclerView
+        android:visibility="invisible"
         android:id="@+id/recyclerview"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/selectionlyt"

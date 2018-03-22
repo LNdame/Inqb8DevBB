@@ -1,13 +1,11 @@
-package cite.ansteph.beerly.view.beerlylover;
+package cite.ansteph.beerly.view.beerlylover.affiliate;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.design.widget.FloatingActionButton;
@@ -36,7 +34,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.Arrays;
 
 import cite.ansteph.beerly.R;
@@ -49,9 +46,11 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
-import cite.ansteph.beerly.utils.RandomStringUtils;
+import cite.ansteph.beerly.view.beerlylover.Home;
+import cite.ansteph.beerly.view.beerlylover.LoverProfile;
+import cite.ansteph.beerly.view.beerlylover.Preferences;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
-import cite.ansteph.beerly.view.beerlylover.registration.Registration;
+import cite.ansteph.beerly.view.beerlylover.event.EventPage;
 
 public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
@@ -89,6 +88,7 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
 
         DrawerAdapter adapter = new DrawerAdapter(Arrays.asList(
                 createItemFor(MenuPosition.POS_HOME),
+                createItemFor(MenuPosition.POS_EVENT),
                 createItemFor(MenuPosition.POS_MYPROFILE),
                 createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
@@ -142,6 +142,8 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
 
   public   void onCopyClicked(View view)
     {
+        startActivity(new Intent(getApplicationContext(), JoinAffiliate.class));
+
         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("code",txtAffiliateCode.getText().toString());
         clipboard.setPrimaryClip(clip);
@@ -227,6 +229,7 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
         switch (position)
         {
             case MenuPosition.POS_HOME: intent = new Intent(getApplicationContext(), Home.class);break;
+            case MenuPosition.POS_EVENT:intent = new Intent(getApplicationContext(), EventPage.class);break;
             case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), LoverProfile.class);break;
             case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;

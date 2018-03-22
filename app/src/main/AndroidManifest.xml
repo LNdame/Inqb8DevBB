@@ -90,9 +90,9 @@
         <activity android:name=".view.beerlylover.discount.ScanActivity" />
         <activity android:name=".view.beerlylover.discount.DiscountResult" />
         <activity
-            android:name=".view.beerlylover.Affiliate"
+            android:name=".view.beerlylover.affiliate.Affiliate"
             android:label="@string/title_activity_affiliate"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.beerlylover.EditLoverProfile"
             android:label="@string/title_activity_edit_lover_profile"
@@ -103,21 +103,43 @@
                 android:value="cite.ansteph.beerly.view.beerlylover.LoverProfile" />
         </activity>
 
-
-
-        <service
-            android:name=".service.BeerlyFirebaseMessagingService">
+        <service android:name=".service.BeerlyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".service.BeerlyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-        <service
-            android:name=".service.BeerlyFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
+        <activity
+            android:name=".view.beerlylover.event.EventPage"
+            android:label="@string/title_activity_event_page"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.beerlylover.event.EventDetails"
+            android:label="@string/title_activity_event_details"
+            android:parentActivityName=".view.beerlylover.event.EventPage"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cite.ansteph.beerly.view.beerlylover.event.EventPage" />
+        </activity>
+        <activity
+            android:name=".view.beerlylover.affiliate.JoinAffiliate"
+            android:label="@string/title_activity_join_affiliate"
+            android:parentActivityName=".view.beerlylover.affiliate.Affiliate"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cite.ansteph.beerly.view.beerlylover.affiliate.Affiliate" />
+        </activity>
+        <activity
+            android:name=".view.beerlylover.affiliate.LeaderboardActivity"
+            android:label="@string/title_activity_leaderboard"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

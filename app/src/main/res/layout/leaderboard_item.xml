@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/txtldrRank"
+        android:layout_alignParentStart="true"
+        android:fontFamily="sans-serif-light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorWhite"
+        android:padding="16dp"
+        android:text="1" />
+
+    <TextView
+        android:id="@+id/txtldrUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:gravity="center"
+        android:layout_toEndOf="@+id/txtldrRank"
+        android:layout_toStartOf="@id/txtldrSign"
+        android:background="@drawable/just_border"
+        android:fontFamily="sans-serif-light"
+        android:padding="16dp"
+        android:text="Alexis"
+        android:textColor="@color/textColorPrimary"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtldrSign"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="sans-serif-light"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorWhite"
+        android:padding="16dp"
+        android:text="1500" />
+
+
+</RelativeLayout>

@@ -379,7 +379,7 @@ public class Registration extends AppCompatActivity {
             mFirebaseUID = user.getUid();
 
             //to be removed
-            Toast.makeText(Registration.this, mFirebaseUID, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(Registration.this, mFirebaseUID, Toast.LENGTH_SHORT).show();
 
             txtEmail.setText(TextUtils.isEmpty(user.getEmail()) ? "No email" : user.getEmail());
             txtFirstName.setText (getString(R.string.account_reg_welcome ,nameSplit[0]));
