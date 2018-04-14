@@ -3,6 +3,7 @@ package cite.ansteph.beerly.view.beerlylover;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
@@ -74,7 +75,7 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
 
             if(bundle!=null){
                 mCurrentEstabliment = (Establishment)bundle.getSerializable("Establishment");
-                setTitle(mCurrentEstabliment.getName() +"'s Promotions");
+                setTitle(mCurrentEstabliment.getName() +"'s Specials");
                 //setupUI(mCurrentEstabliment);
             }else{
                 Toast.makeText(getApplicationContext(), "Oups! No promo found for this establisment!", Toast.LENGTH_LONG).show();
@@ -121,8 +122,13 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "This will take you out of the app and unto the Maps", Snackbar.LENGTH_LONG)
+                        .setAction("Continue ?", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                getDirections(mCurrentEstabliment.getLatitude(), mCurrentEstabliment.getLongitude());
+                            }
+                        }).show();
             }
         });
 
@@ -182,6 +188,16 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         requestQueue.add(jsonArrayRequest);
+    }
+
+
+    void getDirections(String latitude, String longitude  )
+    {
+        String address  = "http://maps.google.com/maps?daddr=" +latitude+" , "+longitude;
+
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse(address));
+        startActivity(intent);
     }
 
 

@@ -142,7 +142,7 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
 
   public   void onCopyClicked(View view)
     {
-        startActivity(new Intent(getApplicationContext(), JoinAffiliate.class));
+
 
         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("code",txtAffiliateCode.getText().toString());
@@ -153,6 +153,10 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
     }
 
 
+    /**
+     *
+     * General sharing algorithm*/
+
     public void SendInvite (View view){
 
 
@@ -162,18 +166,19 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
             String msg ="You have been invited to Beerly Beloved when registering please use the referral code: "
                     +txtAffiliateCode.getText().toString() +"\n Find it at https://play.google.com/store/apps/details?id=cite.ansteph.beerly"  ;
 
+            final Intent sharingIntent = new Intent(Intent.ACTION_SEND);
 
 
+            sharingIntent.setType("text/plain");
+            //emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
 
 
-            final Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            emailIntent.setType("plain/text");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, msg);
+            startActivity(Intent.createChooser(sharingIntent, "Sending Invite..."));
 
+          //  startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
 
-            emailIntent.putExtra(Intent.EXTRA_TEXT, msg);
-            startActivity(Intent.createChooser(emailIntent, "Sending Invite..."));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -265,6 +270,12 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
         }
     }
 
+
+    public void onHowWorkClicked(View view)
+    {
+       startActivity(new Intent(getApplicationContext(), JoinAffiliate.class));
+
+    }
 
     private void getLoverProfileData(String uid) throws JSONException
     {

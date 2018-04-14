@@ -221,4 +221,9 @@
         <item name="android:elevation">15dp</item>
     </style>
 
+    <style name="button_style_actract">
+        <item name="android:background">@drawable/buttonbg</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:elevation">15dp</item>
+    </style>
 </resources>

@@ -77,7 +77,7 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
 
        // holder.btnPromotion.setText("PROMOTION (" + establishments.get(position).getPromoNumber()+ ")");
 
-        holder.btnPromotion.setText("PROMOTION");
+        holder.btnPromotion.setText("DRINKS' SPECIAL");
         holder.btnPromotion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +97,13 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
                 mContext.startActivity(i);
             }
         });
+
+        if(establishments.get(position).getId()==0){
+            holder.btnProfile.setVisibility(View.GONE);
+            holder.btnPromotion.setVisibility(View.GONE);
+        }
+
+
     }
 
     @Override

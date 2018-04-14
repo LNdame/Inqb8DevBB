@@ -1,13 +1,20 @@
 package cite.ansteph.beerly.view.beerlylover.event;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +22,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,12 +36,14 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.maps.android.SphericalUtil;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
@@ -56,6 +67,7 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
+import cite.ansteph.beerly.utils.InternetConnectionStatus;
 import cite.ansteph.beerly.view.beerlylover.affiliate.Affiliate;
 import cite.ansteph.beerly.view.beerlylover.Home;
 import cite.ansteph.beerly.view.beerlylover.LoverProfile;
@@ -63,7 +75,7 @@ import cite.ansteph.beerly.view.beerlylover.Preferences;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
 import cite.ansteph.beerly.view.beerlylover.registration.Login;
 
-public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnItemSelectedListener , OnMapReadyCallback {
+public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnItemSelectedListener , OnMapReadyCallback, GoogleMap.OnCameraChangeListener  {
 
     private  static String TAG = Home.class.getSimpleName();
 
@@ -83,7 +95,7 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
     FirebaseUser mUser;
 
     public static final  int RC_SIGN_IN =1;
-
+    final private int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     double locations[][] = new double[][]{{-33.955239, 25.611931},
             { -33.9736, 25.5983},
@@ -95,10 +107,10 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
     };
 
     SessionManager sessionManager;
-
+    LatLng mCurrentLatLng;
 
     private GoogleMap mGoogleMap;
-    ArrayList<Establishment> mEstablishments ;
+    ArrayList<BeerlyEvent> mBeerlyEvents ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +119,7 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mBeerlyEvents = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -174,7 +187,7 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
 
 
         try {
-            getEstablismentData();
+            getEventData();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -256,16 +269,31 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
 
     }
 
-
-
-    private void getEstablismentData() throws JSONException
+    void checkConnection()
     {
-        String url = String.format(Routes.URL_RETRIEVE_EST);
+        LinearLayout lyt = (LinearLayout) findViewById(R.id.lytConnection);
+
+        if( InternetConnectionStatus.isFullConnectionOn(this))
+        {
+            lyt.setVisibility(View.GONE);
+        }else{
+            lyt.setVisibility(View.VISIBLE);
+        }
+
+
+    }
+
+
+    private void getEventData() throws JSONException
+    {
+        checkConnection();
+
+        String url = String.format(Routes.URL_RETRIEVE_EVENTS);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                loadEstablishment(response);
+                loadBeerlyEvent(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -281,7 +309,7 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
 
 
 
-    private void loadEstablishment(JSONArray eventjsonArray)
+    private void loadBeerlyEvent(JSONArray eventjsonArray)
     {
         ArrayList<BeerlyEvent> eventArrayList = new ArrayList<>();
 
@@ -292,9 +320,10 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
 
                 BeerlyEvent est  = new BeerlyEvent();
                 est.setId(eventjson.getInt(EventColumns.EST_ID));
-                est.setName(eventjson.getString(EventColumns.NAME));
+                est.setName(eventjson.getString(EventColumns.TITLE));
                 est.setAddress(eventjson.getString(EventColumns.ADDRESS));
-                est.setLiqour_license(eventjson.getString(EventColumns.LIQUORLICENCE));
+                //est.setLiqour_license(eventjson.getString(EventColumns.LIQUORLICENCE));
+                est.setDescription(eventjson.getString(EventColumns.DESCRIPTION));
                 est.setContact_person(eventjson.getString(EventColumns.CONTACTPERSON));
                 est.setContact_number(eventjson.getString(EventColumns.CONTACTNUMBER));
                 est.setEstablishment_url(eventjson.getString(EventColumns.URL));
@@ -302,7 +331,10 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
                 est.setLongitude(eventjson.getString(EventColumns.LONGITUDE));
 
                 est.setMain_picture_url(eventjson.getString(EventColumns.URLMAINPIC));
-                est.setPicture_2_url(eventjson.getString("picture_2"));
+                est.setPicture_2_url(eventjson.getString(EventColumns.PIC2));
+
+                est.setEndDate(eventjson.getString(EventColumns.ENDDATE));
+                est.setStartDate(eventjson.getString(EventColumns.STARTDATE));
                 // est.set(estjson.getString("hs_license"));
                 // est.setName(estjson.getString(""));
 
@@ -316,8 +348,14 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
             }
         }
 
-        initViewPager(eventArrayList);
-        initMarker(eventArrayList);
+
+        mBeerlyEvents = eventArrayList;
+
+        filteringEvent(mCurrentLatLng,mBeerlyEvents);
+
+
+       // initViewPager(eventArrayList);
+        //initMarker(eventArrayList);
 
         /*
         try {
@@ -328,8 +366,63 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
     }
 
 
+    void filteringEvent(LatLng currentCenter, ArrayList<BeerlyEvent> events)
+    {
+
+        ArrayList<BeerlyEvent> filteredList = new ArrayList<>();
+
+        for(BeerlyEvent evt : events)
+        {
+            try{
+                LatLng toDest = new LatLng(Double.valueOf(evt.getLatitude()) ,Double.valueOf(evt.getLongitude()) ) ;
+                Double distance = SphericalUtil.computeDistanceBetween(currentCenter, toDest);
+
+                if(distance <= 10000){
+                    filteredList.add(evt);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
 
+
+
+        }
+
+
+
+        initViewPager(filteredList);
+        initMarker(filteredList);
+
+        if(filteredList.size()==0)
+        {
+            filteredList.add(createEmptyEvt());
+            initViewPager(filteredList);
+        }
+
+    }
+
+
+    BeerlyEvent createEmptyEvt()
+    {
+        BeerlyEvent evt  = new BeerlyEvent();
+        evt.setId(0);
+        evt.setName("No event found near you");
+        evt.setAddress("Try moving the map around to discover more events");
+        evt.setLiqour_license("0");
+        evt.setContact_person("0");
+        evt.setContact_number("0");
+        evt.setEstablishment_url("0");
+        evt.setLatitude("0");
+        // est.setLongitude(estjson.getString(EstablishmentColumns.LONGITUDE));
+
+        // est.setMain_picture_url(estjson.getString(EstablishmentColumns.URLMAINPIC));
+        // est.setPicture_2_url(estjson.getString("picture_2"));
+
+
+
+        return evt;
+    }
 
     protected  void initViewPager(ArrayList<BeerlyEvent> eventList){
         mRecyclerView =(RecyclerViewPager) findViewById(R.id.recyclerViewEvt);
@@ -437,7 +530,7 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
             JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    //loadEstablishment(response);
+                    //loadBeerlyEvent(response);
 
                     events.get(finI).setPromoNumber(response.length());
 
@@ -463,10 +556,10 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setZoomControlsEnabled(false);
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
-
+        mGoogleMap.setOnCameraChangeListener(this);
         try{
             boolean success = mGoogleMap.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(getApplicationContext(), R.raw.map_style)
+                    MapStyleOptions.loadRawResourceStyle(getApplicationContext(), R.raw.map_event_style)
             );
             if(!success){
                 Log.e(TAG,"Style parsing failed");
@@ -477,20 +570,29 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
 
         LatLng pe = new LatLng(-33.9736, 25.5983);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pe,10.9f));
+        enableMyLocation();
 
     }
 
 
     private void initMarker(ArrayList<BeerlyEvent> events)
     {
+        mGoogleMap.clear();
         mPubMarker = new Marker[events.size()];
 
         for(int i = 0; i<events.size();i++)
         {
             BeerlyEvent est = events.get(i);
+
+            if(i==0){
+                mPubMarker[i] = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(est.getLatitude()),Double.parseDouble(est.getLongitude())))
+                        .title(est.getName())
+                        .snippet("Go have fun").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_pin_select)));
+            }else{
+
             mPubMarker[i] = mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(est.getLatitude()),Double.parseDouble(est.getLongitude())))
                     .title(est.getName())
-                    .snippet("Go have fun").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_pin_reg)));
+                    .snippet("Go have fun").icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_map_pin_reg)));}
         }
     }
 
@@ -508,6 +610,81 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
 
     }
 
+    /**
+     * Enables the My Location layer if the fine location permission has been granted.
+     */
+    private void enableMyLocation()
+    {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermission();
+        } else if (mGoogleMap != null) {
+            // Access to the location has been granted to the app.
+            mGoogleMap.setMyLocationEnabled(true);
+            LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+
+            String bestProvider = String.valueOf(manager.getBestProvider(criteria,true));
+
+            Location myLocation = manager.getLastKnownLocation(bestProvider);
+
+            if(myLocation !=null)
+            {
+                Log.e("EstHomeMapTag","GPS is ON");
+                final double curLatitude = myLocation.getLatitude();
+                final double curLongitude = myLocation.getLongitude();
+
+                LatLng latLng = new LatLng(curLatitude, curLongitude);
+
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15.9f));
+                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10.9f),2000,null);
+            }
+
+
+        }
+    }
+
+    private void requestPermission()
+    {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+
+    /**
+     * Listener for response to user permission request
+     *
+     * @param requestCode  Check that permission request code matches
+     * @param permissions  Permissions that requested
+     * @param grantResults Whether permissions granted
+     */
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode)
+        {
+            case LOCATION_PERMISSION_REQUEST_CODE:
+                if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT)
+                            .show();
+                }else{
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+
+
+       /* if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            Log.i(TAG, "Permission " +permissions[0]+ " was " +grantResults[0]);
+        }*/
+    }
 
 
     @Override
@@ -559,5 +736,23 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
     public void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
+    }
+
+    @Override
+    public void onCameraChange(CameraPosition cameraPosition) {
+        Log.d(TAG, "Camera moved");
+
+        mCurrentLatLng = new LatLng(cameraPosition.target.latitude,cameraPosition.target.longitude);
+
+        Location loc  = new Location("");
+
+        loc.setLatitude(cameraPosition.target.latitude);
+        loc.setLongitude(cameraPosition.target.longitude);
+
+        String latlong = cameraPosition.target.latitude +", "+cameraPosition.target.longitude;
+        Log.d(TAG, latlong);
+
+        filteringEvent(mCurrentLatLng,mBeerlyEvents);
+        //
     }
 }

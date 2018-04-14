@@ -277,7 +277,7 @@ public class EditLoverProfile extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //   loading.dismiss();
-                Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.getMessage()+"Oups! Could not talk to the server at this time, try again later",Toast.LENGTH_LONG).show();
             }
         }
 

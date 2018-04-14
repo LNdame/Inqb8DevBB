@@ -9,6 +9,7 @@
     tools:context="cite.ansteph.beerly.view.beerlylover.EstMenu"
     tools:showIn="@layout/activity_ets_menu">
     <android.support.v7.widget.RecyclerView
+        android:paddingBottom="50dp"
         android:id="@+id/recyclerview"
         android:layout_below="@+id/selectionlyt"
         android:layout_width="match_parent"

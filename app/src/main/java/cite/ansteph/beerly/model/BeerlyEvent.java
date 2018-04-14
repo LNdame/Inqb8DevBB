@@ -12,6 +12,8 @@ public class BeerlyEvent implements Serializable {
 
     String name, address,liqour_license,last_inspection_date, contact_person, contact_number ;
     String establishment_url, latitude,longitude,status;
+    String startDate, endDate;
+    String description;
 
 
     byte [] logo;
@@ -185,5 +187,30 @@ public class BeerlyEvent implements Serializable {
 
     public void setPromoNumber(int promoNumber) {
         this.promoNumber = promoNumber;
+    }
+
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

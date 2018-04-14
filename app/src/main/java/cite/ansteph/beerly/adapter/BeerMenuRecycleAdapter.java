@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.model.Promotion;
+import cite.ansteph.beerly.utils.DateTimeUtils;
 
 /**
  * Created by loicstephan on 2017/11/11.
@@ -47,8 +48,13 @@ public class BeerMenuRecycleAdapter extends RecyclerView.Adapter<BeerMenuRecycle
         holder.txtPromoTitle.setText(promotions.get(position).getTitle());
 
         holder.txtbeerPrice.setText("R "+String.valueOf(promotions.get(position).getPrice()) );
-        holder.txtPromoStart.setText(promotions.get(position).getStart_date());
-        holder.txtPromoEnd.setText(promotions.get(position).getEnd_date());
+
+        String startDate = DateTimeUtils.datetoStringShortDateAndTime(promotions.get(position).getStart_date());
+        String endDate = DateTimeUtils.datetoStringShortDateAndTime(promotions.get(position).getEnd_date());
+
+
+        holder.txtPromoStart.setText(startDate);
+        holder.txtPromoEnd.setText(endDate);
 
         final View itemView = holder.itemView;
     }

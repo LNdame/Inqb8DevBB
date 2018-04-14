@@ -11,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import cite.ansteph.beerly.R;
 import cite.ansteph.beerly.model.BeerlyEvent;
+import cite.ansteph.beerly.utils.DateTimeUtils;
 import cite.ansteph.beerly.view.beerlylover.EstMenu;
 import cite.ansteph.beerly.view.beerlylover.Profile;
 import cite.ansteph.beerly.view.beerlylover.event.EventDetails;
@@ -59,7 +61,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.establismentcard, parent, false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.event_card, parent, false);
 
         return  new EventViewHolder(view);
     }
@@ -73,7 +75,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         // holder.btnPromotion.setText("PROMOTION (" + establishments.get(position).getPromoNumber()+ ")");
 
-        holder.btnPromotion.setText("PROMOTION");
+        int numDays =getTimeToEvent( beerlyEvents.get(position).getStartDate());
+
+        if(numDays<0)
+        {
+            holder.btnPromotion.setText("Finished");
+        }else if(numDays==0)
+        {
+            holder.btnPromotion.setText("Start Today");
+        } else if(numDays>0){
+            holder.btnPromotion.setText("Start in "+numDays +" days");
+        }
+
+
+
+        ;
         holder.btnPromotion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +109,39 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 mContext.startActivity(i);
             }
         });
+
+        if(beerlyEvents.get(position).getId()==0){
+            holder.btnProfile.setVisibility(View.GONE);
+            holder.btnPromotion.setVisibility(View.GONE);
+        }
+
     }
+
+
+
+
+    public int getTimeToEvent(String enddate)
+    {
+        try{
+            Date d = new Date();
+
+            String nowString = DateTimeUtils.dateTostringsimple(d);
+
+            int days = DateTimeUtils.countDays(nowString, enddate);
+
+            return days;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return 0;
+        }
+
+
+
+    }
+
+
+
 
     @Override
     public int getItemCount() {

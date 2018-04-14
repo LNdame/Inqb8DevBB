@@ -96,11 +96,15 @@ SessionManager sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sessionManager = new SessionManager(getApplicationContext());
+
+
         setContentView(R.layout.activity_preferences);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-         sessionManager = new SessionManager(getApplicationContext());
+
         LoversPreferences = new HashMap<>();
         slidingRootNav = new SlidingRootNavBuilder(this)
                 .withToolbarMenuToggle(toolbar)
@@ -558,7 +562,7 @@ SessionManager sessionManager;
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //   loading.dismiss();
-                        Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), error.getMessage()+"Oups! Could not talk to the server at this time, try again later",Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -601,8 +605,10 @@ SessionManager sessionManager;
 
 
                 // if(mTempPreferenceList!=null && )
+        sessionManager.recordPreference(mTempPreferenceList.get(0).getId(),mTempPreferenceList.get(1).getId(),mTempPreferenceList.get(2).getId());
 
-                String url = String.format(Routes.URL_UPDATE_PREFERENCES, FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        String url = String.format(Routes.URL_UPDATE_PREFERENCES, FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
@@ -627,7 +633,7 @@ SessionManager sessionManager;
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //   loading.dismiss();
-                        Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), error.getMessage()+"Oups! Could not talk to the server at this time, try again later",Toast.LENGTH_LONG).show();
                     }
                 }
 

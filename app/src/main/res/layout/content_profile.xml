@@ -51,7 +51,7 @@
                     android:layout_gravity="center_horizontal|bottom"
                     android:layout_marginBottom="30dp"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/arclayout_rogue_logo"
+                    android:src="@drawable/bridge_brewery"
                     />
 
             </FrameLayout>

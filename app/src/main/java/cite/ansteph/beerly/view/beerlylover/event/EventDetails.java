@@ -40,8 +40,13 @@ public class EventDetails extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "This will take you out of the app and unto the Maps", Snackbar.LENGTH_LONG)
+                        .setAction("Continue ?", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                getDirections(mCurrentEvent.getLatitude(), mCurrentEvent.getLongitude());
+                            }
+                        }).show();
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,7 +70,10 @@ public class EventDetails extends AppCompatActivity {
     {
         TextView txtname = (TextView) findViewById(R.id.txtestName);
         TextView txtAddress = (TextView) findViewById(R.id.txtaddress);
-        TextView txtSpeciality = (TextView) findViewById(R.id.txtspeciality);
+        TextView txtDesc = (TextView) findViewById(R.id.txtdescription);
+
+        TextView txtStartDate = (TextView) findViewById(R.id.txtstardate);
+        TextView txtEndDate = (TextView) findViewById(R.id.txtenddate);
 
         mProfilePic = (KenBurnsView) findViewById(R.id.mainPicture);
 
@@ -79,6 +87,11 @@ public class EventDetails extends AppCompatActivity {
 
         txtname.setText(event.getName());
         txtAddress.setText(event.getAddress());
+        txtDesc.setText(event.getDescription());
+
+        txtStartDate.setText(event.getStartDate());
+        txtEndDate.setText(event.getEndDate());
+
     }
 
 
@@ -95,7 +108,7 @@ public class EventDetails extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.profile_menu, menu);
+        getMenuInflater().inflate(R.menu.event_profile_menu, menu);
 
         this.mMenu = menu;
         return true;

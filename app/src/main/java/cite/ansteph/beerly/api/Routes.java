@@ -43,6 +43,11 @@ public interface Routes {
     String URL_STORE_DISCOUNT= DOMAIN+API_VERSION+ "store_discount";
     String URL_RETRIEVE_DISCOUNT= DOMAIN+API_VERSION+ "get_discount/%s";
 
+
+    ///Events
+    String URL_RETRIEVE_EVENTS=DOMAIN+API_VERSION+ "get_events"      ;
+
+
     /****************************************************---COMMON MESSAGE---*************************************************************/
 
     public static final String ERROR_RESPONSE= "error";

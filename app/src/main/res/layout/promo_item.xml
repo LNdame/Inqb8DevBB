@@ -5,7 +5,7 @@
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
     android:layout_width="match_parent"
-    android:layout_height="180dp">
+    android:layout_height="190dp">
 
     <cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout
         android:layout_width="match_parent"
@@ -49,13 +49,14 @@
         android:layout_marginEnd="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
+        android:paddingBottom="8dp"
         android:orientation="vertical">
 
 
 
 
         <TextView
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="38dp"
             android:id="@+id/txtbrprbeeritem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,8 +65,19 @@
             android:fontFamily="sans-serif-smallcaps"
             android:textColor="@color/colorWhite"
             android:text="TextView" />
+
         <TextView
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="16dp"
+            android:textSize="10dp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="sans-serif-light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start On" />
+
+        <TextView
+            android:layout_marginTop="2dp"
             android:layout_marginStart="16dp"
             android:id="@+id/txtbrprStartdate"
             android:textSize="16dp"
@@ -76,7 +88,17 @@
             android:text="TextView" />
 
         <TextView
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="16dp"
+            android:textSize="10dp"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="sans-serif-light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="End On" />
+
+        <TextView
+            android:layout_marginTop="2dp"
             android:layout_marginStart="16dp"
             android:id="@+id/txtbrprEnddate"
             android:textSize="16dp"

@@ -39,8 +39,7 @@
             android:textColor="@color/textColorPrimary"
             android:textSize="16dp"
             android:fontFamily="sans-serif-light"
-            android:text="Get a free or cash reward when you refer a friend to join  Beerly Beloved.
-" />
+            android:text="Get a free or cash reward when you refer a friend to join  Beerly Beloved." />
         <TextView
             android:id="@+id/txtHowdowork"
             android:layout_width="match_parent"
@@ -50,7 +49,7 @@
             android:textSize="16dp"
             android:clickable="true"
             android:fontFamily="sans-serif-light"
-
+            android:onClick="onHowWorkClicked"
             android:text="@string/affiliate" />
     </LinearLayout>
 

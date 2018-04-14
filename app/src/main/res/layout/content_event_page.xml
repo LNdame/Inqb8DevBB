@@ -21,13 +21,24 @@
         android:id="@+id/recyclerViewEvt"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
         android:clipToPadding="false"
         app:rvp_triggerOffset="0.1"
         app:rvp_singlePageFling="true"
-
         android:layout_alignParentBottom="true"
 
         />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/lytConnection"
+        android:background="#940e0e0e"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/connection_status_lyt" />
+
+    </LinearLayout>
 </RelativeLayout>
