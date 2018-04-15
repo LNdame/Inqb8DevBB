@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import cite.ansteph.beerly.api.columns.PromotionColumns;
 import cite.ansteph.beerly.model.Beer;
 import cite.ansteph.beerly.model.Promotion;
 import cite.ansteph.beerly.view.beerlylover.Home;
+import cite.ansteph.beerly.view.beerlylover.affiliate.Affiliate;
 
 public class DiscountResult extends AppCompatActivity {
 
@@ -72,7 +74,7 @@ public class DiscountResult extends AppCompatActivity {
             }
         }
 
-        startCountDown();
+
 
 
 
@@ -156,11 +158,19 @@ public class DiscountResult extends AppCompatActivity {
             }
         }
 
+        if(!TextUtils.isEmpty(estid) && Integer.parseInt(estid)>0) {
 
-        try {
-            storeDiscount(estid);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            try {
+                storeDiscount(estid);
+
+                startCountDown();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else{
+
+            txtDiscountMsg.setText(getString(R.string.no_special ) );
+            txtCountDown.setText("Try again later");
         }
         // mPromoAdapter.notifyDataSetChanged();
 
@@ -256,6 +266,10 @@ public class DiscountResult extends AppCompatActivity {
 
 
 
+    public void onBackClicked(View view)
+    {
+        startActivity(new Intent(getApplicationContext(), Affiliate.class));
+    }
 
 
 

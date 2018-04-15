@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_padding_horizontal"
+
     android:background="@color/colorPrimaryLightLight"
     tools:context="cite.ansteph.beerly.view.beerlylover.discount.DiscountResult">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+
+        android:orientation="vertical"
+        android:padding="@dimen/activity_padding_horizontal">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_marginBottom="24dp"
         app:srcCompat="@drawable/icon" />
 
     <TextView
@@ -38,7 +45,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
 
-        android:text="Discount activated" />
+        android:text="Come back in" />
 
 
     <TextView
@@ -48,5 +55,20 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:text="Discount activated" />
-</LinearLayout>
+        android:text="Cool Down  Period" />
+    </LinearLayout>
+    <Button
+
+        style="@style/button_style"
+        android:id="@+id/btnRefuseJoin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/colorWhite"
+
+        android:onClick="onBackClicked"
+
+
+
+        android:text="BACK" />
+</RelativeLayout>

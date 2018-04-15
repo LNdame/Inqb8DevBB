@@ -67,19 +67,9 @@ public class Discount extends AppCompatActivity implements ZXingScannerView.Resu
 
         //textView.setText("Waiting for result");
 
-        findViewById(R.id.btn_scan).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Discount.this, ScanActivity.class));
-            }
-        });
 
-        findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Discount.this, ScanActivity.class));
-            }
-        });
+
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
@@ -103,22 +93,6 @@ public class Discount extends AppCompatActivity implements ZXingScannerView.Resu
 
         mDiscountAdapter.notifyDataSetChanged();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

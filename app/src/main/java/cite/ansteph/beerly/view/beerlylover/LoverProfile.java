@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,6 +29,9 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.yarolegovich.lovelydialog.LovelyDialogCompat;
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
+import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
@@ -77,6 +81,7 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
     FirebaseUser mUser;
 
     BeerLovers mBeerLovers;
+
 
 
     @Override
@@ -521,6 +526,12 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
         mAuth.addAuthStateListener(mAuthStateListener);
 
     }
+
+
+
+
+
+
 
 
 }

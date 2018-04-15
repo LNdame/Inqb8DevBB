@@ -40,22 +40,14 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
 
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="40dp"
         android:paddingRight="40dp">
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:clickable="true"
-            android:foreground="?attr/selectableItemBackground"
-            android:src="@drawable/qrcode"
-            android:tint="@android:color/white" />
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,26 +55,12 @@
             android:layout_marginTop="30dp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="Scan the QR code somewhere in this fine establishment and activate your discount"
+            android:text="@string/discount_msg"
             android:textColor="@android:color/white"
             android:textSize="16dp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="170dp"
-        android:background="@android:color/transparent"
-        android:foreground="?attr/selectableItemBackground"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Scan QR Code"
-        android:textColor="@android:color/white"
-        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_marginTop="16dp"
@@ -92,14 +70,14 @@
         android:gravity="center"
         android:fontFamily="sans-serif-medium"
         android:textColor="@android:color/white"
-        android:text="Active Discount(s)" />
+        android:text="Active cool down period(s)" />
     <android.support.v7.widget.RecyclerView
         android:visibility="invisible"
         android:id="@+id/recyclerview"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/selectionlyt"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="250dp">
 
     </android.support.v7.widget.RecyclerView>
 

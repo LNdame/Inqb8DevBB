@@ -39,30 +39,63 @@
             android:textColor="@color/textColorPrimary"
             android:textSize="16dp"
             android:fontFamily="sans-serif-light"
-            android:text="Get a free or cash reward when you refer a friend to join  Beerly Beloved." />
+            android:text="Get free beer when you attend a special or when you invite a friend to join Beerly Beloved." />
         <TextView
             android:id="@+id/txtHowdowork"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+
             android:textColor="@color/colorAccent"
+            android:drawableRight="@drawable/ic_help_outline_black_24dp"
             android:textSize="16dp"
             android:clickable="true"
             android:fontFamily="sans-serif-light"
             android:onClick="onHowWorkClicked"
-            android:text="@string/affiliate" />
+            android:text="" />
     </LinearLayout>
-
+<!--@string/affiliate -->
     <RelativeLayout
         android:layout_weight="1"
-        android:paddingRight="60dp"
-        android:paddingLeft="60dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/qrcode"
+                android:tint="@color/colorDarkLighterGrey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="Scan the QR code somewhere in this fine establishment and earn free beer."
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16dp" />
+        </LinearLayout>
+
         <cite.ansteph.beerly.customview.diagonallayout.DiagonalLayout
             android:layout_width="match_parent"
-
+            android:visibility="gone"
             android:layout_height="150dp"
             android:layout_margin="20dp"
             android:background="@color/colorWhite"

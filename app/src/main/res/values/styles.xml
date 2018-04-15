@@ -226,4 +226,10 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:elevation">15dp</item>
     </style>
+
+
+
+    <style name="EditTextTintTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/textColorPrimary</item>
+    </style>
 </resources>

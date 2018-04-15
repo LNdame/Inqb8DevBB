@@ -176,7 +176,7 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
                 createItemFor(MenuPosition.POS_MYPROFILE),
                 createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
-                createItemFor(MenuPosition.POS_AFFILIATE),
+             //   createItemFor(MenuPosition.POS_AFFILIATE),
                 new SpaceItem(48),
                 createItemFor(MenuPosition.POS_LOGOUT)));
         adapter.setListener(this);

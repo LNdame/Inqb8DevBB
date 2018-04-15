@@ -1,15 +1,21 @@
 package cite.ansteph.beerly.view.beerlylover.affiliate;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,8 +24,11 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,6 +36,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.zxing.Result;
+import com.yarolegovich.lovelydialog.LovelyDialogCompat;
+import com.yarolegovich.lovelydialog.LovelySaveStateHandler;
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
@@ -46,16 +59,19 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
+import cite.ansteph.beerly.view.beerlylover.EstMenu;
 import cite.ansteph.beerly.view.beerlylover.Home;
 import cite.ansteph.beerly.view.beerlylover.LoverProfile;
 import cite.ansteph.beerly.view.beerlylover.Preferences;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
+import cite.ansteph.beerly.view.beerlylover.discount.ScanActivity;
 import cite.ansteph.beerly.view.beerlylover.event.EventPage;
 
 public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener {
 
     private  static String TAG = Affiliate.class.getSimpleName();
 
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private String[] screenTitles;
     private Drawable[] screenIcons;
     private SlidingRootNav slidingRootNav;
@@ -66,12 +82,19 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
 
     SessionManager sessionManager;
 
+    private static final int ID_STANDARD_DIALOG = R.id.fab;
+    private LovelySaveStateHandler saveStateHandler;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affiliate);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        requestPermission();
+        saveStateHandler = new LovelySaveStateHandler();
 
         sessionManager = new SessionManager(getApplicationContext());
 
@@ -129,6 +152,13 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
             txtAffiliate.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
+
+        findViewById(R.id.icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Affiliate.this, ScanActivity.class));
+            }
+        });
 
         //Checkif there is invitation <code>
         checkInvitation ();
@@ -273,7 +303,8 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
 
     public void onHowWorkClicked(View view)
     {
-       startActivity(new Intent(getApplicationContext(), JoinAffiliate.class));
+        showLovelyDialog(view.getId(), null);
+      // startActivity(new Intent(getApplicationContext(), JoinAffiliate.class));
 
     }
 
@@ -344,5 +375,136 @@ public class Affiliate extends AppCompatActivity implements DrawerAdapter.OnItem
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.affiliate_menu, menu);
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==R.id.action_redeem){
+            Intent i = new Intent( getApplicationContext(), Discount.class);
+         //   i.putExtra("Establishment", mCurrentEstabliment );
+            startActivity(i);
+        }
+
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        saveStateHandler.saveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedState) {
+        super.onRestoreInstanceState(savedState);
+        if (LovelySaveStateHandler.wasDialogOnScreen(savedState)) {
+            //Dialog won't be restarted automatically, so we need to call this method.
+            //Each dialog knows how to restore its state
+            showLovelyDialog(LovelySaveStateHandler.getSavedDialogId(savedState), savedState);
+        }
+    }
+
+
+
+
+    private void showStandardDialog(Bundle savedInstanceState) {
+        new LovelyStandardDialog(this, LovelyStandardDialog.ButtonLayout.VERTICAL)
+                .setTopColorRes( R.color.colorAccent)
+                .setButtonsColorRes(R.color.colorPrimaryDark)
+                .setIcon(R.drawable.ic_car)
+                .setTitle(R.string.arrive_alive)
+                .setInstanceStateHandler(ID_STANDARD_DIALOG, saveStateHandler)
+                .setSavedInstanceState(savedInstanceState)
+                .setMessage(R.string.arrive_alive_msg)
+                .setPositiveButton(R.string.got_it, LovelyDialogCompat.wrap(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        //LovelyDialogCompat.wrap(
+                        // (dialog, which) -> Toast.makeText(Profile.this,
+                        //       R.string.repo_waiting,
+                        //     Toast.LENGTH_SHORT)
+                        //   .show())
+                )
+                .show();
+    }
+
+
+    private void showLovelyDialog(int dialogId, Bundle savedInstanceState) {
+        switch (dialogId) {
+            case ID_STANDARD_DIALOG:
+                showStandardDialog(savedInstanceState);
+                break;
+
+        }
+    }
+
+
+
+
+
+    private void requestPermission()
+    {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_ASK_PERMISSIONS);
+        }
+    }
+
+
+    /**
+     * Listener for response to user permission request
+     *
+     * @param requestCode  Check that permission request code matches
+     * @param permissions  Permissions that requested
+     * @param grantResults Whether permissions granted
+     */
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode)
+        {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT)
+                            .show();
+                }else{
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+
+
+       /* if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            Log.i(TAG, "Permission " +permissions[0]+ " was " +grantResults[0]);
+        }*/
+    }
+
+
+
 
 }

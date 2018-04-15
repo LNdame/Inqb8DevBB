@@ -9,7 +9,7 @@
         <item>Venues</item>
         <item>Events</item>
         <item>Profile</item>
-        <item>Discount</item>
+        <item>Earn Free Beer</item>
         <item>Preferences</item>
         <item>Affiliate Program</item>
         <item />
@@ -20,8 +20,8 @@
         <item>@drawable/ic_home</item>
         <item>@drawable/ic_date_range</item>
         <item>@drawable/ic_account_circle_24dp</item>
-        <item>@drawable/ic_star</item>
         <item>@drawable/ic_if_beer_mug</item>
+        <item>@drawable/ic_star</item>
         <item>@drawable/ic_affiliate</item>
         <item>0</item>
         <item>@drawable/ic_backspace</item>
@@ -223,7 +223,7 @@
     <string name="delete">DELETE</string>
     <string name="title_activity_discount">Discount</string>
 
-    <string name="discount_on" translatable="false">You now have a 12 hours discount activated at %1$s</string>
+    <string name="discount_on" translatable="false">Yeah! One more step towards a free beer! Come back in 12 hours for more  at %1$s</string>
 
 
     <string-array name="gender">
@@ -338,5 +338,19 @@
     <string name="affiliate_twitter"><a href="https://t.me/joinchat/HYxv6RDkuDY80y5CQ8Ippg">Beerly Beloved Twitter</a></string>
 
     <string name="no_connection">No Internet connection. Enable Wi-Fi or Cellular Mobile data, then try again</string>
+
+    <string name="no_special">This venue is currently not running any special. Why... oh why? </string>
+
+    <string name="got_it">Got it!</string>
+    <string name="arrive_alive">Arrive Alive</string>
+    <string name="arrive_alive_msg">We will now direct to the venue. We recommend that you call a cab even if you are sober.\n(Unless, you are the responsible designated driver)</string>
+
+    <string name="ar_alive_ok">Yes, I am calling a cab</string>
+    <string name="ar_alive_neutral">I am the designated driver</string>
+
+    <string name="discount_msg">Oops! You caught us with our pants down. Your free beer will be redeemable starting on the 12th December 2018.\n On that date, everything that you have accumulated so far will be multiplied by 2 to 4 times.
+Beerly lovers qualifying for the 3x and 4x will be immortalized in our website's hall of fame page.\n\n
+
+So, don't forget to scan those QR codes and invite friends!</string>
 
 </resources>
