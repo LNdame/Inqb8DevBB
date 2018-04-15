@@ -351,11 +351,11 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
         filteringEstablishment(mCurrentLatLng,establishments);
 
 
-      /*  try {
+       try {
            getPromoNumberData(establishments);
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
 
@@ -509,9 +509,9 @@ public class Home extends AppCompatActivity implements DrawerAdapter.OnItemSelec
             case MenuPosition.POS_HOME: break;
             case MenuPosition.POS_EVENT:intent = new Intent(getApplicationContext(), EventPage.class);break;
             case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), LoverProfile.class);break;
-            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
+            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Affiliate.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;
-            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Affiliate.class);break;
+            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Discount.class);break;
 
             default:
                 intent = new Intent(getApplicationContext(), Home.class);

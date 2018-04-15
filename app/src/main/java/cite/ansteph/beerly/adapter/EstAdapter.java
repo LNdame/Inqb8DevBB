@@ -104,6 +104,8 @@ public class EstAdapter extends RecyclerView.Adapter<EstAdapter.EstablishmentVie
         }
 
 
+
+
     }
 
     @Override

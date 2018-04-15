@@ -171,7 +171,7 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
                 createItemFor(MenuPosition.POS_MYPROFILE),
                 createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
-                createItemFor(MenuPosition.POS_AFFILIATE),
+               // createItemFor(MenuPosition.POS_AFFILIATE),
                 new SpaceItem(48),
                 createItemFor(MenuPosition.POS_LOGOUT)));
         adapter.setListener(this);
@@ -253,9 +253,9 @@ public class EventPage extends AppCompatActivity  implements DrawerAdapter.OnIte
             case MenuPosition.POS_HOME:intent = new Intent(getApplicationContext(), Home.class);break;
             case MenuPosition.POS_EVENT: break;
             case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), LoverProfile.class);break;
-            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
+            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Affiliate.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;
-            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Affiliate.class);break;
+            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Discount.class);break;
 
             default:
                 intent = new Intent(getApplicationContext(), Home.class);

@@ -123,7 +123,7 @@ SessionManager sessionManager;
                 createItemFor(MenuPosition.POS_MYPROFILE),
                 createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE).setChecked(true),
-                createItemFor(MenuPosition.POS_AFFILIATE),
+                //createItemFor(MenuPosition.POS_AFFILIATE),
                 new SpaceItem(48),
                 createItemFor(MenuPosition.POS_LOGOUT)));
         adapter.setListener(this);
@@ -355,9 +355,9 @@ SessionManager sessionManager;
             case MenuPosition.POS_HOME: intent = new Intent(getApplicationContext(), Home.class);break;
             case MenuPosition.POS_EVENT:intent = new Intent(getApplicationContext(), EventPage.class);break;
             case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), LoverProfile.class);break;
-            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
+            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Affiliate.class);break;
             case MenuPosition.POS_PREFERENCE:;break;
-            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Affiliate.class);break;
+            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Discount.class);break;
 
             default:
                 intent = new Intent(getApplicationContext(), Home.class);

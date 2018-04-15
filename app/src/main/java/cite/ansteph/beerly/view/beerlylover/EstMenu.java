@@ -50,6 +50,7 @@ import cite.ansteph.beerly.slidingmenu.DrawerItem;
 import cite.ansteph.beerly.slidingmenu.MenuPosition;
 import cite.ansteph.beerly.slidingmenu.SimpleItem;
 import cite.ansteph.beerly.slidingmenu.SpaceItem;
+import cite.ansteph.beerly.view.beerlylover.affiliate.Affiliate;
 import cite.ansteph.beerly.view.beerlylover.discount.Discount;
 import cite.ansteph.beerly.view.beerlylover.event.EventPage;
 import cite.ansteph.beerly.view.beerlylover.registration.Registration;
@@ -109,7 +110,7 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
                 createItemFor(MenuPosition.POS_MYPROFILE),
                 createItemFor(MenuPosition.POS_DISCOUNT),
                 createItemFor(MenuPosition.POS_PREFERENCE),
-                createItemFor(MenuPosition.POS_AFFILIATE),
+               // createItemFor(MenuPosition.POS_AFFILIATE),
                 new SpaceItem(48),
                 createItemFor(MenuPosition.POS_LOGOUT)));
         adapter.setListener(this);
@@ -219,6 +220,7 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
       //  txtPrefUpdate = (TextView) findViewById(R.id.txtPrefUpdate);
 
         mPromotionsList.clear();
+        int est_id=0;
 
         for(int i = 0; i<profilejsonArray.length(); i++)
         {
@@ -252,6 +254,29 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
             {
                 e.printStackTrace();
             }
+        }
+
+
+
+        if (profilejsonArray.length()==0)
+        {
+            Promotion promo= new Promotion();
+            promo.setId(0);
+            promo.setEstablishment_id(mCurrentEstabliment.getId());
+            promo.setBeer_id(0);
+            promo.setTitle("Presently no special");
+            promo.setStart_date("");
+            promo.setEnd_date("");
+            promo.setPrice (0.0);
+            promo.setStatus("");
+
+            Beer be = new Beer();
+            be.setId(promo.getBeer_id());
+            be.setName("No special");
+            promo.setBeer(be);
+
+
+            mPromotionsList.add(promo);
         }
 
         mPromoAdapter.notifyDataSetChanged();
@@ -417,9 +442,9 @@ public class EstMenu extends AppCompatActivity implements DrawerAdapter.OnItemSe
             case MenuPosition.POS_HOME: intent = new Intent(getApplicationContext(), Home.class);break;
             case MenuPosition.POS_EVENT:intent = new Intent(getApplicationContext(), EventPage.class);break;
             case MenuPosition.POS_MYPROFILE:intent = new Intent(getApplicationContext(), LoverProfile.class);break;
-            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Discount.class);break;
+            case MenuPosition.POS_DISCOUNT:intent = new Intent(getApplicationContext(), Affiliate.class);break;
             case MenuPosition.POS_PREFERENCE:intent = new Intent(getApplicationContext(), Preferences.class);break;
-            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Registration.class);break;
+            case MenuPosition.POS_AFFILIATE:intent = new Intent(getApplicationContext(), Discount.class);break;
 
             default:
                 intent = new Intent(getApplicationContext(), Home.class);

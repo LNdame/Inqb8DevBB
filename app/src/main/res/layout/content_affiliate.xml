@@ -44,7 +44,7 @@
             android:id="@+id/txtHowdowork"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+android:visibility="gone"
             android:textColor="@color/colorAccent"
             android:drawableRight="@drawable/ic_help_outline_black_24dp"
             android:textSize="16dp"

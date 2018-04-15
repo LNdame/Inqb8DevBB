@@ -57,6 +57,13 @@ public class BeerMenuRecycleAdapter extends RecyclerView.Adapter<BeerMenuRecycle
         holder.txtPromoEnd.setText(endDate);
 
         final View itemView = holder.itemView;
+
+        if(promotions.get(position).getId()==0)
+        {
+            holder .txtbeeritem.setVisibility(View.GONE);
+            holder.txtPromoStart.setVisibility(View.GONE);
+            holder.txtPromoEnd.setVisibility(View.GONE);
+        }
     }
 
     @Override
