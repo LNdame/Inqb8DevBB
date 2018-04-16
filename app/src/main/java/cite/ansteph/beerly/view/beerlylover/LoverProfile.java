@@ -252,7 +252,7 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
 
     @Override
     public void onItemSelected(int position) {
-        if (position == MenuPosition.POS_LOGOUT) {
+        if (position == MenuPosition.POS_LOGOUT || position == MenuPosition.EF_POS_LOGOUT) {
             signOut();
             //finish();
         }

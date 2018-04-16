@@ -13,4 +13,6 @@ public interface MenuPosition {
     int POS_PREFERENCE = 4;
     int POS_AFFILIATE = 5;
     int POS_LOGOUT = 7;
+
+    int EF_POS_LOGOUT =6;
 }

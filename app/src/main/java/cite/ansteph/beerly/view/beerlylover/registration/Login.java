@@ -205,7 +205,8 @@ public class Login extends AppCompatActivity {
 
         List<AuthUI.IdpConfig> selectedProviders = new ArrayList<>();
         selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
-        selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build());
+        /*this provider was removed because the phone provider is not active*/
+     ///   selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build());
 
 
         startActivityForResult(
@@ -449,5 +450,8 @@ public class Login extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
 
+    }
 }
