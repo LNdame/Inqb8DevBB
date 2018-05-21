@@ -144,7 +144,10 @@ public class EditLoverProfile extends AppCompatActivity {
 
 
         txtBirthdate.setText(bod);
-        txtName.setText(beerLovers.getFirst_name()+" "+beerLovers.getLast_name());
+
+        String surname = (!beerLovers.getLast_name().equals("Doe"))?beerLovers.getLast_name():"";
+
+        txtName.setText(beerLovers.getFirst_name()+" "+surname);
         txtUserName.setText(beerLovers.getUsername());
 
         mRefCode = beerLovers.getReferralCode();

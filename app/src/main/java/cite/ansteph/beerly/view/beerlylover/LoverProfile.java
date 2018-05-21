@@ -337,9 +337,10 @@ public class LoverProfile extends AppCompatActivity implements DrawerAdapter.OnI
                // lovers.setEmail(profjson.getString(BeerLoversColumns.EMAIL));
                 // est.set(estjson.getString("hs_license"));
                 // est.setName(estjson.getString(""));
+                String surname = (!lovers.getLast_name().equals("Doe"))?lovers.getLast_name():"";
 
 
-                txtDisplayname .setText(lovers.getFirst_name() +" "+lovers.getLast_name());
+                txtDisplayname .setText(lovers.getFirst_name() +" "+surname);
 
                 String joined = DateTimeUtils.datetoStringShort(lovers.getCreated_at());
 

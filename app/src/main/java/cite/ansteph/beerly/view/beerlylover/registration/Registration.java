@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -60,7 +61,7 @@ public class Registration extends AppCompatActivity {
     Spinner spnOrigin, spnCocktail, spnShot, spnCity;
     CheckBox chkTCs , chkCocktails, chkShots;
 
-    TextView txtFirstName, txtLastName, txtEmail;
+    TextView txtFirstName, txtLastName, txtEmail, txtTC;
     SessionManager sessionManager;
 
     String mFirst_name, mSurname, mEmail, mFirebaseUID;
@@ -144,7 +145,8 @@ public class Registration extends AppCompatActivity {
             }
         });
 
-
+        txtTC= (TextView) findViewById(R.id.txtreadTC) ;
+        txtTC.setMovementMethod(LinkMovementMethod.getInstance());
         txtEmail = (TextView) findViewById(R.id.txtemail) ;
         txtFirstName = (TextView) findViewById(R.id.txtfirst_name) ;
         txtLastName = (TextView) findViewById(R.id.txtlast_name) ;
@@ -179,11 +181,11 @@ public class Registration extends AppCompatActivity {
         originAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
-        shotAdapter = ArrayAdapter.createFromResource(this,R.array.typeCocktail, android.R.layout.simple_spinner_dropdown_item);
+        shotAdapter = ArrayAdapter.createFromResource(this,R.array.typeShooter, android.R.layout.simple_spinner_dropdown_item);
         originAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
-         cityAdapter = ArrayAdapter.createFromResource(this,R.array.cities, android.R.layout.simple_spinner_dropdown_item);
+        cityAdapter = ArrayAdapter.createFromResource(this,R.array.cities, android.R.layout.simple_spinner_dropdown_item);
         originAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
@@ -244,8 +246,8 @@ public class Registration extends AppCompatActivity {
         final String username = mUsername.getText().toString().trim();
         final String gender = spnOrigin.getSelectedItem().toString();
         final String dob = mDateofBirth.getText().toString().trim();
-        final  String  home_city = spnCity.getSelectedItem().toString();
-        final  String  referral_code = mRefCode.getText().toString().trim();
+        final String home_city = spnCity.getSelectedItem().toString();
+        final String referral_code = mRefCode.getText().toString().trim();
 
         final String cocktail  = (chkCocktails.isChecked()) ? "1":"0";
         final String cocktailtype = (spnCocktail.getVisibility() == View.VISIBLE)?spnCocktail.getSelectedItem().toString():"none";
@@ -296,7 +298,8 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
              //   loading.dismiss();
-                Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Oups! Could not talk to the server now, check your internet connection and try again.",Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_LONG).show();
             }
         }
 
@@ -308,7 +311,7 @@ public class Registration extends AppCompatActivity {
                 params.put(UserColumns.FIRST_NAME, mFirst_name);
                 params.put(UserColumns.LAST_NAME, mSurname);
                 params.put(UserColumns.EMAIL, mEmail);
-               params.put(UserColumns.USERNAME, username);
+                params.put(UserColumns.USERNAME, username);
                 params.put(BeerLoversColumns.STATUS, "active");
                 params.put(BeerLoversColumns.TERMS_CONDITIONS_ACCEPT, "1");
                 params.put(BeerLoversColumns.GENDER, gender);
@@ -372,9 +375,19 @@ public class Registration extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null){
             String [] nameSplit = user.getDisplayName().split(" ");
+            mFirst_name= " ";
+            mSurname = "Doe";
 
-            mFirst_name = nameSplit[0];
-            mSurname = nameSplit[1];
+            try{
+                mFirst_name = nameSplit[0];
+            }catch (Exception e){e.printStackTrace();}
+
+            try{
+                mSurname = nameSplit[1];
+            }catch (Exception e){e.printStackTrace();}
+
+
+
             mEmail = user.getEmail();
             mFirebaseUID = user.getUid();
 
@@ -382,8 +395,9 @@ public class Registration extends AppCompatActivity {
             //Toast.makeText(Registration.this, mFirebaseUID, Toast.LENGTH_SHORT).show();
 
             txtEmail.setText(TextUtils.isEmpty(user.getEmail()) ? "No email" : user.getEmail());
-            txtFirstName.setText (getString(R.string.account_reg_welcome ,nameSplit[0]));
-            txtLastName.setText(nameSplit[1]);
+            txtFirstName.setText (getString(R.string.account_reg_welcome ,mFirst_name));
+           // txtLastName.setText(nameSplit[1]);
+            txtLastName.setText(mSurname);
         }else{
             startActivity(new Intent(getApplicationContext(), Login.class));
         }

@@ -36,7 +36,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_ets_menu">EtsMenu</string>
 
-    <string name="account_reg_welcome">Hi %1$s! We are super exited you are joining us. One last thing and you in (Promise). </string>
+    <string name="account_reg_welcome">Hey %1$s! We are as excited as you are to have you join us! You are almost there! One last step and you are done :). </string>
 
 
     <!-- Common -->
@@ -237,6 +237,23 @@
     <string name="affiliate">Affiliate Program: How does it work? </string>
 
     <string-array name="typeCocktail">
+        <item>Classic</item>
+        <item>Creamy</item>
+        <item>Frozen</item>
+        <item>Hot</item>
+        <item>Longdrink</item>
+        <item>Martini</item>
+        <item>Nonalcoholic</item>
+        <item>Shooter</item>
+        <item>Short</item>
+        <item>Smoothie</item>
+        <item>Sparkling</item>
+        <item>Tropical</item>
+
+    </string-array>
+
+
+    <string-array name="typeShooter">
         <item>Creamy</item>
         <item>Hard</item>
         <item>Sweet</item>
@@ -352,5 +369,9 @@
 Beerly lovers qualifying for the 3x and 4x will be immortalized in our website's hall of fame page.\n\n
 
 So, don't forget to scan those QR codes and invite friends!</string>
+
+
+    <string name="readtcs"><a href="https://beerlybeloved.co.za/terms">Read Terms and Conditions</a> </string>
+
 
 </resources>

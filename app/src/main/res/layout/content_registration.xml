@@ -86,7 +86,7 @@
                 android:id="@+id/dateofbirth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Birthdate"
+                android:hint="Birthdate (yyyy/mm/dd)"
                 android:fontFamily="sans-serif-light"
                 android:textColor="#3e3e3e"
                 android:textSize="18sp"
@@ -147,7 +147,7 @@
             android:fontFamily="sans-serif-light"
             android:textColor="#3e3e3e"
             android:textSize="18sp"
-            android:text="We are all about beer, but we will like to know a little bit more about you" />
+            android:text="We loooove beer, but maybe you like other stuff too?" />
 
         <CheckBox
             android:id="@+id/chkCocktail"
@@ -192,6 +192,18 @@
             android:layout_height="wrap_content"
             android:id="@+id/chkterms"/>
 
+
+        <TextView
+            android:id="@+id/txtreadTC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="16dp"
+            android:clickable="true"
+            android:fontFamily="sans-serif-light"
+
+            android:text="@string/readtcs" />
     </LinearLayout>
 
 </ScrollView>
