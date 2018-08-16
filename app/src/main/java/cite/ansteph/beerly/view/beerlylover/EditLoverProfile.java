@@ -108,15 +108,15 @@ public class EditLoverProfile extends AppCompatActivity {
 
 
         cocktailAdapter = ArrayAdapter.createFromResource(this,R.array.typeCocktail, android.R.layout.simple_spinner_dropdown_item);
-        originAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cocktailAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
         shotAdapter = ArrayAdapter.createFromResource(this,R.array.typeCocktail, android.R.layout.simple_spinner_dropdown_item);
-        originAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        shotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
         cityAdapter = ArrayAdapter.createFromResource(this,R.array.cities, android.R.layout.simple_spinner_dropdown_item);
-        originAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
         spnGender.setAdapter(originAdapter);

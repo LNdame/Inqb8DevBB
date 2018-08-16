@@ -91,7 +91,7 @@ public class Preferences extends AppCompatActivity implements RecyclerViewClickL
     HashMap<Integer, Beer> LoversPreferences;
 
     TextView txtPrefCount ;
-SessionManager sessionManager;
+    SessionManager sessionManager;
     RelativeLayout container;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -499,7 +499,7 @@ SessionManager sessionManager;
 
             // showing snack bar with Undo option
             Snackbar snackbar = Snackbar
-                    .make(container, name + " removed from cart!", Snackbar.LENGTH_LONG);
+                    .make(container, name + " removed from list!", Snackbar.LENGTH_LONG);
             snackbar.setAction("UNDO", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

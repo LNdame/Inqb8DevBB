@@ -17,8 +17,11 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
 
 import cite.ansteph.beerly.R;
+import cite.ansteph.beerly.utils.NotificationUtils;
+import cite.ansteph.beerly.utils.NotificationVO;
 import cite.ansteph.beerly.view.beerlylover.Home;
 
 /**
@@ -29,6 +32,14 @@ public class BeerlyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "BBFirebaseMsgService";
     Bitmap bitmap;
+
+    private static final String TITLE = "title";
+    private static final String EMPTY = "";
+    private static final String MESSAGE = "message";
+    private static final String IMAGE = "image";
+    private static final String ACTION = "action";
+    private static final String DATA = "data";
+    private static final String ACTION_DESTINATION = "action_destination";
 
     /**
      * Called when message is received.
@@ -51,11 +62,14 @@ public class BeerlyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            Map<String, String>data = remoteMessage.getData();
+            handleDate(data);
         }
 
         // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
+        else if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            handleNotification(remoteMessage.getNotification());
         }
 
         //The message which i send will have keys named [message, image, AnotherActivity] and corresponding values.
@@ -72,12 +86,44 @@ public class BeerlyFirebaseMessagingService extends FirebaseMessagingService {
         //To get a Bitmap image from the URL received
         bitmap = getBitmapfromUrl(imageUri);
 
-        sendNotification(message, bitmap, TrueOrFlase);
+        //sendNotification(message, bitmap, TrueOrFlase);
 
     }
 
 
+    private void handleNotification(RemoteMessage.Notification RemoteMsgNotification){
+        String message = RemoteMsgNotification.getBody();
+        String title = RemoteMsgNotification.getTitle();
 
+        NotificationVO notificationVO = new NotificationVO();
+        notificationVO.setTitle(title);
+        notificationVO.setMessage(message);
+
+        Intent resultIntent = new Intent(getApplicationContext(), Home.class);
+        NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+        notificationUtils.displayNotification(notificationVO,resultIntent);
+        //notificationUtils.playNotificationSound();
+    }
+
+    private void handleDate(Map<String, String> data){
+        String title = data.get(TITLE);
+        String message = data.get(MESSAGE);
+        String iconUrl = data.get(IMAGE);
+        String action = data.get(ACTION);
+        String actionDestination = data.get(ACTION_DESTINATION);
+        NotificationVO notificationVO = new NotificationVO();
+        notificationVO.setTitle(title);
+        notificationVO.setMessage(message);
+        notificationVO.setIconUrl(iconUrl);
+        notificationVO.setAction(action);
+        notificationVO.setActionDestination(actionDestination);
+
+        Intent resultIntent = new Intent(getApplicationContext(), Home.class );
+        NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+        notificationUtils.displayNotification(notificationVO,resultIntent);
+        //notificationUtils.playNotificationSound();
+
+    }
 
     /*
     *To get a Bitmap image from the URL received
@@ -101,6 +147,7 @@ public class BeerlyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     /**
+     * --21/05 being replaced by a more elaborate method
      * Create and show a simple notification containing the received FCM message.
      */
 

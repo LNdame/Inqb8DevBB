@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 /**
  * Created by loicstephan on 2017/11/28.
@@ -12,6 +13,8 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 public class BeerlyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private static final String TAG = "FirebaseIIDService";
+    private static final String TOPIC_GLOBAL = "BeerlyBeloved";
+
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -24,6 +27,9 @@ public class BeerlyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
+
+
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC_GLOBAL);
 
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
